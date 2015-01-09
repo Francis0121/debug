@@ -32,7 +32,7 @@
 
 	<!-- TransactionManage AOP -->
 	<aop:config>
-		<aop:advisor advice-ref="txAdvice" pointcut="bean(*ServiceImpl)" />
+		<aop:advisor advice-ref="txAdvice" pointcut="bean(*DaoImpl)" />
 	</aop:config>
 
 	<!-- select* Readonly 나머진 transaction -->
