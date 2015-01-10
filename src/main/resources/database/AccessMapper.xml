@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="access">
+
+    <resultMap id="uuid_default" type="Access">
+        <result column="pn" property="pn"/>
+        <result column="uuid"  property="uuid"/>
+    </resultMap>
+
+    <resultMap id="statistics_default" type="Statistics">
+        <result column="pn" property="pn"/>
+        <result column="uuid_pn" property="uuid.pn"/>
+        <result column="name" property="name"/>
+        <result column="platform" property="platform"/>
+        <result column="version" property="version"/>
+        <result column="version_number" property="versionNumber"/>
+        <result column="isMobile" property="isMobile"/>
+        <result column="frame_count" property="frameCount"/>
+        <result column="access_date" property="accessDate"/>
+    </resultMap>
+
+    <insert id="insertUuid" parameterType="Access">
+        INSERT INTO
+          access_uuid
+          ( uuid )
+        VALUES
+          ( #{uuid} )
+        <selectKey keyProperty="pn" resultType="Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <insert id="insertStatistics" parameterType="Statistics">
+        INSERT INTO
+          access_statistics
+          (
+            uuid_pn, `name`, platform, version,
+            version_number, isMobile, frame_count, access_date
+          )
+        VALUES
+          (
+            #{uuid.pn}, #{name}, #{platform}, #{version}
+            #{versionNumber}, #{isMobile}, #{frameCount}, SYSDATE()
+          )
+        <selectKey keyProperty="pn" resultType="Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+</mapper>
