@@ -3,9 +3,9 @@
  */
 $(function(){
 
-    debug.emit();
+    //debug.emit();
 
-    debug.interval = setInterval(debug.statistics, 1000);
+    //debug.interval = setInterval(debug.statistics, 1000);
 
 });
 
