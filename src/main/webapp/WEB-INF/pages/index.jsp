@@ -15,7 +15,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Start Bootstrap</a>
+            <a class="navbar-brand" href="#">Medical</a>
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -45,18 +45,12 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="intro-message">
-                    <h1>Landing Page</h1>
-                    <h3>A Template by Start Bootstrap</h3>
+                    <h1>Medical</h1>
+                    <h3>Volume Rendering Cloud System</h3>
                     <hr class="intro-divider">
                     <ul class="list-inline intro-social-buttons">
                         <li>
-                            <a href="https://twitter.com/SBootstrap" class="btn btn-default btn-lg"><i class="fa fa-twitter fa-fw"></i> <span class="network-name">Twitter</span></a>
-                        </li>
-                        <li>
-                            <a href="https://github.com/IronSummitMedia/startbootstrap" class="btn btn-default btn-lg"><i class="fa fa-github fa-fw"></i> <span class="network-name">Github</span></a>
-                        </li>
-                        <li>
-                            <a href="#" class="btn btn-default btn-lg"><i class="fa fa-linkedin fa-fw"></i> <span class="network-name">Linkedin</span></a>
+                            <a href="https://github.com/Francis0121/volume-rendering-cloud-system" class="btn btn-default btn-lg"><i class="fa fa-github fa-fw"></i> <span class="network-name">Github</span></a>
                         </li>
                     </ul>
                 </div>
@@ -139,22 +133,16 @@
 <a name="contact"></a>
 <div class="banner">
 
-    <div class="container">{cp}/resources/bootstrap/
+    <div class="container">
 
         <div class="row">
             <div class="col-lg-6">
-                <h2>Connect to Start Bootstrap:</h2>
+                <h2>Connect to Start Medical</h2>
             </div>
             <div class="col-lg-6">
                 <ul class="list-inline banner-social-buttons">
                     <li>
-                        <a href="https://twitter.com/SBootstrap" class="btn btn-default btn-lg"><i class="fa fa-twitter fa-fw"></i> <span class="network-name">Twitter</span></a>
-                    </li>
-                    <li>
-                        <a href="https://github.com/IronSummitMedia/startbootstrap" class="btn btn-default btn-lg"><i class="fa fa-github fa-fw"></i> <span class="network-name">Github</span></a>
-                    </li>
-                    <li>
-                        <a href="#" class="btn btn-default btn-lg"><i class="fa fa-linkedin fa-fw"></i> <span class="network-name">Linkedin</span></a>
+                        <a href="https://github.com/Francis0121/volume-rendering-cloud-system" class="btn btn-default btn-lg"><i class="fa fa-github fa-fw"></i> <span class="network-name">Github</span></a>
                     </li>
                 </ul>
             </div>
@@ -188,7 +176,7 @@
                         <a href="#contact">Contact</a>
                     </li>
                 </ul>
-                <p class="copyright text-muted small">Copyright &copy; Your Company 2014. All Rights Reserved</p>
+                <p class="copyright text-muted small">Copyright&copy; Medical 2015. Teriusbin.lee. Francis.kim. All rights reserved.</p>
             </div>
         </div>
     </div>
