@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="access">
 
-    <resultMap id="uuid_default" type="Access">
+    <resultMap id="uuid_default" type="Uuid">
         <result column="pn" property="pn"/>
         <result column="uuid"  property="uuid"/>
     </resultMap>
@@ -19,7 +19,7 @@
         <result column="access_date" property="accessDate"/>
     </resultMap>
 
-    <insert id="insertUuid" parameterType="Access">
+    <insert id="insertUuid" parameterType="Uuid">
         INSERT INTO
           access_uuid
           ( uuid )
@@ -39,7 +39,7 @@
           )
         VALUES
           (
-            #{uuidPn}, #{name}, #{platform}, #{version}
+            #{uuidPn}, #{name}, #{platform}, #{version},
             #{versionNumber}, #{isMobile}, #{frameCount}, SYSDATE()
           )
         <selectKey keyProperty="pn" resultType="Integer">

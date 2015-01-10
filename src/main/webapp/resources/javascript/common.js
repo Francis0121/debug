@@ -15,20 +15,24 @@ debug.access_uuid = null;
 debug.emit = function(){
     var url = contextPath + '/access/emit';
     $.getJSON(url, function(uuid){
+        console.log('uuid', uuid.pn, uuid.uuid);
         debug.access = true;
-        debug. access_uuid = uuid;
+        debug.access_uuid = uuid;
     });
 };
 
 debug.statistics = function(){
+
+    if(debug.access !== true) return;
+
     var url = contextPath + '/access/statistics';
     var json = {
-        uuidPn : debug.access_uuid,
+        uuidPn : debug.access_uuid.pn,
         name : $.browser.name,
         platform : $.browser.platform,
         version : $.browser.version,
         versionNumber : $.browser.versionNumber,
-        isMobile : $.browser.desktop,
+        isMobile : $.browser.desktop ? 1 : 0,
         frameCount : 30
     };
 

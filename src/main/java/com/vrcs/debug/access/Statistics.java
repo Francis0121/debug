@@ -17,7 +17,7 @@ public class Statistics {
 
     private Integer versionNumber;
 
-    private Boolean isMobile;
+    private Integer isMobile;
 
     private Integer frameCount;
 
@@ -70,11 +70,11 @@ public class Statistics {
         this.versionNumber = versionNumber;
     }
 
-    public Boolean getIsMobile() {
+    public Integer getIsMobile() {
         return isMobile;
     }
 
-    public void setIsMobile(Boolean isMobile) {
+    public void setIsMobile(Integer isMobile) {
         this.isMobile = isMobile;
     }
 
