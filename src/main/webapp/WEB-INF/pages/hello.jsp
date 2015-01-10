@@ -5,4 +5,18 @@
 
 <span>${board}</span>
 
+<spna id="json"></spna>
+
 <%@ include file="../layout/foot.jspf"%>
+
+<script>
+    var json = {
+        pn : '<c:out value="${board.pn}"/>',
+        content : '<c:out value="${board.content}"/>'
+    };
+
+    $.postJSON(contextPath + '/json', json, function(result){
+        $('#json').html(result);
+    });
+
+</script>
