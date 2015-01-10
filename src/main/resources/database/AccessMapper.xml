@@ -9,7 +9,7 @@
 
     <resultMap id="statistics_default" type="Statistics">
         <result column="pn" property="pn"/>
-        <result column="uuid_pn" property="uuid.pn"/>
+        <result column="uuid_pn" property="uuidPn"/>
         <result column="name" property="name"/>
         <result column="platform" property="platform"/>
         <result column="version" property="version"/>
@@ -39,7 +39,7 @@
           )
         VALUES
           (
-            #{uuid.pn}, #{name}, #{platform}, #{version}
+            #{uuidPn}, #{name}, #{platform}, #{version}
             #{versionNumber}, #{isMobile}, #{frameCount}, SYSDATE()
           )
         <selectKey keyProperty="pn" resultType="Integer">

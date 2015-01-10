@@ -4,6 +4,7 @@
 <script src="${cp}/resources/javascript/jquery-1.11.2.min.js"></script>
 <script src="${cp}/resources/javascript/jquery.json.js"></script>
 <script src="${cp}/resources/javascript/jquery.browser.min.js"></script>
+<script src="${cp}/resources/javascript/common.js"></script>
 
 </body>
 </html>

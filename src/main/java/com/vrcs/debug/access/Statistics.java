@@ -7,7 +7,7 @@ public class Statistics {
 
     private Integer pn;
 
-    private Uuid uuid;
+    private Integer uuidPn;
 
     private String name;
 
@@ -34,13 +34,9 @@ public class Statistics {
         this.pn = pn;
     }
 
-    public Uuid getUuid() {
-        return uuid;
-    }
+    public Integer getUuidPn() { return uuidPn; }
 
-    public void setUuid(Uuid uuid) {
-        this.uuid = uuid;
-    }
+    public void setUuidPn(Integer uuidPn) { this.uuidPn = uuidPn; }
 
     public String getName() {
         return name;
@@ -102,7 +98,7 @@ public class Statistics {
     public String toString() {
         return "Statistics{" +
                 "pn=" + pn +
-                ", uuid=" + uuid +
+                ", uuidPn=" + uuidPn +
                 ", name='" + name + '\'' +
                 ", platform='" + platform + '\'' +
                 ", version='" + version + '\'' +

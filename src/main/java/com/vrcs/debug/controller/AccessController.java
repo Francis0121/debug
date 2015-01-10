@@ -31,7 +31,7 @@ public class AccessController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/statistics", method = RequestMethod.GET)
+    @RequestMapping(value = "/statistics", method = RequestMethod.POST)
     public Integer statistics(@RequestBody Statistics statistics){
         accessDao.insertStatistics(statistics);
         return statistics.getPn();
