@@ -12,6 +12,10 @@ public class Uuid {
     public Uuid() {
     }
 
+    public Uuid(String uuid) {
+        this.uuid = uuid;
+    }
+
     public Integer getPn() {
         return pn;
     }
