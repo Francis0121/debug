@@ -4,6 +4,26 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="../layout/head.jspf" %>
 
+<div id="header">
+    <h2>Real-time updates</h2>
+</div>
+
+<div id="content">
+
+    <div class="demo-container">
+        <div id="placeholder" class="demo-placeholder"></div>
+    </div>
+
+    <p>You can update a chart periodically to get a real-time effect by using a timer to insert the new data in the plot and redraw it.</p>
+
+    <p>Time between updates: <input id="updateInterval" type="text" value="" style="text-align: right; width:5em"> milliseconds</p>
+
+</div>
+
+<div id="footer">
+    Copyright &copy; 2007 - 2014 IOLA and Ole Laursen
+</div>
+
 <table>
     <caption>2009 Employee Sales by Department</caption>
     <thead>
