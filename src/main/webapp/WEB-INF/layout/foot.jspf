@@ -5,6 +5,8 @@
 <script src="${cp}/resources/javascript/jquery.json.js"></script>
 <script src="${cp}/resources/javascript/jquery.browser.min.js"></script>
 <script src="${cp}/resources/javascript/common.js"></script>
+<!-- Bootstrap Core JavaScript -->
+<script src="${cp}/resources/bootstrap/js/bootstrap.min.js"></script>
 
 </body>
 </html>
