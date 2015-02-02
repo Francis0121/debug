@@ -17,7 +17,11 @@
 	
 	<link rel="stylesheet" type="text/css" href="${cp }/resources/css/default.css">
 	<link rel="stylesheet" type="text/css" href="${cp }/resources/css/layout.css">
-
+	<link rel="stylesheet" type="text/css" href="${cp }/resources/css/layout_986.css" media="screen and (min-width: 986px)">
+	<link rel="stylesheet" type="text/css" href="${cp }/resources/css/layout_720.css" media="screen and (min-width: 720px) and (max-width: 986px)">
+	<link rel="stylesheet" type="text/css" href="${cp }/resources/css/layout_480.css" media="screen and (min-width: 480px) and (max-width: 720px)">
+	<link rel="stylesheet" type="text/css" href="${cp }/resources/css/layout_240.css" media="screen and (min-width: 240px) and (max-width: 480px)">
+	
 	<script src="${cp}/resources/javascript/jquery-1.11.2.min.js"></script>
 	<script src="${cp}/resources/javascript/jquery.json.js"></script>
 	<script src="${cp}/resources/javascript/jquery.browser.min.js"></script>
