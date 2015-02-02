@@ -4,21 +4,52 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="../layout/head.jspf" %>
 
-<header class="nornen_header">
+<header class="nornen_header_wrap">
 
-    <h1 class="logo">
-        <a href="${cp}/">
-            <img src="${cp}/resources/image/header/logo.png">
-            <div class="title_wrap">
-                <span class="title">Nornen<span class="highlight">js</span></span>
-                <span class="sub_title">Volume Rendering Cloud system</span>
-            </div>
-        </a>
-    </h1>
+    <div class="nornen_header">
     
-    <nav>
-        
-    </nav>
+        <h1 class="logo">
+            <a href="${cp}/">
+                <img src="${cp}/resources/image/header/logo.png">
+                <div class="title_wrap">
+                    <span class="title">Nornen<span class="highlight">js</span></span>
+                    <span class="sub_title">Volume Rendering Cloud system</span>
+                </div>
+            </a>
+        </h1>
+
+        <nav class="nav_wrap">
+            <menu>
+                <li>
+                    <a href="${cp}/">
+                        Home
+                    </a>
+                </li>
+                <li>
+                    <a href="${cp}">
+                        Get Started
+                    </a>
+                </li>
+                <li>
+                    <a href="${cp}">
+                        Example/Demo
+                    </a>
+                </li>
+                <li>
+                    <a href="${cp}">
+                        Document
+                    </a>
+                </li>
+                <li>
+                    <a href="https://github.com/Francis0121/volume-rendering-cloud-system">
+                        Github
+                    </a>
+                </li>
+            </menu>
+
+        </nav>
+
+    </div>
     
 </header>
 
