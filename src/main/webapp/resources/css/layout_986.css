@@ -57,10 +57,13 @@
     color: #fff;
 }
 
-
 .nav_wrap{
     float: right;
     width: 50%;
+}
+
+.list_btn{ 
+    display: none; 
 }
 
 .nav_wrap> menu{

@@ -17,9 +17,12 @@
                 </div>
             </a>
         </h1>
-
+        
         <nav class="nav_wrap">
-            <menu>
+
+            <button type="button" class="list_btn">List</button>
+
+            <menu data-isShow="false">
                 <li>
                     <a href="${cp}/">
                         Home

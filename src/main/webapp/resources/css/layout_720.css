@@ -64,6 +64,10 @@
     width: 50%;
 }
 
+.list_btn{
+    display: none;
+}
+
 .nav_wrap> menu{
     float: left;
     width: 100%;

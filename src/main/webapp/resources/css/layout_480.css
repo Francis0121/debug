@@ -6,13 +6,13 @@
 
 .nornen_header{
     margin: 0 auto;
-    max-width: 950px;
-    min-width: 730px;
+    max-width: 720px;
+    min-width: 490px;
 }
 
 .logo{
     float: left;
-    width: 50%;
+    width: 70%;
     height: 100px;
     font-size: 100%;
 }
@@ -61,20 +61,41 @@
 
 .nav_wrap{
     float: right;
-    width: 50%;
+    width: 30%;
+    height: 100px;
+    line-height: 100px;
+}
+
+.list_btn{
+    cursor: pointer;
+    text-indent: -9999px;
+    width: 35px;
+    height: 35px;
+    background: url("../image/header/list_btn.png");
+    margin-left: 50%;
 }
 
 .nav_wrap> menu{
     float: left;
     width: 100%;
+    background: #34495e;
+    margin-left: 100%;
+}
+
+.nav_wrap> menu> li:first-child{
+    margin-top: -3px;
+    border-top: 3px solid #fff;
+    background: #85d6de;
+    border-radius : 5px 0 0 0 ;
 }
 
 .nav_wrap> menu> li{
     float: left;
-    margin: 0 1%;
-    text-align: center;
-    height: 100px;
-    line-height: 100px;
+    text-align: left;
+    height: 20px;
+    line-height: 20px;
+    width: 84%;
+    padding: 10px 8%;
 }
 
 .nav_wrap> menu> li> a{
