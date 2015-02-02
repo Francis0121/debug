@@ -11,15 +11,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * Created by pi on 15. 1. 10.
  */
 @Controller
-@RequestMapping("/chart")
 public class ChartController {
 
     private static Logger logger = LoggerFactory.getLogger(ChartController.class);
-
-    @RequestMapping(method = RequestMethod.GET)
-    public String getChart(Model model){
-        model.addAttribute("isChart", true);
-        return "chart";
-    }
 
 }

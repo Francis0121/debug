@@ -15,7 +15,7 @@ public class IndexController {
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String getIndex(Model model){
-		model.addAttribute("isIndex", true);
+
 		return "index";
 	}
 

@@ -18,7 +18,7 @@ public class ControllerAspect {
 	@Around("bean(*Controller)")
 	public Object trace(ProceedingJoinPoint joinPoint) throws Throwable {
 		String signatureString = joinPoint.getSignature().toShortString();
-		logger.info(signatureString + " 시작");
+		logger.info("Start time " + signatureString );
 		long start = System.currentTimeMillis();
 
 		try {
@@ -28,8 +28,8 @@ public class ControllerAspect {
 			return joinPoint.proceed();
 		} finally {
 			long finish = System.currentTimeMillis();
-			logger.info(signatureString + " 종료");
-			logger.info(signatureString + " 실행 시간 : " + (finish - start) + "ms");
+			logger.info("End time " + signatureString);
+			logger.info("Run time " + signatureString + " " + (finish - start) + "ms");
 		}
 	}
 
