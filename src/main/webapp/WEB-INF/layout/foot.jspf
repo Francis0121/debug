@@ -1,6 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
-    <script src="${cp}/resources/javascript/common.js"></script>
+<footer class="nornen_footer">
+
+    <div class="copyright">
+        <span>Copyright &copy; Teriusbin.Lee. Francis.Kim. All rights reserved.</span>
+    </div>
+
+</footer>
+
+<script src="${cp}/resources/javascript/common.js"></script>
 
 </body>
 </html>

@@ -84,13 +84,6 @@
     font-size: 100%;
 }
 
-
-/* Section */
-.nornen_section{
-    min-height: 500px;
-}
-
-
 /* Footer */
 .nornen_footer{
     width: 100%;
@@ -108,4 +101,44 @@
     width: 100%;
     color: #fff;
     font-size: 75%;
+}
+
+/* Section */
+.nornen_section_wrap{
+    width: 100%;
+}
+
+.nornen_section{
+    margin: 0 auto;
+    max-width: 1200px;
+    min-width: 990px;
+    min-height: 500px;
+    
+}
+
+.nornen_content_type01{
+    width: 94%;
+    padding: 0 3% 30px 3%;
+}
+
+.nornen_content_type01>header{
+    padding: 30px 0 10px 0;
+    width: 100%;
+}
+
+.nornen_content_type01>header>h2{
+    color: #0d0e0e;
+    font-size: 125%;
+}
+
+.nornen_content_type01>.content{
+    
+}
+
+.nornen_content_type01>.content>p{
+    font-size: 81.25%;
+    width: 100%;
+    text-align: justify;
+    padding: 6px 0;
+    line-height: 1.5;
 }

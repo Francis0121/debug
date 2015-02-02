@@ -4,68 +4,80 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="../layout/head.jspf" %>
 
-<header class="nornen_header_wrap">
-
-    <div class="nornen_header">
+<section class="nornen_section_wrap">
     
-        <h1 class="logo">
-            <a href="${cp}/">
-                <img src="${cp}/resources/image/header/logo.png">
-                <div class="title_wrap">
-                    <span class="title">Nornen<span class="highlight">js</span></span>
-                    <span class="sub_title">Volume Rendering Cloud system</span>
-                </div>
-            </a>
-        </h1>
-        
-        <nav class="nav_wrap">
+    <section class="nornen_section">
 
-            <button type="button" class="list_btn">List</button>
+        <article class="nornen_content_type01">
 
-            <menu data-isShow="false">
-                <li>
-                    <a href="${cp}/">
-                        Home
-                    </a>
-                </li>
-                <li>
-                    <a href="${cp}">
-                        Get Started
-                    </a>
-                </li>
-                <li>
-                    <a href="${cp}">
-                        Example/Demo
-                    </a>
-                </li>
-                <li>
-                    <a href="${cp}">
-                        Document
-                    </a>
-                </li>
-                <li>
-                    <a href="https://github.com/Francis0121/volume-rendering-cloud-system">
-                        Github
-                    </a>
-                </li>
-            </menu>
+            <header>
+                <h2>-What is Volume Rendering?</h2>
+            </header>
 
-        </nav>
+            <div class="content">
+                <p>In scientific visualization and computer graphics, volume rendering is a set of techniques used to display a 2D projection of a 3D discretely sampled data set, typically a 3D scalar field.</p>
 
-    </div>
-    
-</header>
+                <p>A typical 3D data set is a group of 2D slice images acquired by a CT, MRI, or MicroCT scanner. Usually these are acquired in a regular pattern (e.g., one slice every millimeter) and usually have a regular number of image pixels in a regular pattern. This is an example of a regular volumetric grid, with each volume element, or voxel represented by a single value that is obtained by sampling the immediate area surrounding the voxel.</p>
 
-<section class="nornen_section">
+                <p>To render a 2D projection of the 3D data set, one first needs to define a camera in space relative to the volume. Also, one needs to define the opacity and color of every voxel. This is usually defined using an RGBA (for red, green, blue, alpha) transfer function that defines the RGBA value for every possible voxel value.</p>
+
+                <p>For example, a volume may be viewed by extracting isosurfaces (surfaces of equal values) from the volume and rendering them as polygonal meshes or by rendering the volume directly as a block of data. The marching cubes algorithm is a common technique for extracting an isosurface from volume data. Direct volume rendering is a computationally intensive task that may be performed in several ways.</p>
+            </div>
+
+            <header>
+                <h2>-Implementation</h2>
+            </header>
+
+            <div class="content">
+                <p>In scientific visualization and computer graphics, volume rendering is a set of techniques used to display a 2D projection of a 3D discretely sampled data set, typically a 3D scalar field.</p>
+
+                <p>A typical 3D data set is a group of 2D slice images acquired by a CT, MRI, or MicroCT scanner. Usually these are acquired in a regular pattern (e.g., one slice every millimeter) and usually have a regular number of image pixels in a regular pattern. This is an example of a regular volumetric grid, with each volume element, or voxel represented by a single value that is obtained by sampling the immediate area surrounding the voxel.</p>
+
+                <p>To render a 2D projection of the 3D data set, one first needs to define a camera in space relative to the volume. Also, one needs to define the opacity and color of every voxel. This is usually defined using an RGBA (for red, green, blue, alpha) transfer function that defines the RGBA value for every possible voxel value.</p>
+
+                <p>For example, a volume may be viewed by extracting isosurfaces (surfaces of equal values) from the volume and rendering them as polygonal meshes or by rendering the volume directly as a block of data. The marching cubes algorithm is a common technique for extracting an isosurface from volume data. Direct volume rendering is a computationally intensive task that may be performed in several ways.</p>
+            </div>
+
+        </article>
+
+    </section>
     
 </section>
 
-<footer class="nornen_footer">
+<section class="nornen_section_wrap">
+
+    <section class="nornen_section">
+        
+        <article class="nornen_content_type03">
+            
+            <header>
+                <h2>
+                    Why Nornenjs?
+                </h2>
+            </header>
+            
+            
+            <ul>
+                
+                <li>
+
+                    
+                </li>
+                
+                <li>
+                    
+                </li>
+                
+                <li>
+                    
+                </li>
+                
+            </ul>
+            
+        </article>
+        
+    </section>
     
-    <div class="copyright">
-        <span>Copyright &copy; Teriusbin.Lee. Francis.Kim. All rights reserved.</span>
-    </div>
-    
-</footer>
+</section>
 
 <%@ include file="../layout/foot.jspf" %>

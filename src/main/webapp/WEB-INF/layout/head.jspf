@@ -34,3 +34,54 @@
 </head>
 <body>
 
+<header class="nornen_header_wrap">
+
+	<div class="nornen_header">
+
+		<h1 class="logo">
+			<a href="${cp}/">
+				<img src="${cp}/resources/image/header/logo.png">
+				<div class="title_wrap">
+					<span class="title">Nornen<span class="highlight">js</span></span>
+					<span class="sub_title">Volume Rendering Cloud system</span>
+				</div>
+			</a>
+		</h1>
+
+		<nav class="nav_wrap">
+
+			<button type="button" class="list_btn">List</button>
+
+			<menu data-isShow="false">
+				<li>
+					<a href="${cp}/">
+						Home
+					</a>
+				</li>
+				<li>
+					<a href="${cp}">
+						Get Started
+					</a>
+				</li>
+				<li>
+					<a href="${cp}">
+						Example/Demo
+					</a>
+				</li>
+				<li>
+					<a href="${cp}">
+						Document
+					</a>
+				</li>
+				<li>
+					<a href="https://github.com/Francis0121/volume-rendering-cloud-system">
+						Github
+					</a>
+				</li>
+			</menu>
+
+		</nav>
+
+	</div>
+
+</header>
