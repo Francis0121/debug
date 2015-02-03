@@ -8,5 +8,8 @@
 		<!-- Data DTO -->
 		<typeAlias type="com.vrcs.debug.data.Data" alias="Data"/>
 		<typeAlias type="com.vrcs.debug.data.DataFilter" alias="DataFilter"/>
+		<!-- Volume DTO -->
+		<typeAlias type="com.vrcs.debug.volume.Volume" alias="Volume"/>
+		<typeAlias type="com.vrcs.debug.volume.VolumeFilter" alias="VolumeFilter"/>
 	</typeAliases>
 </configuration>
