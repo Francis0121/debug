@@ -14,9 +14,19 @@ public class IndexController {
 	private static Logger logger = LoggerFactory.getLogger(IndexController.class);
 
 	@RequestMapping(method = RequestMethod.GET)
-	public String getIndex(Model model){
+	public String indexPage(Model model){
 
 		return "index";
+	}
+	
+	@RequestMapping(value = "getStarted", method = RequestMethod.GET)
+	public String getStartedPage(Model model){
+		return "getStarted";
+	}
+	
+	@RequestMapping(value = "document", method = RequestMethod.GET)
+	public String documentPage(Model model){
+		return "document";
 	}
 
 }

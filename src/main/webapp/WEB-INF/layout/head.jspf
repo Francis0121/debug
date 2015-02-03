@@ -59,7 +59,7 @@
 					</a>
 				</li>
 				<li>
-					<a href="${cp}">
+					<a href="${cp}/getStarted">
 						Get Started
 					</a>
 				</li>
@@ -69,7 +69,7 @@
 					</a>
 				</li>
 				<li>
-					<a href="${cp}">
+					<a href="${cp}/document">
 						Document
 					</a>
 				</li>
