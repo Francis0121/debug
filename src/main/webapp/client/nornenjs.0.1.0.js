@@ -58,7 +58,7 @@ var Nornenjs = function(host, socketIoPort, streamPort, selector){
         transferScaleY : 0.0,
         transferScaleZ : 0.0,
         mriType : ENUMS.MRI_TYPE.X,
-        isMobile : $.browser.desktop ? 0 : 1 // TODO NEED jquery browesr
+        isMobile : isMobile.any() ? 1 : 0
     };
     this.sendOptionSize = null;
     
@@ -187,7 +187,7 @@ Nornenjs.prototype.finish = function($this){
 
 Nornenjs.prototype.addEvent = function(){
 
-    if($.browser.mobile){
+    if(isMobile.any()){
         this.touchEvent();
     }else{
         this.mouseEvent();
@@ -336,5 +336,52 @@ Nornenjs.prototype.axis = function(type){
     
     this.send();
     setTimeout($this.finish, 1000, this);
-    
+};
+
+Nornenjs.prototype.scale = function(value, isFinish){
+    this.sendOption.streamType = ENUMS.STREAM_TYPE.EVENT;
+    this.sendOption.positionZ = value;
+    this.send();
+    if(isFinish){
+        setTimeout($this.finish, 1000, this);
+    }
+}
+
+Nornenjs.prototype.brightness = function(value, isFinish){
+    this.sendOption.streamType = ENUMS.STREAM_TYPE.EVENT;
+    this.sendOption.brightness = value;
+    this.send();
+    if(isFinish){
+        setTimeout($this.finish, 1000, this);
+    }
+};
+
+Nornenjs.prototype.otf = function(value, isFinish){
+    this.sendOption.streamType = ENUMS.STREAM_TYPE.EVENT;
+    this.sendOption.transferOffset = value;
+    this.send();
+    if(isFinish){
+        setTimeout($this.finish, 1000, this);
+    }
+};
+
+var isMobile = {
+    Android: function() {
+        return navigator.userAgent.match(/Android/i);
+    },
+    BlackBerry: function() {
+        return navigator.userAgent.match(/BlackBerry/i);
+    },
+    iOS: function() {
+        return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+    },
+    Opera: function() {
+        return navigator.userAgent.match(/Opera Mini/i);
+    },
+    Windows: function() {
+        return navigator.userAgent.match(/IEMobile/i);
+    },
+    any: function() {
+        return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+    }
 };
