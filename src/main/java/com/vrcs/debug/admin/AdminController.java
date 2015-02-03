@@ -33,7 +33,7 @@ public class AdminController {
         
         volumeDao.insertDataAndFile(volume);
         
-        return "admin/volume";
+        return "redirect:/admin/volume";
     }
 
     
