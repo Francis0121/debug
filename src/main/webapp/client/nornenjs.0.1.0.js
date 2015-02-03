@@ -54,6 +54,19 @@ var Nornenjs = function(host, socketIoPort, streamPort, selector){
     };
     this.sendOptionSize = null;
     
+    // ~ event
+    this.mouse = {
+        isOn : false,
+        beforeX : null,
+        beforeY : null
+    };
+    
+    this.touch = { 
+        isOn : false, 
+        beforeX : null,
+        beforeY : null,
+    };
+    
 };
 
 /**
@@ -149,7 +162,7 @@ Nornenjs.prototype.send = function(){
         this.sendOptionSize = count;
     }
     
-    this.buffer = new ArrayBuffer(count * 4);
+    this.buffer = new ArrayBuffer(this.sendOptionSize * 4);
     var floatArray = new Float32Array(this.buffer);
 
     count = 0;
@@ -171,11 +184,105 @@ Nornenjs.prototype.finish = function(){
 Nornenjs.prototype.addEvent = function(){
 
     if($.browser.mobile){
-        // ~ Run touch event
+        this.touchEvent();
+    }else{
+        this.mouseEvent();
     }
+
+};
+
+Nornenjs.prototype.touchEvent = function(){
+    var $this = this;
+    var el = document.getElementById($this.selector);
+
+    el.addEventListener('touchstart', function(evt){
+        evt.preventDefault();
+        var touches = evt.changedTouches;
+
+        if(touches.length == 1){
+            $this.touch.isOn = true;
+            $this.touch.beforeX = touches[0].pageX;
+            $this.touch.beforeY = touches[0].pageY;
+        }
+
+    });
+
+    el.addEventListener('touchmove', function(evt){
+        evt.preventDefault();
+        var touches = evt.changedTouches;
+
+        if($this.touch.isOn){
+            $this.sendOption.streamType = ENUMS.STREAM_TYPE.EVENT;
+
+            $this.sendOption.rotationX += (touches[0].pageX - $this.touch.beforeX)/50.0;
+            $this.sendOption.rotationY += (touches[0].pageY - $this.touch.beforeY)/50.0;
+
+            $this.touch.beforeX = touches[0].pageX;
+            $this.touch.beforeY = touches[0].pageY;
+            
+            $this.send();
+        }
+
+    });
+
+    el.addEventListener('touchend', function(evt){
+        evt.preventDefault();
+        $this.touch.isOn = false;
+        $this.finish();
+    });
+
+    el.addEventListener('touchcancel', function handleCancel(evt) {
+        evt.preventDefault();
+        $this.touch.isOn = false;
+        $this.finish();
+    });
+
+    el.addEventListener('touchleave', function(evt){
+        evt.preventDefault();
+        $this.touch.isOn = false;
+        $this.finish();
+    });
     
 };
 
+Nornenjs.prototype.mouseEvent = function(){
+
+    var $this = this;
+    var el = document.getElementById($this.selector);
+
+    el.addEventListener('mousedown', function(evt){
+        evt.preventDefault();
+
+        $this.mouse.isOn = true;
+        $this.mouse.beforeX = evt.pageX;
+        $this.mouse.beforeY = evt.pageY;
+
+    });
+
+    el.addEventListener('mousemove', function(evt){
+        evt.preventDefault();
+
+        if($this.mouse.isOn){
+            $this.sendOption.streamType = ENUMS.STREAM_TYPE.EVENT;
+
+            $this.sendOption.rotationX += (evt.pageX - $this.mouse.beforeX)/5.0;
+            $this.sendOption.rotationY += (evt.pageY - $this.mouse.beforeY)/5.0;
+            
+            $this.mouse.beforeX = evt.pageX;
+            $this.mouse.beforeY = evt.pageY;
+
+            $this.send();
+        }
+
+    });
+
+    document.addEventListener('mouseup', function(evt){
+        evt.preventDefault();
+        $this.mouse.isOn = false;
+        $this.finish();
+    });
+    
+};
 
 /*
 stream : {
@@ -357,39 +464,6 @@ stream : {
                     setTimeout($sthis.sendTimeout, 1000);
                 }
             });
-        });
-    },
-
-    isMouseOn : false,
-        beforeX : null,
-        beforeY : null,
-        mouse : function(){
-        var $sthis = medical.stream;
-        var $cthis = medical.connect;
-
-        $($cthis.selector).on('mousedown', function(event){
-            $ethis.stream.isMouseOn = true;
-            $ethis.stream.beforeX = event.pageX;
-            $ethis.stream.beforeY = event.pageY;
-        });
-
-        $($cthis.selector).on('mousemove', function(event){
-            if($ethis.stream.isMouseOn){
-                $sthis.sendOption.streamType = $sthis.STREAM_TYPE.EVENT;
-
-                $sthis.sendOption.rotationX += (event.pageX - $ethis.stream.beforeX)/5.0;
-                $sthis.sendOption.rotationY += (event.pageY - $ethis.stream.beforeY)/5.0;
-
-                $ethis.stream.beforeX = event.pageX;
-                $ethis.stream.beforeY = event.pageY;
-
-                $sthis.send();
-            }
-        });
-
-        $('body').on('mouseup', function(event){
-            $ethis.stream.isMouseOn = false;
-            setTimeout($sthis.sendTimeout, 1000);
         });
     },
 
