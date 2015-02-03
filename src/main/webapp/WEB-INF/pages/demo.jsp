@@ -18,9 +18,11 @@
 
                 <c:forEach items="${volumes}" var="volume" varStatus="loop">
                 <li>
-                    <h3><c:out value="${loop.count}"/>.<c:out value="${volume.name}"/> [ <a href=""><c:out value="${volume.volumeData.originalName}"/></a> ] </h3>
-                    <img src="" title="<c:out value="${volume.imageData.originalName}"/>"/>
-                    <a href="<c:out value="${volume.url}"/>" class="link">Real time page</a>&nbsp;/&nbsp;<a href="" class="link">View sample video</a>
+                    <h3><c:out value="${loop.count}"/>.<c:out value="${volume.name}"/> [ <a href="${cp}/data/volume/<c:out value="${volume.volumeData.pn}"/>"><c:out value="${volume.volumeData.originalName}"/></a> ] </h3>
+                    <img src="${cp}/data/image/<c:out value="${volume.imageData.pn}"/>" title="<c:out value="${volume.imageData.originalName}"/>"/>
+                    <div class="link">
+                        <a href="<c:out value="${volume.url}"/>">Real time page</a>&nbsp;/&nbsp;<a href="">View sample video</a>
+                    </div>
                 </li>
                 </c:forEach>
             </ul>

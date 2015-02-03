@@ -263,7 +263,7 @@
 
 .nornen_content_type02>.content>li{
     float: left;
-    width: 46%;
+    width: 40%;
     padding: 20px 2%;
 }
 
@@ -275,6 +275,7 @@
 
 .nornen_content_type02>.content>li>img {
     width: 98%;
+    max-width: 320px;
     margin: 10px 1%;
 }
 
@@ -282,15 +283,21 @@
     color: #7f7f7f;
 }
 
-.nornen_content_type02>.content>li>h3:hover{
+.nornen_content_type02>.content>li>h3>a:hover{
     color: #4e4e4e;
 }
 
 .nornen_content_type02>.content .link{
+    text-align: center;
+    width: 100%;
+    max-width: 320px;
+}
+
+.nornen_content_type02>.content .link>a{
     font-size: 87.5%;
     color: #34495e;
 }
 
-.nornen_content_type02>.content .link:hover{
+.nornen_content_type02>.content .link>a:hover{
     color: #0d0e0e;
 }
