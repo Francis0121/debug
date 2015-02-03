@@ -15,7 +15,6 @@ public class IndexController {
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String indexPage(Model model){
-
 		return "index";
 	}
 	
@@ -29,4 +28,8 @@ public class IndexController {
 		return "document";
 	}
 
+	@RequestMapping(value = "demo", method = RequestMethod.GET)
+	public String demo(Model model){
+		return "demo";
+	}
 }

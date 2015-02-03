@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="data">
+    
+    <insert id="insert" parameterType="Data">
+        
+    </insert>
+    
+    <update id="update" parameterType="Data">
+        
+    </update>
+    
+    <delete id="delete" parameterType="Data">
+        
+    </delete>
+    
+    <select id="one" parameterType="Integer" resultType="Data">
+        
+    </select>
+    
+    <select id="list" parameterType="DataFilter" resultType="Data">
+        
+    </select>
+    
+    <select id="count" parameterType="DataFilter" resultType="Integer">
+        
+    </select>
+
+</mapper>
