@@ -64,7 +64,7 @@
 					</a>
 				</li>
 				<li>
-					<a href="${cp}">
+					<a href="${cp}/demo">
 						Example/Demo
 					</a>
 				</li>
