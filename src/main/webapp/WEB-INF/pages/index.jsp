@@ -4,8 +4,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="../layout/head.jspf" %>
 
-<section class="nornen_section_wrap">
-    
+<section class="nornen_section_wrap section_top">
+
     <section class="nornen_section">
 
         <article class="nornen_content_type01">
@@ -44,7 +44,7 @@
     
 </section>
 
-<section class="nornen_section_wrap">
+<section class="nornen_section_wrap background_skyblue">
 
     <section class="nornen_section">
         
@@ -54,24 +54,102 @@
                 <h2>
                     Why Nornenjs?
                 </h2>
+                <div class="bar background_darkblue">
+
+                </div>
             </header>
             
             
-            <ul>
+            <ul class="content">
                 
                 <li>
+                    <img src="${cp}/resources/image/icon/cost.png">
+                    <h3>Cost Down</h3>
+                    <p>Portable Network Graphics[2] (PNG[3]), is a raster graphics file format that supports lossless data compression. PNG was created as an improved, non-patented replacement for Graphics Interchange Format (GIF), and is the most used lossless image compression format on the Internet.</p>
+                </li>
+                
+                <li>
+                    <img src="${cp}/resources/image/icon/clock.png">
+                    <h3>Time Reduce</h3>
+                    <p>Portable Network Graphics[2] (PNG[3]), is a raster graphics file format that supports lossless data compression. PNG was created as an improved, non-patented replacement for Graphics Interchange Format (GIF), and is the most used lossless image compression format on the Internet.</p>
+                </li>
+                
+                <li>
+                    <img src="${cp}/resources/image/icon/image.png">
+                    <h3>Quality Up</h3>
+                    <p>Portable Network Graphics[2] (PNG[3]), is a raster graphics file format that supports lossless data compression. PNG was created as an improved, non-patented replacement for Graphics Interchange Format (GIF), and is the most used lossless image compression format on the Internet.</p>
+                </li>
+                
+            </ul>
+            
+        </article>
+        
+    </section>
+    
+</section>
 
-                    
+<section class="nornen_section_wrap">
+    
+    <section class="nornen_section">
+
+        <article class="nornen_content_type03">
+
+            <header>
+                <h2>
+                    Use Library
+                </h2>
+                <div class="bar background_skyblue">
+
+                </div>
+            </header>
+
+            <ul class="list">
+                
+                <li>
+                    <h3>NVIDIA CUDA</h3>
+                    <a href="https://developer.nvidia.com/cuda-zone">https://developer.nvidia.com/cuda-zone</a>
                 </li>
                 
                 <li>
-                    
+                    <h3>Node.js</h3>
+                    <a href="http://www.nodejs.org/">http://www.nodejs.org/</a>
                 </li>
                 
                 <li>
-                    
+                    <h3>Node-gyp</h3>
+                    <a href="https://github.com/TooTallNate/node-gyp">https://github.com/TooTallNate/node-gyp</a>
                 </li>
                 
+                <li>
+                    <h3>BinaryJs</h3>
+                    <a href="http://binaryjs.com/">http://binaryjs.com/</a>
+                </li>
+                
+                <li>
+                    <h3>Node Cuda</h3>
+                    <a href="https://github.com/kashif/node-cuda">https://github.com/kashif/node-cuda</a>
+                </li>
+
+                <li>
+                    <h3>Express Framework</h3>
+                    <a href="http://expressjs.com/">http://expressjs.com/</a>
+                </li>
+
+                <li>
+                    <h3>Jpeg, Png Compress</h3>
+                    <a href="https://www.npmjs.com/package/jpeg">https://www.npmjs.com/package/jpeg</a>
+                </li>
+                
+                <li>
+                    <h3>Socket.io</h3>
+                    <a href="http://socket.io/">http://socket.io/</a>
+                </li>
+
+                <li>
+                    <h3>Sqlite3</h3>
+                    <a href="https://github.com/mapbox/node-sqlite3">https://github.com/mapbox/node-sqlite3</a>
+                </li>
+
             </ul>
             
         </article>
