@@ -5,7 +5,7 @@ package com.vrcs.debug.data;
  */
 public enum DataType {
     
-    VOLUME(1), IMAGE(2);
+    VOLUME(1), IMAGE(2), VIDEO(3);
     
     int value;
 

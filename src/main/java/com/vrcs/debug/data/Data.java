@@ -20,6 +20,13 @@ public class Data {
     public Data() {
     }
 
+    public Data(Integer type, String originalName, String savePath, String contentType) {
+        this.type = type;
+        this.originalName = originalName;
+        this.savePath = savePath;
+        this.contentType = contentType;
+    }
+
     public Integer getPn() {
         return pn;
     }

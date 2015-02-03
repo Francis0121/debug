@@ -1,5 +1,7 @@
 package com.vrcs.debug.data;
 
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
+
 import java.util.List;
 
 /**
@@ -20,4 +22,12 @@ public interface DataDao {
     Data selectOne(Integer pn);
     
     List<Data> selectList(DataFilter dataFilter);
+
+    ///////////////////
+    // Implement
+    ///////////////////
+    
+    String transferFile(CommonsMultipartFile upload, String ... paths);
+    
+    String getFreeFilePath(String ... paths);
 }

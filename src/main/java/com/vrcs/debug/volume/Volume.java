@@ -1,5 +1,7 @@
 package com.vrcs.debug.volume;
 
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
+
 /**
  * Created by pi on 15. 2. 3.
  */
@@ -17,6 +19,12 @@ public class Volume {
     
     private Integer volumePn;
 
+    private CommonsMultipartFile image;
+    
+    private CommonsMultipartFile video;
+    
+    private CommonsMultipartFile volume;
+    
     public Volume() {
     }
 
@@ -67,7 +75,30 @@ public class Volume {
     public void setVolumePn(Integer volumePn) {
         this.volumePn = volumePn;
     }
+    
+    public CommonsMultipartFile getImage() {
+        return image;
+    }
 
+    public void setImage(CommonsMultipartFile image) {
+        this.image = image;
+    }
+
+    public CommonsMultipartFile getVideo() {
+        return video;
+    }
+
+    public void setVideo(CommonsMultipartFile video) {
+        this.video = video;
+    }
+
+    public CommonsMultipartFile getVolume() {
+        return volume;
+    }
+
+    public void setVolume(CommonsMultipartFile volume) {
+        this.volume = volume;
+    }
 
     @Override
     public String toString() {
@@ -78,6 +109,9 @@ public class Volume {
                 ", imagePn=" + imagePn +
                 ", videoPn=" + videoPn +
                 ", volumePn=" + volumePn +
+                ", image=" + image +
+                ", video=" + video +
+                ", volume=" + volume +
                 '}';
     }
 }

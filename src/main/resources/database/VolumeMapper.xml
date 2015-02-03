@@ -5,7 +5,7 @@
     <insert id="insert" parameterType="Volume">
         INSERT INTO        
           `volume`
-          ( `name`, `url`, `imagePn`, `videoPn`, volumePn`)
+          ( `name`, `url`, `imagePn`, `videoPn`, `volumePn`)
         VALUES
           ( #{name}, #{url}, #{imagePn}, #{videoPn}, #{volumePn} )
     </insert>
