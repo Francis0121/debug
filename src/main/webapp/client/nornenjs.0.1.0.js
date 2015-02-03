@@ -219,8 +219,8 @@ Nornenjs.prototype.touchEvent = function(){
         if($this.touch.isOn){
             $this.sendOption.streamType = ENUMS.STREAM_TYPE.EVENT;
 
-            $this.sendOption.rotationX += (touches[0].pageX - $this.touch.beforeX)/50.0;
-            $this.sendOption.rotationY += (touches[0].pageY - $this.touch.beforeY)/50.0;
+            $this.sendOption.rotationX += (touches[0].pageX - $this.touch.beforeX)/100.0;
+            $this.sendOption.rotationY += (touches[0].pageY - $this.touch.beforeY)/100.0;
 
             $this.touch.beforeX = touches[0].pageX;
             $this.touch.beforeY = touches[0].pageY;
