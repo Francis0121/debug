@@ -58,4 +58,20 @@ public class DataController {
             throw new RuntimeException(e);
         }
     }
+
+    @RequestMapping(value = "/video/{videoPn}", method = RequestMethod.GET)
+    public void videoData(@PathVariable(value = "videoPn") Integer videoPn, HttpServletResponse response) {
+        try {
+            Data data = dataDao.selectOne(videoPn);
+            File snapshotFile = new File (data.getSavePath());
+            InputStream is = new FileInputStream(snapshotFile);
+
+            response.setHeader("Content-Disposition", "attachment; filename="+data.getOriginalName());
+            FileCopyUtils.copy(is, response.getOutputStream());
+            response.flushBuffer();
+        } catch (IOException e) {
+            logger.error(e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
 }

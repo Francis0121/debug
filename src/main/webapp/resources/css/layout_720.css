@@ -276,12 +276,22 @@
     font-size: 93.75%;
 }
 
-.nornen_content_type02>.content>li>img {
+.nornen_content_type02>.content>li>.image{
     width: 98%;
     max-width: 320px;
     margin: 10px 1%;
 }
 
+.nornen_content_type02>.content>li>.image>img {
+    width: 100%;
+}
+
+.nornen_content_type02>.content>li>.image>video{
+    width: 100%;
+    display: none;
+    background: #000;
+    border-radius: 10px;
+}
 .nornen_content_type02>.content>li>h3>a{
     color: #7f7f7f;
 }
