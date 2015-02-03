@@ -3,27 +3,59 @@
 <mapper namespace="data">
     
     <insert id="insert" parameterType="Data">
-        
+        INSERT INTO
+          `data`
+          ( `type`, `title`, `original_name`, `save_path`, `content_type`, `input_date` )
+        VALUES
+          ( #{type}, #{title}, #{originalName}, #{savePath}, #{contentType}, SYSYDATE() )
+        <selectKey keyProperty="pn" resultType="Integer">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
     </insert>
     
     <update id="update" parameterType="Data">
-        
+        UPDATE
+          `data`
+        SET
+          `title` = #{title},
+          `input_date` = SYSDATE()
+        FROM
+          `pn` = #{pn}
     </update>
     
     <delete id="delete" parameterType="Data">
-        
+        DELETE FROM
+          `data`
+        WHERE
+          `pn` = #{pn}
     </delete>
     
     <select id="one" parameterType="Integer" resultType="Data">
-        
+        SELECT
+          `pn`, `type`, `title`, `original_name` AS `originalName`,
+          `save_path` AS `savePath`, `content_type` AS `contentType`,
+          `input_date` AS `inputDate`
+        FROM
+          `data`
+        WHERE
+          `pn` = #{pn}
     </select>
     
     <select id="list" parameterType="DataFilter" resultType="Data">
-        
+        SELECT
+          `pn`, `type`, `title`, `original_name` AS `originalName`,
+          `save_path` AS `savePath`, `content_type` AS `contentType`,
+          `input_date` AS `inputDate`
+        FROM
+          `data`
+        /*LIMIT #{pagination.itemSeqBegin}, #{pagination.numItemsPerPage}*/
     </select>
     
     <select id="count" parameterType="DataFilter" resultType="Integer">
-        
+        SELECT
+          COUNT(*)
+        FROM
+          `data`
     </select>
 
 </mapper>
