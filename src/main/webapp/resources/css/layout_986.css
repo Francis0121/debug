@@ -312,3 +312,137 @@
 .nornen_content_type02>.content .link>a:hover{
     color: #0d0e0e;
 }
+
+.nornen_content_type015{
+    width: 94%;
+    padding: 40px 3%;
+    min-height: 850px;
+}
+
+.nornen_content_type015>header{
+    border-bottom: 1px solid #e6e6e6;
+    padding-bottom: 15px;
+}
+
+.nornen_content_type015>header>h2{
+    color: #34495e;
+    font-size: 125%;
+    margin-left: 15px;
+}
+
+
+.nornen_content_type015>.left{
+    width: 51%;
+    margin: 30px 2% 30px 1%;
+    float: left;
+}
+
+.nornen_content_type015>.left>canvas{
+    border: 1px solid #bbbbbb;
+    max-width: 512px;
+    height: 512px;
+    width: 100%;
+}
+
+.nornen_content_type015 .selector{
+    width: 100%;
+    margin-top: 20px;
+    min-height: 70px;
+}
+
+.nornen_content_type015 .selector>li{
+    float: left;
+    width: 50%;
+}
+
+.nornen_content_type015 .selector>li>h3{
+    font-size: 87.5%;
+    color: #1a1a1a;
+}
+
+.nornen_content_type015 .selector>li>h3>img{
+    width: 21px;
+    height: 21px;
+    float: left;
+    margin-right: 8px;
+}
+
+.nornen_content_type015 .selector>li>h3>span{
+    float: left;
+    height: 21px;
+    line-height: 23px;
+}
+
+.nornen_content_type015 .selector>li>.list{
+    float: left;
+    padding: 10px 3%;
+    width: 94%;
+}
+
+.nornen_content_type015 .selector>li>.list>a{
+    color: #cccccc;
+    cursor: pointer;
+    font-size: 81.25%;
+    padding: 0 5%;
+}
+
+.nornen_content_type015 .selector>li>.list>a.active{
+    color: #34495e;
+}
+
+.nornen_content_type015 .selector>li>.list>a:hover{
+    color: #34495e;
+}
+
+.nornen_content_type015 .slider{
+    width: 78%;
+    border: 1px solid #e6ecec;
+    height: 36px;
+    margin: 10px 20% 10px 0;
+}
+
+.nornen_content_type015 .slider>.bg{
+    width: 30%;
+    background: url("../image/slider.png") repeat-x;
+    height: 37px;
+}
+
+.nornen_content_type015 .slider>.bg>.title{
+    width: 200px;
+}
+
+.nornen_content_type015 .slider>.bg>.title>img{
+    margin: 8px 5px;
+    float: left;
+}
+
+.nornen_content_type015 .slider>.bg>.title>span{
+    font-size: 75%;
+    color: #34495e;
+    line-height: 36px;
+}
+
+.nornen_content_type015>.right{
+    width: 43%;
+    margin: 30px 1% 30px 2%;
+    float: left;
+}
+
+.nornen_content_type015>.right>li{
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.nornen_content_type015>.right>li:nth-child(2){
+    margin-top: 40px;
+}
+
+.nornen_content_type015>.right>li>div{
+    width: 80%;
+    height: 250px;
+}
+
+.nornen_content_type015>.right>li>span{
+    font-size: 75%;
+    color: #34495e;
+}
