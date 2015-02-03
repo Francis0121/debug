@@ -29,18 +29,42 @@ var Nornenjs = function(host, socketIoPort, streamPort, selector){
     
     this.selector = selector == undefined ? 'view_canvas' : selector;
     
+    // ~ socket
     this.socket = null;
     this.socketOption = { reconnection : false };
     this.isConnect = false;
+    
+    // ~ stream
+    this.client = null;
+    this.buffer = null;
+    this.sendOption = {
+        streamType : ENUMS.STREAM_TYPE.START,
+        renderingType : ENUMS.RENDERING_TYPE.VOLUME,
+        volumePn : 1,
+        brightness : 1.0,
+        positionZ : 3.0,
+        transferOffset : 0.0,
+        rotationX : 0,
+        rotationY : 0,
+        transferScaleX : 0.0,
+        transferScaleY : 0.0,
+        transferScaleZ : 0.0,
+        mriType : ENUMS.MRI_TYPE.X,
+        isMobile : $.browser.desktop ? 0 : 1 // TODO NEED jquery browesr
+    };
+    this.sendOptionSize = null;
+    
 };
 
 /**
  * Connect socket.io and Binaryjs
  */
 Nornenjs.prototype.connect = function(){
+    // ~ set socket.io
     var socketUrl = 'http://' + this.host + ':' + this.socketIoPort;
     this.socket = io.connect(socketUrl, this.socketOption);
 
+    // ~ set canvas
     var canvas = document.getElementById(this.selector),
         width = canvas.clientWidth;
     
@@ -48,346 +72,397 @@ Nornenjs.prototype.connect = function(){
     canvas.height = width;
     
     // TODO draw loading
+    
+    // ~ set stream
+    var streamUrl = 'ws://' + this.host + ':' + this.streamPort;
+    this.client = new BinaryClient(streamUrl);
+
+    // ~ run
+    this.socketIo();
+    
+    this.streamOn();
+    
+    this.addEvent();
 };
 
 /**
  * Connected confirm user : User access deny
  */
 Nornenjs.prototype.socketIo = function(){
+    var $this = this;
     
     this.socket.emit('join');
 
     this.socket.on('message', function(data){
         if(!data.success){
-            console.log('fail')
             return;
         }
-        console.log('success');
-        medical.stream.request();
+        $this.sendOption.streamType = ENUMS.STREAM_TYPE.START;
+        $this.send();
     });
 
     this.socket.on('disconnected', function(data){
-        this.socket.emit('join');
+        $this.socket.emit('join');
     });
 };
 
+/**
+ * Connect binaryjs
+ */
+Nornenjs.prototype.streamOn = function(){
+    var $this = this;
+    
+    this.client.on('stream', function(stream, meta){
 
-medical.connect = {
+        var parts = [];
 
-    $cthis : null,
-    selector : '#view_port',
-    document : {
-        canvas : $('<canvas>'),
-        loading : $('<div>')
-    },
+        stream.on('data', function(data){
+            parts.push(data);
+        });
 
-    socket : null,
-    isConnect : false,
-    url : 'http://' + host + ':3000',
-    option : {
-        reconnection : false
-    },
+        stream.on('end', function(){
+            var url = (window.URL || window.webkitURL).createObjectURL(new Blob(parts));
+            var canvas = document.getElementById($this.selector);
+            var ctx = canvas.getContext('2d');
 
-    run : function(){
-        $cthis = this;
+            var img = new Image(512, 512);
+            img.onload = function(){
+                ctx.drawImage(img, 0, 0, 512, 512, 0, 0, canvas.clientWidth, canvas.clientWidth);
+            };
+            img.src = url;
+        });
+    });
+};
 
-        $cthis.start();
+/**
+ * Make buffer and send;
+ */
+Nornenjs.prototype.send = function(){
 
-        $cthis.socket = io.connect($cthis.url, $cthis.option);
-
-        $cthis.join();
-        $cthis.message();
-        $cthis.disconnected();
-    },
-
-    /**
-     * Make Dom element
-     */
-    start : function(){
-
-
-        $cthis.document.canvas.attr('id', $cthis.selector+'_canvas');
-        $cthis.document.canvas.attr('width', $($cthis.selector).width()+'px');
-        $cthis.document.canvas.attr('height', $($cthis.selector).width()+'px');
-
-        $cthis.document.loading.addClass('loading')
-            .append($('<img>').attr('src','/image/loading.gif'))
-            .append($('<br>'))
-            .append($('<span>').text('Please wait for the exit to other users'));
-
-        $($cthis.selector)
-            .append($cthis.document.canvas)
-            .append($cthis.document.loading);
-    },
-
-    /**
-     * Access socket to server
-     */
-    join : function(){
-        $cthis.socket.emit('join');
-    },
-
-    /**
-     * Response from server
-     */
-    message : function(){
-
-        $cthis.socket.on('message', function(data){
-            if(!data.success){
-                $cthis.document.loading.show();
-                return;
+    var key, count = 0;
+    if(this.sendOptionSize == null){
+        for(key in this.sendOption) {
+            if(this.sendOption.hasOwnProperty(key)) {
+                count++;
             }
-            $cthis.document.canvas.show();
-            $cthis.document.loading.hide();
-            $cthis.isConnect = true;
-
-            medical.stream.request();
-        });
-    },
-
-    /**
-     * Other client disconnect response from server
-     */
-    disconnected : function(){
-        $cthis.socket.on('disconnected', function(data){
-            $cthis.join();
-        });
+        }
+        this.sendOptionSize = count;
     }
+    
+    this.buffer = new ArrayBuffer(count * 4);
+    var floatArray = new Float32Array(this.buffer);
 
+    count = 0;
+    for(key in this.sendOption){
+        if(this.sendOption.hasOwnProperty(key)){
+            floatArray[count] = this.sendOption[key];
+            count++;
+        }
+    }
+    
+    this.client.send(this.buffer);
+};
+
+Nornenjs.prototype.finish = function(){
+    this.sendOption.streamType = ENUMS.STREAM_TYPE.FINISH;
+    this.send();
+};
+
+Nornenjs.prototype.addEvent = function(){
+
+    if($.browser.mobile){
+        // ~ Run touch event
+    }
+    
 };
 
 
+/*
+stream : {
 
+    resize : function(){
+        $(window).resize(function(){
+            var $cthis = medical.connect;
+            var $sthis = medical.stream;
+            $cthis.document.canvas.attr('width', $($cthis.selector).width()+'px');
+            $cthis.document.canvas.attr('height', $($cthis.selector).width()+'px');
 
-// ~ Byte stream
-medical.stream = {
-
-    MRI_DEFAULT_OPTION : {
-        rotationX : 0,
-        rotationY : 0,
-        positionZ : 3.0
+            $sthis.sendTimeout();
+        });
     },
 
-    STREAM_TYPE : {
-        START : 1,
-        FINISH : 2,
-        EVENT : 3
+    type : function(){
+        $('.option_rendering ul li').on('click', function(){
+            var thiz = $(this);
+            var $sthis = medical.stream;
+            var type = thiz.attr('data-type');
+
+            $('.option_rendering ul li').removeClass('option_select_wrap_active').addClass('option_select_wrap_none');
+            thiz.removeClass('option_select_wrap_none').addClass('option_select_wrap_active');
+
+            if(type == $sthis.RENDERING_TYPE.VOLUME){
+                $('.option_zoom').show();
+                $('.option_brightness').show();
+                $('.option_otf').show();
+                $('.option_axis').hide();
+            }else if(type == $sthis.RENDERING_TYPE.MRI){
+                $('.option_zoom').hide();
+                $('.option_brightness').hide();
+                $('.option_otf').hide();
+                $('.option_axis').show();
+
+                $sthis.sendOption.rotationX = $sthis.MRI_DEFAULT_OPTION.rotationX;
+                $sthis.sendOption.rotationY = $sthis.MRI_DEFAULT_OPTION.rotationY;
+                $sthis.sendOption.positionZ = $sthis.MRI_DEFAULT_OPTION.positionZ;
+            }else if(type == $sthis.RENDERING_TYPE.MIP){
+                $('.option_zoom').show();
+                $('.option_brightness').hide();
+                $('.option_otf').hide();
+                $('.option_axis').hide();
+            }
+
+            $sthis.sendOption.transferScaleX = 0;
+            $sthis.sendOption.transferScaleY = 0;
+            $sthis.sendOption.transferScaleZ = 0;
+            $('#axis .ui-slider-range').css('width', '0');
+            $('#axis .ui-slider-handle').css('left', '0');
+
+            $sthis.sendOption.streamType = $sthis.STREAM_TYPE.EVENT;
+            $sthis.sendOption.renderingType = type;
+
+            $sthis.send();
+
+            setTimeout($sthis.sendTimeout, 1000);
+        });
     },
 
-    RENDERING_TYPE : {
-        VOLUME : 1,
-        MIP : 2,
-        MRI : 3
+    axisType : function(){
+        $('.option_axis ul li').on('click', function(){
+            var thiz = $(this);
+            var $sthis = medical.stream;
+            var type = thiz.attr('data-type');
+
+            $('.option_axis ul li').removeClass('option_select_wrap_active').addClass('option_select_wrap_none');
+            thiz.removeClass('option_select_wrap_none').addClass('option_select_wrap_active');
+
+            $sthis.sendOption.streamType = $sthis.STREAM_TYPE.EVENT;
+            $sthis.sendOption.mriType = type;
+
+            $sthis.sendOption.transferScaleX = 0;
+            $sthis.sendOption.transferScaleY = 0;
+            $sthis.sendOption.transferScaleZ = 0;
+            $('#axis .ui-slider-range').css('width', '0');
+            $('#axis .ui-slider-handle').css('left', '0');
+
+            $sthis.send();
+
+            setTimeout($sthis.sendTimeout, 1000);
+        });
     },
 
-    MRI_TYPE : {
-        X : 1,
-        Y : 2,
-        Z : 3
-    },
-
-    $sthis : null,
-    url : 'ws://'+host+':9000',
-    client : null,
-    buffer : null,
-    sendOption : null,
-    firstEvent : false,
-
-    run : function(){
-        $sthis = this;
-        $sthis.sendOption = {
-            streamType : $sthis.STREAM_TYPE.START,
-            renderingType : $sthis.RENDERING_TYPE.VOLUME,
-            volumePn : accessInfo.volumePn,
-            brightness : 1.0,
-            positionZ : 3.0,
-            transferOffset : 0.0,
-            rotationX : 0,
-            rotationY : 0,
-            transferScaleX : 0.0,
-            transferScaleY : 0.0,
-            transferScaleZ : 0.0,
-            mriType : $sthis.MRI_TYPE.X,
-            isMobile : $.browser.desktop ? 0 : 1
-        };
-
-        $sthis.client = new BinaryClient($sthis.url);
-        $sthis.on();
-
-        $sthis.debug.run();
-    },
-    
-    sendTimeout : function(){
-        $sthis.sendOption.streamType = $sthis.STREAM_TYPE.FINISH;
-        $sthis.send();
-    },
-
-    send : function(){
-        $sthis.makeBuffer();
-        $sthis.client.send($sthis.buffer);
-    },
-
-    makeBuffer : function(){
-        $sthis.buffer = new ArrayBuffer(52);
-        var x = new Float32Array($sthis.buffer);
-        
-        x[0] = $sthis.sendOption.streamType;
-        x[1] = $sthis.sendOption.volumePn;
-        x[2] = $sthis.sendOption.renderingType;
-        x[3] = $sthis.sendOption.brightness;
-        x[4] = $sthis.sendOption.positionZ;
-        x[5] = $sthis.sendOption.transferOffset;
-        x[6] = $sthis.sendOption.rotationX;
-        x[7] = $sthis.sendOption.rotationY;
-        x[8] = $sthis.sendOption.transferScaleX;
-        x[9] = $sthis.sendOption.transferScaleY;
-        x[10] = $sthis.sendOption.transferScaleZ;
-        x[11] = $sthis.sendOption.mriType;
-        x[12] = $sthis.sendOption.isMobile;
-    },
-
-    on : function(){
-
-        $sthis.client.on('stream', function(stream, meta){
-
-            var parts = [];
-
-            stream.on('data', function(data){
-                parts.push(data);
-            });
-
-            stream.on('end', function(){
-                var url = (window.URL || window.webkitURL).createObjectURL(new Blob(parts));
-                var canvas = document.getElementById(medical.connect.selector+'_canvas');
-                var ctx = canvas.getContext('2d');
-
-                var img = new Image(512, 512);
-                img.onload = function(){
-                    ctx.drawImage(img, 0, 0, 512, 512, 0, 0,$(medical.connect.selector).width(), $(medical.connect.selector).width());
-                };
-                img.src = url;
-
-                // ~ browser touch event. Why code here? Not supported jquery touch event
-                if(!$sthis.firstEvent && $.browser.mobile){
-                    $sthis.firstEvent = true;
-                    medical.event.stream.touch();
+    scale : function(){
+        $('#scale').each(function() {
+            $( this ).empty().slider({
+                range: 'min',
+                min: 0,
+                value : 3000,
+                max: 10000,
+                animate: true,
+                orientation: 'horizontal',
+                slide: function( event, ui ) {
+                    var $sthis = medical.stream;
+                    $sthis.sendOption.streamType = $sthis.STREAM_TYPE.EVENT;
+                    $sthis.sendOption.positionZ = ui.value/1000.0;
+                    $sthis.send();
+                },
+                stop : function(event, ui){
+                    var $sthis = medical.stream;
+                    setTimeout($sthis.sendTimeout, 1000);
                 }
             });
         });
     },
 
-    request : function(){
-        $sthis.sendOption.streamType = $sthis.STREAM_TYPE.START;
-        $sthis.send();
+    brightness : function(){
+        $('#brightness').each(function() {
+            $( this ).empty().slider({
+                range: 'min',
+                min: 0,
+                max: 200,
+                value : 100,
+                animate: true,
+                orientation: 'horizontal',
+                slide: function( event, ui ) {
+                    var $sthis = medical.stream;
+                    $sthis.sendOption.streamType = $sthis.STREAM_TYPE.EVENT;
+                    $sthis.sendOption.brightness = ui.value/100.0;
+                    $sthis.send();
+                },
+                stop : function(event, ui){
+                    var $sthis = medical.stream;
+                    setTimeout($sthis.sendTimeout, 1000);
+                }
+            });
+        });
     },
 
-    debug : {
+    otf : function(){
+        $('#otf').each(function() {
+            $( this ).empty().slider({
+                range: 'min',
+                min: 5000,
+                value: 10000,
+                max: 15000,
+                animate: true,
+                orientation: 'horizontal',
+                slide: function( event, ui ) {
+                    var $sthis = medical.stream;
+                    $sthis.sendOption.streamType = $sthis.STREAM_TYPE.EVENT;
+                    $sthis.sendOption.transferOffset = (ui.value-10000)/10000.0;
+                    $sthis.send();
+                },
+                stop : function(event, ui){
+                    var $sthis = medical.stream;
+                    setTimeout($sthis.sendTimeout, 1000);
+                }
+            });
+        });
+    },
 
-        LEVEL : { INFO : 0, DEBUG : 1, ERROR : 2 },
+    axis : function(){
+        $('#axis').each(function() {
+            $( this ).empty().slider({
+                range: 'min',
+                min: 0,
+                value: 0,
+                max: 10000,
+                animate: true,
+                orientation: 'horizontal',
+                slide: function( event, ui ) {
+                    var $sthis = medical.stream;
+                    $sthis.sendOption.streamType = $sthis.STREAM_TYPE.EVENT;
 
-        option : {
-            active : true,
-            draw : false,
-            host : 'http://112.108.40.166:9080',
-            isAccess : false,
-            uuid : null,
-        },
+                    if($sthis.sendOption.mriType == $sthis.MRI_TYPE.X){
+                        $sthis.sendOption.transferScaleX = (ui.value)/10000.0;
+                    }else if($sthis.sendOption.mriType == $sthis.MRI_TYPE.Y){
+                        $sthis.sendOption.transferScaleY = (ui.value)/10000.0;
+                    }else if($sthis.sendOption.mriType == $sthis.MRI_TYPE.Z){
+                        $sthis.sendOption.transferScaleZ = (ui.value)/10000.0;
+                    }
 
-        document : {
-            streamDebugWrap : null,
-            content : null
-        },
+                    $sthis.send();
+                },
+                stop : function(event, ui){
+                    var $sthis = medical.stream;
+                    setTimeout($sthis.sendTimeout, 1000);
+                }
+            });
+        });
+    },
 
-        run : function(){
+    isMouseOn : false,
+        beforeX : null,
+        beforeY : null,
+        mouse : function(){
+        var $sthis = medical.stream;
+        var $cthis = medical.connect;
 
-            if ( !$sthis.debug.option.active ) return;
+        $($cthis.selector).on('mousedown', function(event){
+            $ethis.stream.isMouseOn = true;
+            $ethis.stream.beforeX = event.pageX;
+            $ethis.stream.beforeY = event.pageY;
+        });
 
-            $sthis.debug.emit();
+        $($cthis.selector).on('mousemove', function(event){
+            if($ethis.stream.isMouseOn){
+                $sthis.sendOption.streamType = $sthis.STREAM_TYPE.EVENT;
 
-            if ( !$sthis.debug.option.draw ) return;
+                $sthis.sendOption.rotationX += (event.pageX - $ethis.stream.beforeX)/5.0;
+                $sthis.sendOption.rotationY += (event.pageY - $ethis.stream.beforeY)/5.0;
 
-            $sthis.debug.view();
-        },
+                $ethis.stream.beforeX = event.pageX;
+                $ethis.stream.beforeY = event.pageY;
 
-        view : function(){
-            var $dthis = $sthis.debug;
-            var $doc = $dthis.document;
+                $sthis.send();
+            }
+        });
 
-            $doc.streamDebugWrap =
-                $('<div>').attr('id', '_stream_debug')
-                    .addClass('_stream_debug_wrap');
+        $('body').on('mouseup', function(event){
+            $ethis.stream.isMouseOn = false;
+            setTimeout($sthis.sendTimeout, 1000);
+        });
+    },
 
-            $doc.content =
-                $('<div>').addClass('content');
+    isTouchOn : false,
+        touchBeforeX : null,
+        touchBeforeY : null,
+        touch : function(){
+        var el = document.getElementsByTagName('canvas')[0];
 
-            $('html').append($doc.streamDebugWrap.append($doc.content));
-        },
+        el.addEventListener('touchstart', function(evt){
+            evt.preventDefault();
+            var el = document.getElementsByTagName('canvas')[0];
+            var ctx = el.getContext('2d');
+            var touches = evt.changedTouches;
 
-        text : function(level, log){
-            var $dthis = $sthis.debug;
-            var $doc = $dthis.document;
-
-            if( !$dthis.option.draw ) return;
-
-            var $text = $('<p>');
-
-            var pre = null;
-            if( level === $sthis.debug.LEVEL.INFO ){
-                pre = '[INFO] ';
-                $text.addClass('info');
-            }else if( level === $sthis.debug.LEVEL.DEBUG ){
-                pre = '[DEBUG] ';
-                $text.addClass('debug');
-            }else if( level === $sthis.debug.LEVEL.ERROR ){
-                pre = '[ERROR] ';
-                $text.addClass('error');
-            }else {
-                pre = '[NONE] ';
+            if(touches.length == 1){
+                $ethis.stream.isTouchOn = true;
+                $ethis.stream.touchBeforeX = touches[0].pageX;
+                $ethis.stream.touchBeforeY = touches[0].pageY;
+                console.log('x ', $ethis.stream.touchBeforeX, 'y : ', $ethis.stream.touchBeforeY);
             }
 
-            $text.text(pre + log);
-            $doc.content.append($text);
-        },
+        });
 
-        emit : function(){
-            var $dthis = $sthis.debug;
-            var $option = $dthis.option;
+        el.addEventListener('touchmove', function(evt){
+            evt.preventDefault();
+            var el = document.getElementsByTagName('canvas')[0];
+            var ctx = el.getContext('2d');
+            var touches = evt.changedTouches;
+            var $sthis = medical.stream;
 
-            var url = $option.host + '/access/emit';
 
-            $.getJSON(url, function(uuid){
-                $option.uuid = uuid;
-                $option.isAccess = true;
-            }).error(function(error){
-                console.log('[ERROR]', error);
-                $option.isAccess = false;
-            });
-        },
+            if($ethis.stream.isTouchOn){
+                $sthis.sendOption.streamType = $sthis.STREAM_TYPE.EVENT;
 
-        statistic : function(){
-            var $dthis = $sthis.debug;
-            var $option = $dthis.option;
+                $sthis.sendOption.rotationX += (touches[0].pageX - $ethis.stream.touchBeforeX)/100.0;
+                $sthis.sendOption.rotationY += (touches[0].pageY - $ethis.stream.touchBeforeY)/100.0;
 
-            if(!$option.isAccess){
-                return;
+                $ethis.stream.beforeX = touches[0].pageX;
+                $ethis.stream.beforeY = touches[0].pageY;
+
+                $sthis.queue = [];
+                $sthis.send();
             }
 
-            var url = $option.host + '/access/statistics';
-            var json = {
-                uuidPn : $option.uuid.pn,
-                name : $.browser.name,
-                platform : $.browser.platform,
-                version : $.browser.version,
-                versionNumber : $.browser.versionNumber,
-                isMobile : $.browser.desktop ? 1 : 0
-            };
+        });
 
-            $.postJSON(url, json, function(stats_pn){
-                console.log('[INFO] success index ', stats_pn)
-            }).error(function(error){
-                console.log('[ERROR]', error);
-                $option.isAccess = false;
-            });
-        }
+        el.addEventListener('touchend', function(evt){
+            evt.preventDefault();
+            var el = document.getElementsByTagName('canvas')[0];
+            var ctx = el.getContext('2d');
+            var touches = evt.changedTouches;
+
+            $ethis.stream.isTouchOn = false;
+            setTimeout($sthis.sendTimeout, 1000);
+        });
+
+        el.addEventListener('touchcancel', function handleCancel(evt) {
+            evt.preventDefault();
+            $ethis.stream.isTouchOn = false;
+            setTimeout($sthis.sendTimeout, 1000);
+        });
+
+        el.addEventListener('touchleave', function(evt){
+            evt.preventDefault();
+            var el = document.getElementsByTagName('canvas')[0];
+            var ctx = el.getContext('2d');
+            var touches = evt.changedTouches;
+
+            $ethis.stream.isTouchOn = false;
+            setTimeout($sthis.sendTimeout, 1000);
+        });
+
     }
-};
+
+}*/
