@@ -67,10 +67,10 @@
                             <img src="${cp}/resources/image/icon/type.png" title="type">
                             <span>Rendering Type</span>
                         </h3>
-                        <div class="list">
-                            <a class="active">Volume</a>
-                            <a>MIP</a>
-                            <a>MRI</a>
+                        <div class="list rendering_type">
+                            <a class="active" data-type="1">Volume</a>
+                            <a data-type="2">MIP</a>
+                            <a data-type="3">MRI</a>
                         </div>
                     </li>
                     <li>
@@ -143,6 +143,14 @@
 <script>
     var nornenjs = new Nornenjs('112.108.40.166', 3000, 9000);
     nornenjs.connect();
+    
+    $(function(){
+        $('.rendering_type>a').on('click', function(){
+            var type = $(this).attr('data-type');
+            console.log(type);
+            nornenjs.type(type);
+        });
+    });
 </script>
 
 <%@ include file="../layout/foot.jspf" %>

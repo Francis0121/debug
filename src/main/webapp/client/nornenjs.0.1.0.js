@@ -15,7 +15,15 @@ var ENUMS = {
         X : 1,
         Y : 2,
         Z : 3
-    },
+    }
+};
+
+var STATIC = {
+    MRI_DEFAULT_OPTION : {
+        rotationX : 0,
+        rotationY : 0,
+        positionZ : 3.0
+    }
 };
 
 /**
@@ -151,34 +159,30 @@ Nornenjs.prototype.streamOn = function(){
  * Make buffer and send;
  */
 Nornenjs.prototype.send = function(){
-
-    var key, count = 0;
-    if(this.sendOptionSize == null){
-        for(key in this.sendOption) {
-            if(this.sendOption.hasOwnProperty(key)) {
-                count++;
-            }
-        }
-        this.sendOptionSize = count;
-    }
     
-    this.buffer = new ArrayBuffer(this.sendOptionSize * 4);
+    this.buffer = new ArrayBuffer(52);
     var floatArray = new Float32Array(this.buffer);
 
-    count = 0;
-    for(key in this.sendOption){
-        if(this.sendOption.hasOwnProperty(key)){
-            floatArray[count] = this.sendOption[key];
-            count++;
-        }
-    }
-    
+    floatArray[0] = this.sendOption.streamType;
+    floatArray[1] = this.sendOption.volumePn;
+    floatArray[2] = this.sendOption.renderingType;
+    floatArray[3] = this.sendOption.brightness;
+    floatArray[4] = this.sendOption.positionZ;
+    floatArray[5] = this.sendOption.transferOffset;
+    floatArray[6] = this.sendOption.rotationX;
+    floatArray[7] = this.sendOption.rotationY;
+    floatArray[8] = this.sendOption.transferScaleX;
+    floatArray[9] = this.sendOption.transferScaleY;
+    floatArray[10] = this.sendOption.transferScaleZ;
+    floatArray[11] = this.sendOption.mriType;
+    floatArray[12] = this.sendOption.isMobile;
+
     this.client.send(this.buffer);
 };
 
-Nornenjs.prototype.finish = function(){
-    this.sendOption.streamType = ENUMS.STREAM_TYPE.FINISH;
-    this.send();
+Nornenjs.prototype.finish = function($this){
+    $this.sendOption.streamType = ENUMS.STREAM_TYPE.FINISH;
+    $this.send();
 };
 
 Nornenjs.prototype.addEvent = function(){
@@ -189,6 +193,7 @@ Nornenjs.prototype.addEvent = function(){
         this.mouseEvent();
     }
 
+    this.resize();
 };
 
 Nornenjs.prototype.touchEvent = function(){
@@ -228,19 +233,19 @@ Nornenjs.prototype.touchEvent = function(){
     el.addEventListener('touchend', function(evt){
         evt.preventDefault();
         $this.touch.isOn = false;
-        $this.finish();
+        setTimeout($this.finish, 1000, $this);
     });
 
     el.addEventListener('touchcancel', function handleCancel(evt) {
         evt.preventDefault();
         $this.touch.isOn = false;
-        $this.finish();
+        setTimeout($this.finish, 1000, $this);
     });
 
     el.addEventListener('touchleave', function(evt){
         evt.preventDefault();
         $this.touch.isOn = false;
-        $this.finish();
+        setTimeout($this.finish, 1000, $this);
     });
     
 };
@@ -279,264 +284,57 @@ Nornenjs.prototype.mouseEvent = function(){
     document.addEventListener('mouseup', function(evt){
         evt.preventDefault();
         $this.mouse.isOn = false;
-        $this.finish();
+        setTimeout($this.finish, 1000, $this);
     });
     
 };
 
-/*
-stream : {
+Nornenjs.prototype.resize = function(){
+    var $this = this;
+    window.addEventListener('resize', function(event){
+        var el = document.getElementById($this.selector),
+            width = el.clientWidth;
+        el.width = width;
+        el.height = width;
+        $this.finish($this);
+    });
+};
 
-    resize : function(){
-        $(window).resize(function(){
-            var $cthis = medical.connect;
-            var $sthis = medical.stream;
-            $cthis.document.canvas.attr('width', $($cthis.selector).width()+'px');
-            $cthis.document.canvas.attr('height', $($cthis.selector).width()+'px');
-
-            $sthis.sendTimeout();
-        });
-    },
-
-    type : function(){
-        $('.option_rendering ul li').on('click', function(){
-            var thiz = $(this);
-            var $sthis = medical.stream;
-            var type = thiz.attr('data-type');
-
-            $('.option_rendering ul li').removeClass('option_select_wrap_active').addClass('option_select_wrap_none');
-            thiz.removeClass('option_select_wrap_none').addClass('option_select_wrap_active');
-
-            if(type == $sthis.RENDERING_TYPE.VOLUME){
-                $('.option_zoom').show();
-                $('.option_brightness').show();
-                $('.option_otf').show();
-                $('.option_axis').hide();
-            }else if(type == $sthis.RENDERING_TYPE.MRI){
-                $('.option_zoom').hide();
-                $('.option_brightness').hide();
-                $('.option_otf').hide();
-                $('.option_axis').show();
-
-                $sthis.sendOption.rotationX = $sthis.MRI_DEFAULT_OPTION.rotationX;
-                $sthis.sendOption.rotationY = $sthis.MRI_DEFAULT_OPTION.rotationY;
-                $sthis.sendOption.positionZ = $sthis.MRI_DEFAULT_OPTION.positionZ;
-            }else if(type == $sthis.RENDERING_TYPE.MIP){
-                $('.option_zoom').show();
-                $('.option_brightness').hide();
-                $('.option_otf').hide();
-                $('.option_axis').hide();
-            }
-
-            $sthis.sendOption.transferScaleX = 0;
-            $sthis.sendOption.transferScaleY = 0;
-            $sthis.sendOption.transferScaleZ = 0;
-            $('#axis .ui-slider-range').css('width', '0');
-            $('#axis .ui-slider-handle').css('left', '0');
-
-            $sthis.sendOption.streamType = $sthis.STREAM_TYPE.EVENT;
-            $sthis.sendOption.renderingType = type;
-
-            $sthis.send();
-
-            setTimeout($sthis.sendTimeout, 1000);
-        });
-    },
-
-    axisType : function(){
-        $('.option_axis ul li').on('click', function(){
-            var thiz = $(this);
-            var $sthis = medical.stream;
-            var type = thiz.attr('data-type');
-
-            $('.option_axis ul li').removeClass('option_select_wrap_active').addClass('option_select_wrap_none');
-            thiz.removeClass('option_select_wrap_none').addClass('option_select_wrap_active');
-
-            $sthis.sendOption.streamType = $sthis.STREAM_TYPE.EVENT;
-            $sthis.sendOption.mriType = type;
-
-            $sthis.sendOption.transferScaleX = 0;
-            $sthis.sendOption.transferScaleY = 0;
-            $sthis.sendOption.transferScaleZ = 0;
-            $('#axis .ui-slider-range').css('width', '0');
-            $('#axis .ui-slider-handle').css('left', '0');
-
-            $sthis.send();
-
-            setTimeout($sthis.sendTimeout, 1000);
-        });
-    },
-
-    scale : function(){
-        $('#scale').each(function() {
-            $( this ).empty().slider({
-                range: 'min',
-                min: 0,
-                value : 3000,
-                max: 10000,
-                animate: true,
-                orientation: 'horizontal',
-                slide: function( event, ui ) {
-                    var $sthis = medical.stream;
-                    $sthis.sendOption.streamType = $sthis.STREAM_TYPE.EVENT;
-                    $sthis.sendOption.positionZ = ui.value/1000.0;
-                    $sthis.send();
-                },
-                stop : function(event, ui){
-                    var $sthis = medical.stream;
-                    setTimeout($sthis.sendTimeout, 1000);
-                }
-            });
-        });
-    },
-
-    brightness : function(){
-        $('#brightness').each(function() {
-            $( this ).empty().slider({
-                range: 'min',
-                min: 0,
-                max: 200,
-                value : 100,
-                animate: true,
-                orientation: 'horizontal',
-                slide: function( event, ui ) {
-                    var $sthis = medical.stream;
-                    $sthis.sendOption.streamType = $sthis.STREAM_TYPE.EVENT;
-                    $sthis.sendOption.brightness = ui.value/100.0;
-                    $sthis.send();
-                },
-                stop : function(event, ui){
-                    var $sthis = medical.stream;
-                    setTimeout($sthis.sendTimeout, 1000);
-                }
-            });
-        });
-    },
-
-    otf : function(){
-        $('#otf').each(function() {
-            $( this ).empty().slider({
-                range: 'min',
-                min: 5000,
-                value: 10000,
-                max: 15000,
-                animate: true,
-                orientation: 'horizontal',
-                slide: function( event, ui ) {
-                    var $sthis = medical.stream;
-                    $sthis.sendOption.streamType = $sthis.STREAM_TYPE.EVENT;
-                    $sthis.sendOption.transferOffset = (ui.value-10000)/10000.0;
-                    $sthis.send();
-                },
-                stop : function(event, ui){
-                    var $sthis = medical.stream;
-                    setTimeout($sthis.sendTimeout, 1000);
-                }
-            });
-        });
-    },
-
-    axis : function(){
-        $('#axis').each(function() {
-            $( this ).empty().slider({
-                range: 'min',
-                min: 0,
-                value: 0,
-                max: 10000,
-                animate: true,
-                orientation: 'horizontal',
-                slide: function( event, ui ) {
-                    var $sthis = medical.stream;
-                    $sthis.sendOption.streamType = $sthis.STREAM_TYPE.EVENT;
-
-                    if($sthis.sendOption.mriType == $sthis.MRI_TYPE.X){
-                        $sthis.sendOption.transferScaleX = (ui.value)/10000.0;
-                    }else if($sthis.sendOption.mriType == $sthis.MRI_TYPE.Y){
-                        $sthis.sendOption.transferScaleY = (ui.value)/10000.0;
-                    }else if($sthis.sendOption.mriType == $sthis.MRI_TYPE.Z){
-                        $sthis.sendOption.transferScaleZ = (ui.value)/10000.0;
-                    }
-
-                    $sthis.send();
-                },
-                stop : function(event, ui){
-                    var $sthis = medical.stream;
-                    setTimeout($sthis.sendTimeout, 1000);
-                }
-            });
-        });
-    },
-
-    isTouchOn : false,
-        touchBeforeX : null,
-        touchBeforeY : null,
-        touch : function(){
-        var el = document.getElementsByTagName('canvas')[0];
-
-        el.addEventListener('touchstart', function(evt){
-            evt.preventDefault();
-            var el = document.getElementsByTagName('canvas')[0];
-            var ctx = el.getContext('2d');
-            var touches = evt.changedTouches;
-
-            if(touches.length == 1){
-                $ethis.stream.isTouchOn = true;
-                $ethis.stream.touchBeforeX = touches[0].pageX;
-                $ethis.stream.touchBeforeY = touches[0].pageY;
-                console.log('x ', $ethis.stream.touchBeforeX, 'y : ', $ethis.stream.touchBeforeY);
-            }
-
-        });
-
-        el.addEventListener('touchmove', function(evt){
-            evt.preventDefault();
-            var el = document.getElementsByTagName('canvas')[0];
-            var ctx = el.getContext('2d');
-            var touches = evt.changedTouches;
-            var $sthis = medical.stream;
-
-
-            if($ethis.stream.isTouchOn){
-                $sthis.sendOption.streamType = $sthis.STREAM_TYPE.EVENT;
-
-                $sthis.sendOption.rotationX += (touches[0].pageX - $ethis.stream.touchBeforeX)/100.0;
-                $sthis.sendOption.rotationY += (touches[0].pageY - $ethis.stream.touchBeforeY)/100.0;
-
-                $ethis.stream.beforeX = touches[0].pageX;
-                $ethis.stream.beforeY = touches[0].pageY;
-
-                $sthis.queue = [];
-                $sthis.send();
-            }
-
-        });
-
-        el.addEventListener('touchend', function(evt){
-            evt.preventDefault();
-            var el = document.getElementsByTagName('canvas')[0];
-            var ctx = el.getContext('2d');
-            var touches = evt.changedTouches;
-
-            $ethis.stream.isTouchOn = false;
-            setTimeout($sthis.sendTimeout, 1000);
-        });
-
-        el.addEventListener('touchcancel', function handleCancel(evt) {
-            evt.preventDefault();
-            $ethis.stream.isTouchOn = false;
-            setTimeout($sthis.sendTimeout, 1000);
-        });
-
-        el.addEventListener('touchleave', function(evt){
-            evt.preventDefault();
-            var el = document.getElementsByTagName('canvas')[0];
-            var ctx = el.getContext('2d');
-            var touches = evt.changedTouches;
-
-            $ethis.stream.isTouchOn = false;
-            setTimeout($sthis.sendTimeout, 1000);
-        });
-
+Nornenjs.prototype.type = function(renderingType){
+    if(renderingType == ENUMS.RENDERING_TYPE.VOLUME){
+        // ~ Volume
+    }else if(renderingType == ENUMS.RENDERING_TYPE.MRI){
+        // ~ MRI
+        this.sendOption.rotationX = STATIC.MRI_DEFAULT_OPTION.rotationX;
+        this.sendOption.rotationY = STATIC.MRI_DEFAULT_OPTION.rotationY;
+        this.sendOption.positionZ = STATIC.MRI_DEFAULT_OPTION.positionZ;
+    }else if(renderingType == ENUMS.RENDERING_TYPE.MIP){
+        // ~ MIP
+    }else{
+        return;
     }
+    
+    this.sendOption.transferScaleX = 0;
+    this.sendOption.transferScaleY = 0;
+    this.sendOption.transferScaleZ = 0;
 
-}*/
+    this.sendOption.streamType = ENUMS.STREAM_TYPE.EVENT;
+    this.sendOption.renderingType = renderingType;
+
+    this.send();
+    setTimeout($this.finish, 1000, this);
+};
+
+Nornenjs.prototype.axis = function(type){
+
+    this.sendOption.streamType = ENUMS.STREAM_TYPE.EVENT;
+    this.sendOption.mriType = type;
+
+    this.sendOption.transferScaleX = 0;
+    this.sendOption.transferScaleY = 0;
+    this.sendOption.transferScaleZ = 0;
+    
+    this.send();
+    setTimeout($this.finish, 1000, this);
+    
+};
