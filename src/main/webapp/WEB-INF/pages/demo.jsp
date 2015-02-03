@@ -57,7 +57,7 @@
 
             <div class="nornen_stream left">
                 
-                <canvas>
+                <canvas id="view_canvas">
                     
                 </canvas>
                 
@@ -136,5 +136,13 @@
     
 </section>
 
+<script src="http://cdn.binaryjs.com/0/binary.js"></script>
+<script src="http://112.108.40.166:3000/socket.io/socket.io.js"></script>
+<script src="${cp}/client/nornenjs.0.1.0.js"></script>
+
+<script>
+    var nornenjs = new Nornenjs('112.108.40.166', 3000, 9000);
+    nornenjs.connect();
+</script>
 
 <%@ include file="../layout/foot.jspf" %>

@@ -1,4 +1,77 @@
-// ~ Socket IO
+var ENUMS = {
+    STREAM_TYPE: {
+        START: 1,
+        FINISH: 2,
+        EVENT: 3
+    },
+    
+    RENDERING_TYPE : {
+        VOLUME : 1,
+        MIP : 2,
+        MRI : 3
+    },
+
+    MRI_TYPE : {
+        X : 1,
+        Y : 2,
+        Z : 3
+    },
+};
+
+/**
+ *  Need Socket.io client link, Binary.js link
+ */
+var Nornenjs = function(host, socketIoPort, streamPort, selector){
+    
+    this.host = host; // host
+    this.socketIoPort = socketIoPort; // socket.io port
+    this.streamPort = streamPort; // streming port
+    
+    this.selector = selector == undefined ? 'view_canvas' : selector;
+    
+    this.socket = null;
+    this.socketOption = { reconnection : false };
+    this.isConnect = false;
+};
+
+/**
+ * Connect socket.io and Binaryjs
+ */
+Nornenjs.prototype.connect = function(){
+    var socketUrl = 'http://' + this.host + ':' + this.socketIoPort;
+    this.socket = io.connect(socketUrl, this.socketOption);
+
+    var canvas = document.getElementById(this.selector),
+        width = canvas.clientWidth;
+    
+    canvas.width = width;
+    canvas.height = width;
+    
+    // TODO draw loading
+};
+
+/**
+ * Connected confirm user : User access deny
+ */
+Nornenjs.prototype.socketIo = function(){
+    
+    this.socket.emit('join');
+
+    this.socket.on('message', function(data){
+        if(!data.success){
+            console.log('fail')
+            return;
+        }
+        console.log('success');
+        medical.stream.request();
+    });
+
+    this.socket.on('disconnected', function(data){
+        this.socket.emit('join');
+    });
+};
+
+
 medical.connect = {
 
     $cthis : null,

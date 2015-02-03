@@ -26,13 +26,10 @@
 	<script src="${cp}/resources/javascript/jquery-1.11.2.min.js"></script>
 	<script src="${cp}/resources/javascript/jquery.json.js"></script>
 	<script src="${cp}/resources/javascript/jquery.browser.min.js"></script>
-	
-	<script src="${cp}/client/nornen.0.1.0.js"></script>
 
 <script>
 	var contextPath = '<c:out value="${cp}"/>';
 	var realPath = '<c:out value="${rp}"/>';
-	var nornen = {};
 </script>
 
 </head>
