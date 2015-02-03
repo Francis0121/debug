@@ -77,7 +77,7 @@ public class VolumeDaoImpl extends SqlSessionDaoSupport implements VolumeDao{
             String savePath = dataDao.transferFile(file, "image");
             Data data = new Data(DataType.IMAGE.getValue(), file.getOriginalFilename(), savePath, file.getContentType());
             dataDao.insert(data);
-            volume.setImagePn(data.getPn());
+            volume.setImageData(data);
         }
 
         if(volume.getVideo() != null){
@@ -85,7 +85,7 @@ public class VolumeDaoImpl extends SqlSessionDaoSupport implements VolumeDao{
             String savePath = dataDao.transferFile(file, "video");
             Data data = new Data(DataType.VIDEO.getValue(), file.getOriginalFilename(), savePath, file.getContentType());
             dataDao.insert(data);
-            volume.setVideoPn(data.getPn());
+            volume.setVideoData(data);
         }
 
         if(volume.getVolume() != null){
@@ -93,11 +93,19 @@ public class VolumeDaoImpl extends SqlSessionDaoSupport implements VolumeDao{
             String savePath = dataDao.transferFile(file, "volume");
             Data data = new Data(DataType.VOLUME.getValue(), file.getOriginalFilename(), savePath, file.getContentType());
             dataDao.insert(data);
-            volume.setVolumePn(data.getPn());
+            volume.setVolumeData(data);
         }
         
         logger.debug(volume.toString());
         
         insert(volume);
+    }
+
+    @Override
+    public List<Volume> selectListInfo() {
+
+        List<Volume> volumes = getSqlSession().selectList("volume.listInfo");
+        
+        return volumes;
     }
 }

@@ -1,5 +1,6 @@
 package com.vrcs.debug.volume;
 
+import com.vrcs.debug.data.Data;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 /**
@@ -12,13 +13,13 @@ public class Volume {
     private String name;
     
     private String url;
-    
-    private Integer imagePn;
-    
-    private Integer videoPn;
-    
-    private Integer volumePn;
 
+    private Data imageData;
+    
+    private Data volumeData;
+    
+    private Data videoData;
+    
     private CommonsMultipartFile image;
     
     private CommonsMultipartFile video;
@@ -51,30 +52,6 @@ public class Volume {
     public void setUrl(String url) {
         this.url = url;
     }
-
-    public Integer getImagePn() {
-        return imagePn;
-    }
-
-    public void setImagePn(Integer imagePn) {
-        this.imagePn = imagePn;
-    }
-
-    public Integer getVideoPn() {
-        return videoPn;
-    }
-
-    public void setVideoPn(Integer videoPn) {
-        this.videoPn = videoPn;
-    }
-
-    public Integer getVolumePn() {
-        return volumePn;
-    }
-
-    public void setVolumePn(Integer volumePn) {
-        this.volumePn = volumePn;
-    }
     
     public CommonsMultipartFile getImage() {
         return image;
@@ -100,15 +77,40 @@ public class Volume {
         this.volume = volume;
     }
 
+    public Data getImageData() {
+        return imageData;
+    }
+
+    public void setImageData(Data imageData) {
+        this.imageData = imageData;
+    }
+
+    public Data getVolumeData() {
+        return volumeData;
+    }
+
+    public void setVolumeData(Data volumeData) {
+        this.volumeData = volumeData;
+    }
+
+    public Data getVideoData() {
+        return videoData;
+    }
+
+    public void setVideoData(Data videoData) {
+        this.videoData = videoData;
+    }
+
+
     @Override
     public String toString() {
         return "Volume{" +
                 "pn=" + pn +
                 ", name='" + name + '\'' +
                 ", url='" + url + '\'' +
-                ", imagePn=" + imagePn +
-                ", videoPn=" + videoPn +
-                ", volumePn=" + volumePn +
+                ", imageData=" + imageData +
+                ", volumeData=" + volumeData +
+                ", videoData=" + videoData +
                 ", image=" + image +
                 ", video=" + video +
                 ", volume=" + volume +

@@ -16,12 +16,13 @@
             
             <ul class="content">
 
+                <c:forEach items="${volumes}" var="volume" varStatus="loop">
                 <li>
-                    <h3>1.Skull [ <a href="">head.den</a> ] </h3>
-                    <img src=""/>
-                    <a href="" class="link">Real time page</a>&nbsp;/&nbsp;<a href="" class="link">View sample video</a>
+                    <h3><c:out value="${loop.count}"/>.<c:out value="${volume.name}"/> [ <a href=""><c:out value="${volume.volumeData.originalName}"/></a> ] </h3>
+                    <img src="" title="<c:out value="${volume.imageData.originalName}"/>"/>
+                    <a href="<c:out value="${volume.url}"/>" class="link">Real time page</a>&nbsp;/&nbsp;<a href="" class="link">View sample video</a>
                 </li>
-                
+                </c:forEach>
             </ul>
             
         </article>

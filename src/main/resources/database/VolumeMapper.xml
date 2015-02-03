@@ -7,7 +7,7 @@
           `volume`
           ( `name`, `url`, `imagePn`, `videoPn`, `volumePn`)
         VALUES
-          ( #{name}, #{url}, #{imagePn}, #{videoPn}, #{volumePn} )
+          ( #{name}, #{url}, #{imageData.pn}, #{videoData.pn}, #{volumeData.pn} )
     </insert>
     
     <update id="update" parameterType="Volume">
@@ -29,7 +29,7 @@
     
     <select id="one" parameterType="Integer" resultType="Volume">
         SELECT
-          `pn`, `name`, `url`, `imagePn`, `videoPn`, `volumePn`
+          `pn`, `name`, `url`, `imagePn` AS `imageData.pn`, `videoPn` AS `videoData.pn`, `volumePn` AS `volumeData.pn`
         FROM
           `volume`
         WHERE
@@ -38,7 +38,7 @@
     
     <select id="list" parameterType="VolumeFilter" resultType="Volume">
         SELECT
-          `pn`, `name`, `url`, `imagePn`, `videoPn`, `volumePn`
+          `pn`, `name`, `url`, `imagePn` AS `imageData.pn`, `videoPn` AS `videoData.pn`, `volumePn` AS `volumeData.pn`
         FROM
           `volume`
         LIMIT #{pagination.itemSeqBegin}, #{pagination.numItemsPerPage}
@@ -49,6 +49,24 @@
           COUNT(*)
         FROM
           `volume`
+    </select>
+    
+    <select id="listInfo" resultType="Volume">
+        SELECT
+            v.`pn`, v.`name`, v.`url`,
+            id.`pn` AS `imageData.pn`, id.`original_name` AS `imageData.originalName`,
+            vd.`pn` AS `videoData.pn`, vd.`original_name` AS `videoData.originalName`,
+            od.`pn` AS `volumeData.pn`, od.`original_name` AS `volumeData.originalName`
+        FROM
+            `volume` AS `v`
+            LEFT OUTER JOIN `data` AS id
+            ON v.`imagePn` = id.`pn`
+            LEFT OUTER JOIN `data` AS vd
+            ON v.`videoPn` = vd.`pn`
+            LEFT OUTER JOIN `data` AS od
+            ON v.`volumePn` = od.`pn`
+        WHERE
+            v.`pn` IN ( 5, 6)
     </select>
     
 </mapper>

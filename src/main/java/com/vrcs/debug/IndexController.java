@@ -1,7 +1,9 @@
 package com.vrcs.debug;
 
+import com.vrcs.debug.volume.VolumeDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +15,9 @@ public class IndexController {
 
 	private static Logger logger = LoggerFactory.getLogger(IndexController.class);
 
+	@Autowired
+	private VolumeDao volumeDao;
+	
 	@RequestMapping(method = RequestMethod.GET)
 	public String indexPage(Model model){
 		return "index";
@@ -30,6 +35,7 @@ public class IndexController {
 
 	@RequestMapping(value = "demo", method = RequestMethod.GET)
 	public String demo(Model model){
+		model.addAttribute("volumes", volumeDao.selectListInfo());
 		return "demo";
 	}
 }
