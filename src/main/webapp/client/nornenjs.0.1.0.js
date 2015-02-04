@@ -330,10 +330,23 @@ Nornenjs.prototype.axisType = function(type){
 
     this.sendOption.streamType = ENUMS.STREAM_TYPE.EVENT;
     this.sendOption.mriType = type;
-
-    this.sendOption.transferScaleX = 0;
-    this.sendOption.transferScaleY = 0;
-    this.sendOption.transferScaleZ = 0;
+    
+    if(type == ENUMS.MRI_TYPE.X){
+        var value = this.sendOption.transferScaleY != 0 ? this.sendOption.transferScaleY : this.sendOption.transferScaleZ;
+        this.sendOption.transferScaleX = value;
+        this.sendOption.transferScaleY = 0;
+        this.sendOption.transferScaleZ = 0;
+    }else if(type == ENUMS.MRI_TYPE.Y){
+        var value = this.sendOption.transferScaleX != 0 ? this.sendOption.transferScaleX : this.sendOption.transferScaleZ;
+        this.sendOption.transferScaleX = 0;
+        this.sendOption.transferScaleY = value;
+        this.sendOption.transferScaleZ = 0;
+    }else if(type == ENUMS.MRI_TYPE.Z){
+        var value = this.sendOption.transferScaleX != 0 ? this.sendOption.transferScaleX : this.sendOption.transferScaleY;
+        this.sendOption.transferScaleX = 0;
+        this.sendOption.transferScaleY = 0;
+        this.sendOption.transferScaleZ = value;
+    }
 
     this.send();
     setTimeout(this.finish, 1000, this);
