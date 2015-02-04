@@ -86,30 +86,33 @@
                     </li>
                 </ul>
                 
-                <div class="slider">
-                    <div class="bg">
-                        <div class="title">
-                            <img src="${cp}/resources/image/icon/zoom.png" title="zoom">
-                            <span>Zoom</span>
-                        </div>
+                <div class="slider nstSlider" data-range_min="0" data-range_max="127" data-cur_min="0">
+                    <div class="bar"></div>
+                    <div class="leftGrip"></div>
+
+                    <div class="title">
+                        <img src="${cp}/resources/image/icon/zoom.png" title="zoom">
+                        <span>Zoom</span>
                     </div>
                 </div>
                 
-                <div class="slider">
-                    <div class="bg">
-                        <div class="title">
-                            <img src="${cp}/resources/image/icon/brightness.png" title="brightness">
-                            <span>Brightness</span>
-                        </div>
+                <div class="slider nstSlider" data-range_min="0" data-range_max="127" data-cur_min="0">
+                    <div class="bar"></div>
+                    <div class="leftGrip"></div>
+                    
+                    <div class="title">
+                        <img src="${cp}/resources/image/icon/brightness.png" title="brightness">
+                        <span>Brightness</span>
                     </div>
                 </div>
                 
-                <div class="slider">
-                    <div class="bg">
-                        <div class="title">
-                            <img src="${cp}/resources/image/icon/otf.png" title="otf">
-                            <span>OTF</span>
-                        </div>
+                <div class="slider nstSlider" data-range_min="0" data-range_max="127" data-cur_min="0" >
+                    <div class="bar"></div>
+                    <div class="leftGrip"></div>
+                    
+                    <div class="title">
+                        <img src="${cp}/resources/image/icon/otf.png" title="otf">
+                        <span>OTF</span>
                     </div>
                 </div>
                 
@@ -151,6 +154,17 @@
             nornenjs.type(type);
         });
     });
+    
+    $(function(){
+        $('.nstSlider').nstSlider({
+            'left_grip_selector' : '.leftGrip',
+            'value_bar_selector' : '.bar',
+            'value_changed_callback': function(cause, leftValue, rightValue) {
+                $(this).find('.bar').css('background', 'url('+contextPath +'/resources/image/slider.png)' );
+            }
+        });
+    });
+    
 </script>
 
 <%@ include file="../layout/foot.jspf" %>
