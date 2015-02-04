@@ -393,8 +393,7 @@
     color: #34495e;
 }
 
-/* Slider */
-
+/* netslider start */
 .is_clickable {
     cursor: hand;
     cursor: pointer;
@@ -417,6 +416,7 @@
 .nstSlider .rightGrip,
 .nstSlider .leftGrip {
     position: absolute;
+    top: -1px;
     width: 20px;
     height: 37px;
     background: #34495e;
@@ -445,7 +445,7 @@
     height: 20px;
     top: 0;
 }
-
+/* netslider finish */
 
 .nornen_content_type015 .slider{
 
