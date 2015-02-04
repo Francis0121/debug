@@ -67,22 +67,34 @@
                             <img src="${cp}/resources/image/icon/type.png" title="type">
                             <span>Rendering Type</span>
                         </h3>
-                        <div class="list">
-                            <a href="#" class="active" data-type="1">Volume</a>
-                            <a href="#" data-type="2">MIP</a>
-                            <a href="#" data-type="3">MRI</a>
-                        </div>
+                        <ul class="list">
+                            <li data-type="1">
+                                <a class="active">Volume</a>
+                            </li>
+                            <li data-type="2">
+                                <a>MIP</a>
+                            </li>
+                            <li data-type="3">
+                                <a>MRI</a>
+                            </li>
+                        </ul>
                     </li>
                     <li class="axis_type">
                         <h3>
                             <img src="${cp}/resources/image/icon/axis.png" title="axis">
                             <span>Axis</span>
                         </h3>
-                        <div class="list">
-                            <a class="active" data-type="1">X</a>
-                            <a data-type="2">Y</a>
-                            <a data-type="3">Z</a>
-                        </div>
+                        <ul class="list">
+                            <li data-type="1" >
+                                <a class="active">X</a>
+                            </li>
+                            <li data-type="2">
+                                <a>Y</a>
+                            </li>
+                            <li data-type="3">
+                                <a>Z</a>
+                            </li>
+                        </ul>
                     </li>
                 </ul>
                 
@@ -159,11 +171,11 @@
     nornenjs.connect();
     
     $(function(){
-        $('.rendering_type>div>a').on('click', function(){
+        $('.rendering_type>ul>li').on('click', function(){
             var type = $(this).attr('data-type');
             
-            $('.rendering_type>div>a').removeClass('active');
-            $(this).addClass('active');
+            $('.rendering_type>ul>li>a').removeClass('active');
+            $(this).find('a').addClass('active');
             
             if(type == ENUMS.RENDERING_TYPE.MRI){
                 $('.scale_slider').hide();
@@ -191,11 +203,11 @@
             nornenjs.type(type);
         });
         
-        $('.axis_type>div>a').on('click', function(){
+        $('.axis_type>ul>li').on('click', function(){
             var type = $(this).attr('data-type');
 
-            $('.axis_type>div>a').removeClass('active');
-            $(this).addClass('active');
+            $('.axis_type>ul>li>a').removeClass('active');
+            $(this).find('a').addClass('active');
 
             nornenjs.axisType(type);
         });

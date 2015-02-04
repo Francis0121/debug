@@ -374,22 +374,36 @@
 
 .nornen_content_type015 .selector>li>.list{
     float: left;
-    padding: 10px 3%;
-    width: 94%;
+    padding: 10px 2%;
+    width: 86%;
+    height: 20px;
+    line-height: 20px;
 }
 
-.nornen_content_type015 .selector>li>.list>a{
-    color: #cccccc;
+.nornen_content_type015 .selector>li>.list>li{
     cursor: pointer;
+    float: left;
+    width: 32%;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+}
+
+.nornen_content_type015 .selector>li>.list>li:hover{
+    color: #34495e;
+}
+
+.nornen_content_type015 .selector>li>.list a{
+    color: #cccccc;
     font-size: 81.25%;
     padding: 0 5%;
 }
 
-.nornen_content_type015 .selector>li>.list>a.active{
+.nornen_content_type015 .selector>li>.list a.active{
     color: #34495e;
 }
 
-.nornen_content_type015 .selector>li>.list>a:hover{
+.nornen_content_type015 .selector>li>.list a:hover{
     color: #34495e;
 }
 
