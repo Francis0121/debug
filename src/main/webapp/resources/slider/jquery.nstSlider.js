@@ -396,7 +396,8 @@
             if ($this.data('has_right_grip')) {
                 $this.find(value_bar_selector)
                     //.css('left', (leftPx + innerBarDeltaPx) + 'px')
-                    .css('width', (rightPx - leftPx + innerBarDeltaPx) + 'px');
+                    //.css('width', (rightPx - leftPx) + 'px');
+                    .css('width', (leftPx) + 'px');
 
                 $this.find(left_grip_selector).css('left', leftPx + 'px');
             }
@@ -404,13 +405,14 @@
                 if (leftPx < rightPx) {
                     $this.find(value_bar_selector)
                         //.css('left', (leftPx + innerBarDeltaPx) + 'px')
-                        .css('width', (rightPx - leftPx + innerBarDeltaPx) + 'px');
+                        //.css('width', (rightPx - leftPx) + 'px');
+                        .css('width', (leftPx) + 'px');
                 }
                 else {
                     $this.find(value_bar_selector)
                         //.css('left', (rightPx + innerBarDeltaPx) + 'px')
                         //.css('width', (leftPx - rightPx + innerBarDeltaPx) + 'px');
-                        .css('width', (leftPx - rightPx) + 'px');
+                        .css('width', (leftPx) + 'px');
                 }
 
                 $this.find(left_grip_selector).css('left', leftPx + 'px');
@@ -620,7 +622,8 @@
 
             _methods.notify_changed_implicit.call($this, 'drag_start', prev_min, prev_max);
 
-            e.preventDefault();
+            // ~ mobile error ouccr
+            //e.preventDefault();
         },
         'drag_move_func_touch' : function (e) {
             if (_is_mousedown === true) {

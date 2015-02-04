@@ -119,6 +119,7 @@ Nornenjs.prototype.socketIo = function(){
             return;
         }
         $this.sendOption.streamType = ENUMS.STREAM_TYPE.START;
+        $this.isConnect = true;
         $this.send();
     });
 

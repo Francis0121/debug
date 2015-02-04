@@ -86,7 +86,7 @@
                     </li>
                 </ul>
                 
-                <div class="slider nstSlider" data-range_min="0" data-range_max="127" data-cur_min="0">
+                <div class="slider nstSlider" data-range_min="0" data-range_max="10000" data-cur_min="3000" data-type="zoom">
                     <div class="bar"></div>
                     <div class="leftGrip"></div>
 
@@ -96,7 +96,7 @@
                     </div>
                 </div>
                 
-                <div class="slider nstSlider" data-range_min="0" data-range_max="127" data-cur_min="0">
+                <div class="slider nstSlider" data-range_min="0" data-range_max="200" data-cur_min="100" data-type="brightness">
                     <div class="bar"></div>
                     <div class="leftGrip"></div>
                     
@@ -106,7 +106,7 @@
                     </div>
                 </div>
                 
-                <div class="slider nstSlider" data-range_min="0" data-range_max="127" data-cur_min="0" >
+                <div class="slider nstSlider" data-range_min="5000" data-range_max="15000" data-cur_min="10000" data-type="otf">
                     <div class="bar"></div>
                     <div class="leftGrip"></div>
                     
@@ -161,6 +161,16 @@
             'value_bar_selector' : '.bar',
             'value_changed_callback': function(cause, leftValue, rightValue) {
                 $(this).find('.bar').css('background', 'url('+contextPath +'/resources/image/slider.png)' );
+
+                if(nornenjs.isConnect) {
+                    if (this.attr('data-type') == 'zoom') {
+                        nornenjs.scale(leftValue / 1000, false);
+                    } else if (this.attr('data-type') == 'brightness') {
+                        nornenjs.brightness(leftValue / 100, false);
+                    } else if (this.attr('data-type') == 'otf'){
+                        nornenjs.otf((leftValue-10000)/10000, false);
+                    }
+                }
             }
         });
     });
