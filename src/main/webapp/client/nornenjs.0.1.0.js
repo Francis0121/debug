@@ -48,7 +48,7 @@ var Nornenjs = function(host, socketIoPort, streamPort, selector){
     this.sendOption = {
         streamType : ENUMS.STREAM_TYPE.START,
         renderingType : ENUMS.RENDERING_TYPE.VOLUME,
-        volumePn : 2,
+        volumePn : 1,
         brightness : 1.0,
         positionZ : 3.0,
         transferOffset : 0.0,
