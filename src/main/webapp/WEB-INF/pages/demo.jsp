@@ -62,31 +62,31 @@
                 </canvas>
                 
                 <ul class="selector">
-                    <li>
+                    <li class="rendering_type">
                         <h3>
                             <img src="${cp}/resources/image/icon/type.png" title="type">
                             <span>Rendering Type</span>
                         </h3>
-                        <div class="list rendering_type">
-                            <a class="active" data-type="1">Volume</a>
-                            <a data-type="2">MIP</a>
-                            <a data-type="3">MRI</a>
+                        <div class="list">
+                            <a href="#" class="active" data-type="1">Volume</a>
+                            <a href="#" data-type="2">MIP</a>
+                            <a href="#" data-type="3">MRI</a>
                         </div>
                     </li>
-                    <li>
+                    <li class="axis_type">
                         <h3>
                             <img src="${cp}/resources/image/icon/axis.png" title="axis">
                             <span>Axis</span>
                         </h3>
                         <div class="list">
-                            <a class="active">X</a>
-                            <a>Y</a>
-                            <a>Z</a>
+                            <a class="active" data-type="1">X</a>
+                            <a data-type="2">Y</a>
+                            <a data-type="3">Z</a>
                         </div>
                     </li>
                 </ul>
                 
-                <div class="slider nstSlider" data-range_min="0" data-range_max="10000" data-cur_min="3000" data-type="zoom">
+                <div class="slider nstSlider scale_slider" data-range_min="0" data-range_max="10000" data-cur_min="3000" data-type="scale">
                     <div class="bar"></div>
                     <div class="leftGrip"></div>
 
@@ -96,7 +96,7 @@
                     </div>
                 </div>
                 
-                <div class="slider nstSlider" data-range_min="0" data-range_max="200" data-cur_min="100" data-type="brightness">
+                <div class="slider nstSlider brightness_slider" data-range_min="0" data-range_max="200" data-cur_min="100" data-type="brightness">
                     <div class="bar"></div>
                     <div class="leftGrip"></div>
                     
@@ -106,13 +106,24 @@
                     </div>
                 </div>
                 
-                <div class="slider nstSlider" data-range_min="5000" data-range_max="15000" data-cur_min="10000" data-type="otf">
+                <div class="slider nstSlider otf_slider" data-range_min="50000" data-range_max="200000" data-cur_min="100000" data-type="otf">
                     <div class="bar"></div>
                     <div class="leftGrip"></div>
                     
                     <div class="title">
                         <img src="${cp}/resources/image/icon/otf.png" title="otf">
                         <span>OTF</span>
+                    </div>
+                </div>
+
+
+                <div class="slider nstSlider axis_slider" data-range_min="0" data-range_max="10000" data-cur_min="0" data-type="axis">
+                    <div class="bar"></div>
+                    <div class="leftGrip"></div>
+
+                    <div class="title">
+                        <img src="${cp}/resources/image/icon/axis.png" title="axis">
+                        <span>Axis</span>
                     </div>
                 </div>
                 
@@ -148,10 +159,45 @@
     nornenjs.connect();
     
     $(function(){
-        $('.rendering_type>a').on('click', function(){
+        $('.rendering_type>div>a').on('click', function(){
             var type = $(this).attr('data-type');
-            console.log(type);
+            
+            $('.rendering_type>div>a').removeClass('active');
+            $(this).addClass('active');
+            
+            if(type == ENUMS.RENDERING_TYPE.MRI){
+                $('.scale_slider').hide();
+                $('.brightness_slider').hide();
+                $('.otf_slider').hide();
+                $('.axis_slider').show();
+                $('.axis_type').show();
+                nornenjs.sendOption.rotationX = STATIC.MRI_DEFAULT_OPTION.rotationX;
+                nornenjs.sendOption.rotationY = STATIC.MRI_DEFAULT_OPTION.rotationY;
+                nornenjs.sendOption.positionZ = STATIC.MRI_DEFAULT_OPTION.positionZ;
+            }else if(type == ENUMS.RENDERING_TYPE.VOLUME){
+                $('.scale_slider').show();
+                $('.brightness_slider').show();
+                $('.otf_slider').show();
+                $('.axis_slider').hide();
+                $('.axis_type').hide();
+            }else if(type == ENUMS.RENDERING_TYPE.MIP){
+                $('.scale_slider').show();
+                $('.brightness_slider').hide();
+                $('.otf_slider').hide();
+                $('.axis_slider').hide();
+                $('.axis_type').hide();
+            }
+
             nornenjs.type(type);
+        });
+        
+        $('.axis_type>div>a').on('click', function(){
+            var type = $(this).attr('data-type');
+
+            $('.axis_type>div>a').removeClass('active');
+            $(this).addClass('active');
+
+            nornenjs.axisType(type);
         });
     });
     
@@ -163,14 +209,20 @@
                 $(this).find('.bar').css('background', 'url('+contextPath +'/resources/image/slider.png)' );
 
                 if(nornenjs.isConnect) {
-                    if (this.attr('data-type') == 'zoom') {
+                    if (this.attr('data-type') == 'scale') {
                         nornenjs.scale(leftValue / 1000, false);
                     } else if (this.attr('data-type') == 'brightness') {
                         nornenjs.brightness(leftValue / 100, false);
                     } else if (this.attr('data-type') == 'otf'){
-                        nornenjs.otf((leftValue-10000)/10000, false);
+                        nornenjs.otf((leftValue-100000)/100000, false);
+                    } else if (this.attr('data-type') == 'axis'){
+                        nornenjs.axis(leftValue/10000, false);
                     }
                 }
+            },
+            'user_mouseup_callback' : function(cause, leftValue, rightValue) {
+                setTimeout(nornenjs.finish, 1000, nornenjs);
+                
             }
         });
     });

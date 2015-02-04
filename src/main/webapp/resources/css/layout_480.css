@@ -507,3 +507,8 @@
     font-size: 75%;
     color: #34495e;
 }
+
+
+.axis_type, .axis_slider {
+    display: none;
+}

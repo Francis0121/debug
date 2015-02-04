@@ -316,7 +316,7 @@
 .nornen_content_type015{
     width: 94%;
     padding: 40px 3%;
-    min-height: 850px;
+    min-height: 1000px;
 }
 
 .nornen_content_type015>header{
@@ -490,6 +490,10 @@
 .nornen_content_type015>.right>li>span{
     font-size: 75%;
     color: #34495e;
+}
+
+.axis_type, .axis_slider {
+    display: none;
 }
 
 

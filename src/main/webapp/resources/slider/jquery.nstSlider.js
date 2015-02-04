@@ -776,7 +776,7 @@
                 // prepare for next movement
                 _original_mousex = absoluteMousePosition;
 
-                e.preventDefault();
+                //e.preventDefault();
             }
         },
         'drag_end_func_touch' : function (e) {
