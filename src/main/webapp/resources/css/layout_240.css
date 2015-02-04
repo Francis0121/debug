@@ -436,10 +436,10 @@
     cursor: hand;
     cursor: pointer;
     position: relative;
-    width: 78%;
+    width: 90%;
     border: 1px solid #e6ecec;
     height: 50px;
-    margin: 10px 20% 10px 0;
+    margin: 10px 10% 10px 0;
 }
 .nstSlider .leftGrip.gripHighlighted {
     background: #113344;
@@ -451,7 +451,7 @@
 .nstSlider .leftGrip {
     position: absolute;
     top: -1px;
-    width: 20px;
+    width: 40px;
     height: 50px;
     background: #34495e;
     border: 1px solid #808080;
@@ -480,6 +480,11 @@
     top: 0;
 }
 /* netslider finish */
+
+.nornen_content_type015 .slider_wrap{
+    height: 60px;
+    margin-bottom: 30px;
+}
 
 .nornen_content_type015 .slider{
     margin-bottom: 40px;

@@ -467,6 +467,11 @@
 }
 /* netslider finish */
 
+.nornen_content_type015 .slider_wrap{
+    height: 60px;
+    margin-bottom: 10px;
+}
+
 .nornen_content_type015 .slider{
     margin-bottom: 20px;
 }

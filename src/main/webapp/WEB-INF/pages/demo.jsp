@@ -60,7 +60,7 @@
                 <canvas id="view_canvas">
                     
                 </canvas>
-                
+
                 <ul class="selector">
                     <li class="rendering_type">
                         <h3>
@@ -98,44 +98,52 @@
                     </li>
                 </ul>
                 
-                <div class="slider nstSlider scale_slider" data-range_min="0" data-range_max="10000" data-cur_min="3000" data-type="scale">
-                    <div class="bar"></div>
-                    <div class="leftGrip"></div>
+                <div class="slider_wrap scale_slider">
 
-                    <div class="title">
-                        <img src="${cp}/resources/image/icon/zoom.png" title="zoom">
-                        <span>Zoom</span>
-                    </div>
-                </div>
-                
-                <div class="slider nstSlider brightness_slider" data-range_min="0" data-range_max="200" data-cur_min="100" data-type="brightness">
-                    <div class="bar"></div>
-                    <div class="leftGrip"></div>
-                    
-                    <div class="title">
-                        <img src="${cp}/resources/image/icon/brightness.png" title="brightness">
-                        <span>Brightness</span>
-                    </div>
-                </div>
-                
-                <div class="slider nstSlider otf_slider" data-range_min="50000" data-range_max="200000" data-cur_min="100000" data-type="otf">
-                    <div class="bar"></div>
-                    <div class="leftGrip"></div>
-                    
-                    <div class="title">
-                        <img src="${cp}/resources/image/icon/otf.png" title="otf">
-                        <span>OTF</span>
+                    <div class="slider nstSlider" data-range_min="0" data-range_max="10000" data-cur_min="3000" data-type="scale">
+                        <div class="bar"></div>
+                        <div class="leftGrip"></div>
+
+                        <div class="title">
+                            <img src="${cp}/resources/image/icon/zoom.png" title="zoom">
+                            <span>Zoom</span>
+                        </div>
                     </div>
                 </div>
 
+                <div class="slider_wrap brightness_slider">
+                    <div class="slider nstSlider" data-range_min="0" data-range_max="200" data-cur_min="100" data-type="brightness">
+                        <div class="bar"></div>
+                        <div class="leftGrip"></div>
 
-                <div class="slider nstSlider axis_slider" data-range_min="0" data-range_max="10000" data-cur_min="0" data-type="axis">
-                    <div class="bar"></div>
-                    <div class="leftGrip"></div>
+                        <div class="title">
+                            <img src="${cp}/resources/image/icon/brightness.png" title="brightness">
+                            <span>Brightness</span>
+                        </div>
+                    </div>
+                </div>
 
-                    <div class="title">
-                        <img src="${cp}/resources/image/icon/axis.png" title="axis">
-                        <span>Axis</span>
+                <div class="slider_wrap otf_slider">
+                    <div class="slider nstSlider" data-range_min="50000" data-range_max="200000" data-cur_min="100000" data-type="otf">
+                        <div class="bar"></div>
+                        <div class="leftGrip"></div>
+
+                        <div class="title">
+                            <img src="${cp}/resources/image/icon/otf.png" title="otf">
+                            <span>OTF</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slider_wrap axis_slider">
+                    <div class="slider nstSlider" data-range_min="0" data-range_max="10000" data-cur_min="0" data-type="axis">
+                        <div class="bar"></div>
+                        <div class="leftGrip"></div>
+
+                        <div class="title">
+                            <img src="${cp}/resources/image/icon/axis.png" title="axis">
+                            <span>Axis</span>
+                        </div>
                     </div>
                 </div>
                 
@@ -171,6 +179,7 @@
     nornenjs.connect();
     
     $(function(){
+        
         $('.rendering_type>ul>li').click(function(){
             var type = $(this).attr('data-type');
             
@@ -203,7 +212,7 @@
             nornenjs.type(type);
         });
         
-        $('.axis_type>ul>li').on('click', function(){
+        $('.axis_type>ul>li').click(function(){
             var type = $(this).attr('data-type');
 
             $('.axis_type>ul>li>a').removeClass('active');
