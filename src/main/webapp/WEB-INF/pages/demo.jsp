@@ -171,7 +171,7 @@
     nornenjs.connect();
     
     $(function(){
-        $('.rendering_type>ul>li').on('click', function(){
+        $('.rendering_type>ul>li').click(function(){
             var type = $(this).attr('data-type');
             
             $('.rendering_type>ul>li>a').removeClass('active');
@@ -211,9 +211,7 @@
 
             nornenjs.axisType(type);
         });
-    });
-    
-    $(function(){
+        
         $('.nstSlider').nstSlider({
             'left_grip_selector' : '.leftGrip',
             'value_bar_selector' : '.bar',

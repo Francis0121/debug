@@ -393,16 +393,16 @@
     float: left;
     padding: 10px 2%;
     width: 86%;
-    height: 20px;
-    line-height: 20px;
+    height: 40px;
+    line-height: 40px;
 }
 
 .nornen_content_type015 .selector>li>.list>li{
     cursor: pointer;
     float: left;
     width: 32%;
-    height: 20px;
-    line-height: 20px;
+    height: 40px;
+    line-height: 40px;
     text-align: center;
 }
 
