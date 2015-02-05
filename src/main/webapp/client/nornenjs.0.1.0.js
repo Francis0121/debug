@@ -115,7 +115,7 @@ Nornenjs.prototype.connect = function(debugCallback, fpsCallback){
     
     // ~ fps 
     if(fpsCallback != null && fpsCallback != undefined){
-        setInterval(this.fpsInterval, 1000, this, fpsCallback);
+        setInterval(this.fpsInterval, 2000, this, fpsCallback);
     }else{
         this.fps.active = false;
     }

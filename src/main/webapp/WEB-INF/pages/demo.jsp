@@ -7,13 +7,13 @@
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script type="text/javascript">
     google.load('visualization', '1.1', {packages: ['corechart']});
-    
+
     var CHART_SIZE = 10;
-    
+
     var drawCompress = {
         option : {
             animation: {
-                duration: 300,
+                duration: 1000,
                 easing: 'in'
             },
             hAxis: {
@@ -22,40 +22,63 @@
                     max: CHART_SIZE
                 },
                 textPosition: 'none'
-            },
-            legend: { position: 'none'}
+            }
         },
         chart : null,
         data : null,
+        view : null,
         count : 1,
+        
+        array : [
+                ['count', 'cuda', 'jpeg', 'png'],
+                [ 1 , 0, 0, 0 ]
+        ],
 
         drawChart : function(){
-            drawCompress.chart.draw(drawCompress.data, drawCompress.option);
+            drawCompress.data = google.visualization.arrayToDataTable(drawCompress.array);
+            drawCompress.view = new google.visualization.DataView(drawCompress.data);
+            drawCompress.view.setColumns([0, 1,
+                {
+                    calc: 'stringify',
+                    sourceColumn: 1,
+                    type: 'string',
+                    role: 'annotation'
+                },
+                2,
+                {
+                    calc: 'stringify',
+                    sourceColumn: 2,
+                    type: 'string',
+                    role: 'annotation'
+                },
+                3,
+                {
+                    calc: 'stringify',
+                    sourceColumn: 3,
+                    type: 'string',
+                    role: 'annotation'
+                }]);
+            drawCompress.chart.draw(drawCompress.view, drawCompress.option);
         },
-        
+
         init : function(){
             drawCompress.chart = new google.visualization.LineChart(document.getElementById('compress_chart'));
-
-            drawCompress.data = new google.visualization.DataTable();
-            drawCompress.data.addColumn('string', 'count');
-            drawCompress.data.addColumn('number', 'cuda');
-            drawCompress.data.addColumn('number', 'jpeg');
-            drawCompress.data.addColumn('number', 'png');
-
-            drawCompress.data.addRow([drawCompress.count.toString(), 0, 0, 0]);
             drawCompress.drawChart();
         },
-        
+
         addRow : function(data){
             if(data.cudaTime == 0){
                 return;
             }
-            
+
             drawCompress.count++;
+            var cudaTime = data.cudaTime.toFixed(1);
+            var compressTime = (data.compressTime - data.cudaTime).toFixed(1);
+            
             if(data.type == 1) {
-                drawCompress.data.addRow([drawCompress.count.toString(), data.cudaTime, 0, data.compressTime - data.cudaTime]);
+                drawCompress.array.push([drawCompress.count.toString(), cudaTime, 0, compressTime]);
             }else if(data.type == 2){
-                drawCompress.data.addRow([drawCompress.count.toString(), data.cudaTime, data.compressTime - data.cudaTime, 0]);
+                drawCompress.array.push([drawCompress.count.toString(), cudaTime, compressTime, 0]);
             }else{
                 return;
             }
@@ -73,7 +96,7 @@
     var drawFps = {
         option : {
             animation: {
-                duration: 300,
+                duration: 1000,
                 easing: 'in'
             },
             hAxis: {
@@ -87,26 +110,35 @@
         },
         chart : null,
         data : null,
+        view : null,
         count : 1,
 
+        array : [
+            ['time', 'fps'],
+            [ 1 , 0 ]
+        ],
+
         drawChart : function(){
-            drawFps.chart.draw(drawFps.data, drawFps.option);
+            drawFps.data = google.visualization.arrayToDataTable(drawFps.array);
+            drawFps.view = new google.visualization.DataView(drawFps.data);
+            drawFps.view.setColumns([0, 1,
+                {
+                    calc: 'stringify',
+                    sourceColumn: 1,
+                    type: 'string',
+                    role: 'annotation'
+                }]);
+            drawFps.chart.draw(drawFps.view, drawFps.option);
         },
 
         init : function(){
             drawFps.chart = new google.visualization.LineChart(document.getElementById('fps_chart'));
-
-            drawFps.data = new google.visualization.DataTable();
-            drawFps.data.addColumn('string', 'count');
-            drawFps.data.addColumn('number', 'fps');
-
-            drawFps.data.addRow([drawFps.count.toString(), 0]);
             drawFps.drawChart();
         },
 
         addRow : function(value){
             drawFps.count++;
-            drawFps.data.addRow([drawFps.count.toString(), value]);
+            drawFps.array.push([drawFps.count.toString(), (value/2).toFixed(0)]);
 
             if(drawFps.count > CHART_SIZE){
                 drawFps.option.hAxis.viewWindow.min +=1;
