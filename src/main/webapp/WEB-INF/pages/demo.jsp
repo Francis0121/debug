@@ -176,7 +176,12 @@
 
 <script>
     var nornenjs = new Nornenjs('112.108.40.166', 3000, 9000);
-    nornenjs.connect();
+    
+    var debugCallback = function(data){
+        console.log(data);
+    };
+    
+    nornenjs.connect(debugCallback);
     
     $(function(){
         

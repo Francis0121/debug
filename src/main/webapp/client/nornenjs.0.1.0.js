@@ -80,7 +80,7 @@ var Nornenjs = function(host, socketIoPort, streamPort, selector){
 /**
  * Connect socket.io and Binaryjs
  */
-Nornenjs.prototype.connect = function(){
+Nornenjs.prototype.connect = function(debugCallback){
     // ~ set socket.io
     var socketUrl = 'http://' + this.host + ':' + this.socketIoPort;
     this.socket = io.connect(socketUrl, this.socketOption);
@@ -99,7 +99,8 @@ Nornenjs.prototype.connect = function(){
     this.client = new BinaryClient(streamUrl);
 
     // ~ run
-    this.socketIo();
+    // TODO debug callback is null
+    this.socketIo(debugCallback);
     
     this.streamOn();
     
@@ -109,7 +110,7 @@ Nornenjs.prototype.connect = function(){
 /**;
  * Connected confirm user : User access deny
  */
-Nornenjs.prototype.socketIo = function(){
+Nornenjs.prototype.socketIo = function(debugCallback){
     var $this = this;
     
     this.socket.emit('join');
@@ -121,6 +122,8 @@ Nornenjs.prototype.socketIo = function(){
         $this.sendOption.streamType = ENUMS.STREAM_TYPE.START;
         $this.isConnect = true;
         $this.send();
+
+        setTimeout($this.finish, 1000, $this);
     });
 
     this.socket.on('disconnected', function(data){
@@ -128,7 +131,7 @@ Nornenjs.prototype.socketIo = function(){
     });
     
     this.socket.on('debug', function(data){
-        console.log('data', data);
+        debugCallback(data);
     });
 };
 
@@ -179,7 +182,7 @@ Nornenjs.prototype.send = function(){
     floatArray[8] = this.sendOption.transferScaleX;
     floatArray[9] = this.sendOption.transferScaleY;
     floatArray[10] = this.sendOption.transferScaleZ;
-    floatArray[11] = this.sendOptison.mriType;
+    floatArray[11] = this.sendOption.mriType;
     floatArray[12] = this.sendOption.isMobile;
 
     this.client.send(this.buffer);
