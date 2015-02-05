@@ -28,41 +28,21 @@
         data : null,
         view : null,
         count : 1,
-        
-        array : [
-                ['count', 'cuda', 'jpeg', 'png'],
-                [ 1 , 0, 0, 0 ]
-        ],
 
         drawChart : function(){
-            drawCompress.data = google.visualization.arrayToDataTable(drawCompress.array);
-            drawCompress.view = new google.visualization.DataView(drawCompress.data);
-            drawCompress.view.setColumns([0, 1,
-                {
-                    calc: 'stringify',
-                    sourceColumn: 1,
-                    type: 'string',
-                    role: 'annotation'
-                },
-                2,
-                {
-                    calc: 'stringify',
-                    sourceColumn: 2,
-                    type: 'string',
-                    role: 'annotation'
-                },
-                3,
-                {
-                    calc: 'stringify',
-                    sourceColumn: 3,
-                    type: 'string',
-                    role: 'annotation'
-                }]);
-            drawCompress.chart.draw(drawCompress.view, drawCompress.option);
+            drawCompress.chart.draw(drawCompress.data, drawCompress.option);
         },
 
         init : function(){
             drawCompress.chart = new google.visualization.LineChart(document.getElementById('compress_chart'));
+
+            drawCompress.data = new google.visualization.DataTable();
+            drawCompress.data.addColumn('string', 'count');
+            drawCompress.data.addColumn('number', 'cuda');
+            drawCompress.data.addColumn('number', 'jpeg');
+            drawCompress.data.addColumn('number', 'png');
+
+            drawCompress.data.addRow([drawCompress.count.toString(), 0, 0, 0]);
             drawCompress.drawChart();
         },
 
@@ -72,13 +52,13 @@
             }
 
             drawCompress.count++;
-            var cudaTime = data.cudaTime.toFixed(1);
-            var compressTime = (data.compressTime - data.cudaTime).toFixed(1);
-            
+            var cudaTime = data.cudaTime;
+            var compressTime = data.compressTime - data.cudaTime;
+
             if(data.type == 1) {
-                drawCompress.array.push([drawCompress.count.toString(), cudaTime, 0, compressTime]);
+                drawCompress.data.addRow([drawCompress.count.toString(), cudaTime, 0, compressTime]);
             }else if(data.type == 2){
-                drawCompress.array.push([drawCompress.count.toString(), cudaTime, compressTime, 0]);
+                drawCompress.data.addRow([drawCompress.count.toString(), cudaTime, compressTime, 0]);
             }else{
                 return;
             }
@@ -97,7 +77,8 @@
         option : {
             animation: {
                 duration: 400,
-                easing: 'out'
+                easing: 'out',
+                startup: false
             },
             hAxis: {
                 viewWindow: {
@@ -110,35 +91,26 @@
         },
         chart : null,
         data : null,
-        view : null,
         count : 1,
 
-        array : [
-            ['time', 'fps'],
-            [ 1 , 0 ]
-        ],
-
         drawChart : function(){
-            drawFps.data = google.visualization.arrayToDataTable(drawFps.array);
-            drawFps.view = new google.visualization.DataView(drawFps.data);
-            drawFps.view.setColumns([0, 1,
-                {
-                    calc: 'stringify',
-                    sourceColumn: 1,
-                    type: 'string',
-                    role: 'annotation'
-                }]);
-            drawFps.chart.draw(drawFps.view, drawFps.option);
+            drawFps.chart.draw(drawFps.data, drawFps.option);
         },
 
         init : function(){
             drawFps.chart = new google.visualization.LineChart(document.getElementById('fps_chart'));
+
+            drawFps.data = new google.visualization.DataTable();
+            drawFps.data.addColumn('string', 'count');
+            drawFps.data.addColumn('number', 'fps');
+            drawFps.data.addRow([drawFps.count.toString(), 0]);
+            
             drawFps.drawChart();
         },
 
         addRow : function(value){
             drawFps.count++;
-            drawFps.array.push([drawFps.count.toString(), (value).toFixed(0)]);
+            drawFps.data.addRow([drawFps.count.toString(), value]);
 
             if(drawFps.count > CHART_SIZE){
                 drawFps.option.hAxis.viewWindow.min +=1;
