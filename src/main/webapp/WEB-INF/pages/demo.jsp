@@ -6,43 +6,118 @@
 
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script type="text/javascript">
-    google.load('visualization', '1.1', {packages: ['line']});
-    google.setOnLoadCallback(drawChart);
+    google.load('visualization', '1.1', {packages: ['corechart']});
+    
+    var CHART_SIZE = 10;
+    
+    var drawCompress = {
+        option : {
+            animation: {
+                duration: 300,
+                easing: 'in'
+            },
+            hAxis: {
+                viewWindow: {
+                    min: 0,
+                    max: CHART_SIZE
+                },
+                textPosition: 'none'
+            },
+            legend: { position: 'none'}
+        },
+        chart : null,
+        data : null,
+        count : 1,
 
-    function drawChart() {
+        drawChart : function(){
+            drawCompress.chart.draw(drawCompress.data, drawCompress.option);
+        },
+        
+        init : function(){
+            drawCompress.chart = new google.visualization.SteppedAreaChart(document.getElementById('compress_chart'));
 
-        var data = new google.visualization.DataTable();
-        data.addColumn('number', 'Second');
-        data.addColumn('number', 'fps');
+            drawCompress.data = new google.visualization.DataTable();
+            drawCompress.data.addColumn('string', 'count');
+            drawCompress.data.addColumn('number', 'cuda');
+            drawCompress.data.addColumn('number', 'jpeg');
+            drawCompress.data.addColumn('number', 'png');
 
-        data.addRows([
-            [1,  37.8],
-            [2,  30.9],
-            [3,  25.4],
-            [4,  11.7],
-            [5,  11.9],
-            [6,   8.8],
-            [7,   7.6],
-            [8,  12.3],
-            [9,  16.9],
-            [10, 12.8],
-            [11,  5.3],
-            [12,  6.6],
-            [13,  4.8],
-            [14,  4.2]
-        ]);
+            drawCompress.data.addRow([drawCompress.count.toString(), 0, 0, 0]);
+            drawCompress.drawChart();
+        },
+        
+        addRow : function(data){
+            if(data.cudaTime == 0){
+                return;
+            }
+            
+            drawCompress.count++;
+            if(data.type == 1) {
+                drawCompress.data.addRow([drawCompress.count.toString(), data.cudaTime, 0, data.compressTime - data.cudaTime]);
+            }else if(data.type == 2){
+                drawCompress.data.addRow([drawCompress.count.toString(), data.cudaTime, data.compressTime - data.cudaTime, 0]);
+            }else{
+                return;
+            }
 
-        var options = {
-            legend: { position: 'none'},
-            hAxis: { textPosition: 'none'}
-        };
+            if(drawCompress.count > CHART_SIZE){
+                drawCompress.option.hAxis.viewWindow.min +=1;
+                drawCompress.option.hAxis.viewWindow.max +=1;
+            }
+            drawCompress.drawChart();
+        }
+    };
 
-        var chart = new google.charts.Line(document.getElementById('fps_chart'));
-        chart.draw(data, options);
+    google.setOnLoadCallback(drawCompress.init);
 
-        var chart = new google.charts.Line(document.getElementById('compress_chart'));
-        chart.draw(data, options);
-    }
+    var drawFps = {
+        option : {
+            animation: {
+                duration: 300,
+                easing: 'in'
+            },
+            hAxis: {
+                viewWindow: {
+                    min: 0,
+                    max: CHART_SIZE
+                },
+                textPosition: 'none'
+            },
+            legend: { position: 'none'}
+        },
+        chart : null,
+        data : null,
+        count : 1,
+
+        drawChart : function(){
+            drawFps.chart.draw(drawFps.data, drawFps.option);
+        },
+
+        init : function(){
+            drawFps.chart = new google.visualization.LineChart(document.getElementById('fps_chart'));
+
+            drawFps.data = new google.visualization.DataTable();
+            drawFps.data.addColumn('string', 'count');
+            drawFps.data.addColumn('number', 'fps');
+
+            drawFps.data.addRow([drawFps.count.toString(), 0]);
+            drawFps.drawChart();
+        },
+
+        addRow : function(value){
+            drawFps.count++;
+            drawFps.data.addRow([drawFps.count.toString(), value]);
+
+            if(drawFps.count > CHART_SIZE){
+                drawFps.option.hAxis.viewWindow.min +=1;
+                drawFps.option.hAxis.viewWindow.max +=1;
+            }
+            drawFps.drawChart();
+        }
+    };
+
+    google.setOnLoadCallback(drawFps.init);
+    
 </script>
 
 <section class="nornen_section_wrap section_top">
@@ -178,10 +253,14 @@
     var nornenjs = new Nornenjs('112.108.40.166', 3000, 9000);
     
     var debugCallback = function(data){
-        console.log(data);
+        drawCompress.addRow(data);
     };
     
-    nornenjs.connect(debugCallback);
+    var fpsCallback = function(fps){
+        drawFps.addRow(fps);
+    };
+    
+    nornenjs.connect(debugCallback, fpsCallback);
     
     $(function(){
         

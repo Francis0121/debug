@@ -75,12 +75,19 @@ var Nornenjs = function(host, socketIoPort, streamPort, selector){
         beforeY : null,
     };
     
+    // ~ fps calculate
+    this.fps = {
+        active : true,
+        option : {
+           frame : 0
+        }
+    };
 };
 
 /**
  * Connect socket.io and Binaryjs
  */
-Nornenjs.prototype.connect = function(debugCallback){
+Nornenjs.prototype.connect = function(debugCallback, fpsCallback){
     // ~ set socket.io
     var socketUrl = 'http://' + this.host + ':' + this.socketIoPort;
     this.socket = io.connect(socketUrl, this.socketOption);
@@ -105,6 +112,18 @@ Nornenjs.prototype.connect = function(debugCallback){
     this.streamOn();
     
     this.addEvent();
+    
+    // ~ fps 
+    if(fpsCallback != null && fpsCallback != undefined){
+        setInterval(this.fpsInterval, 1000, this, fpsCallback);
+    }else{
+        this.fps.active = false;
+    }
+};
+
+Nornenjs.prototype.fpsInterval = function($this, callback){
+    callback($this.fps.option.frame);
+    $this.fps.option.frame = 0;
 };
 
 /**;
@@ -159,6 +178,10 @@ Nornenjs.prototype.streamOn = function(){
                 ctx.drawImage(img, 0, 0, 512, 512, 0, 0, canvas.clientWidth, canvas.clientWidth);
             };
             img.src = url;
+            
+            if($this.fps.active){
+                $this.fps.option.frame+=1;
+            }
         });
     });
 };
