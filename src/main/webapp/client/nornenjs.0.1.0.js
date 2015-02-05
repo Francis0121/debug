@@ -106,7 +106,7 @@ Nornenjs.prototype.connect = function(){
     this.addEvent();
 };
 
-/**
+/**;
  * Connected confirm user : User access deny
  */
 Nornenjs.prototype.socketIo = function(){
@@ -125,6 +125,10 @@ Nornenjs.prototype.socketIo = function(){
 
     this.socket.on('disconnected', function(data){
         $this.socket.emit('join');
+    });
+    
+    this.socket.on('debug', function(data){
+        console.log('data', data);
     });
 };
 
@@ -175,7 +179,7 @@ Nornenjs.prototype.send = function(){
     floatArray[8] = this.sendOption.transferScaleX;
     floatArray[9] = this.sendOption.transferScaleY;
     floatArray[10] = this.sendOption.transferScaleZ;
-    floatArray[11] = this.sendOption.mriType;
+    floatArray[11] = this.sendOptison.mriType;
     floatArray[12] = this.sendOption.isMobile;
 
     this.client.send(this.buffer);
