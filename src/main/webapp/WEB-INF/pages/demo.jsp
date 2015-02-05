@@ -34,7 +34,7 @@
         },
         
         init : function(){
-            drawCompress.chart = new google.visualization.SteppedAreaChart(document.getElementById('compress_chart'));
+            drawCompress.chart = new google.visualization.LineChart(document.getElementById('compress_chart'));
 
             drawCompress.data = new google.visualization.DataTable();
             drawCompress.data.addColumn('string', 'count');
