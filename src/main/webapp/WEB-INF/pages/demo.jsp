@@ -13,7 +13,7 @@
     var drawCompress = {
         option : {
             animation: {
-                duration: 1000,
+                duration: 400,
                 easing: 'in'
             },
             hAxis: {
@@ -96,8 +96,8 @@
     var drawFps = {
         option : {
             animation: {
-                duration: 1000,
-                easing: 'in'
+                duration: 400,
+                easing: 'out'
             },
             hAxis: {
                 viewWindow: {
@@ -138,7 +138,7 @@
 
         addRow : function(value){
             drawFps.count++;
-            drawFps.array.push([drawFps.count.toString(), (value/2).toFixed(0)]);
+            drawFps.array.push([drawFps.count.toString(), (value).toFixed(0)]);
 
             if(drawFps.count > CHART_SIZE){
                 drawFps.option.hAxis.viewWindow.min +=1;
