@@ -4,7 +4,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="../layout/head.jspf" %>
 
-<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script src="https://www.google.com/jsapi"></script>
 
 <section class="nornen_section_wrap section_top">
     
@@ -136,5 +136,6 @@
 <script src="${cp}/client/nornenjs.0.1.0.js"></script>
 <script src="${cp}/resources/javascript/chart.js"></script>
 <script src="${cp}/resources/javascript/server.js"></script>
+
 
 <%@ include file="../layout/foot.jspf" %>
