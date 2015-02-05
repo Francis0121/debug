@@ -519,4 +519,31 @@
 
 
 
+.mobile_chart{
+    width: 100%;
+    height: 90px !important;
+    overflow-y: scroll;
+    border: 1px solid #34495e;
+}
 
+.mobile_chart p{
+    font-size: 75%;
+    color: #808080;
+    padding: 7px 10px;
+}
+
+.mobile_chart p>span.cuda{
+    color: #3366cc;
+}
+
+.mobile_chart p>span.png{
+    color: #ff9900;
+}
+
+.mobile_chart p>span.jpeg{
+    color: #dc3912;
+}
+
+.mobile_chart p>span.fps{
+    color: #3366cc;
+}
