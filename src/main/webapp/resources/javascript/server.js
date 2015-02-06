@@ -1,6 +1,69 @@
 /**
  * Created by pi on 15. 2. 5.
  */
+/**
+ * Set debug
+ */
+var debug = {
+
+    option : {
+        active : true,
+        host : contextPath,
+        isAccess : false,
+        uuid : null,
+    },
+
+    run : function(){
+        if (!this.option.active )
+            return;
+
+        this.emit();
+    },
+
+    emit : function(){
+        var _this = this;
+        var _option = _this.option;
+
+        var url = _option.host + '/access/emit';
+
+        $.getJSON(url, function(uuid){
+            _option.uuid = uuid;
+            _option.isAccess = true;
+        }).error(function(error){
+            console.log('[ERROR]', error);
+            _option.isAccess = false;
+        });
+    },
+
+    statistic : function(fps){
+        var _this = this;
+        var _option = _this.option;
+
+        if(!_option.isAccess){ return; }
+
+        var url = _option.host + '/access/statistics';
+        var json = {
+            uuidPn : _option.uuid.pn,
+            name : $.browser.name,
+            platform : $.browser.platform,
+            version : $.browser.version,
+            versionNumber : $.browser.versionNumber,
+            isMobile : $.browser.desktop ? 1 : 0,
+            frameCount :  fps
+        };
+
+        $.postJSON(url, json, function(stats_pn){
+
+        }).error(function(error){
+            _option.isAccess = false;
+        });
+    }
+
+}
+debug.run();
+/**
+ * Setting nornenjs
+ */
 var nornenjs = new Nornenjs('112.108.40.166', 3000, 9000);
 
 var debugCallback = function(data){
@@ -9,6 +72,9 @@ var debugCallback = function(data){
 
 var fpsCallback = function(fps){
     drawFps.addRow(fps);
+    if(fps != 0){
+        debug.statistic(fps);
+    }
 };
 
 nornenjs.connect(debugCallback, fpsCallback);
