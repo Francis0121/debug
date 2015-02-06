@@ -47,7 +47,7 @@
         </selectKey>
     </insert>
     
-    <select id="selectStatisticGroup" parameterType="Statistics" resultType="StatisticsSearchFilter">
+    <select id="selectStatisticGroup" parameterType="Statistics" resultType="StatisticsFilter">
         SELECT
           `name`, `platform`, `version_number` AS `versionNumber`
         FROM

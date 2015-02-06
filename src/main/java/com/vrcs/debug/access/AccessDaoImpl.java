@@ -35,7 +35,7 @@ public class AccessDaoImpl extends SqlSessionDaoSupport implements AccessDao{
     public Map<String, Object> selectStatisticsGroup() {
         Map<String, Object> model = new HashMap<String, Object>();
         
-        List<StatisticsFilter> groups = getSqlSession().selectList("access.selectStatisticsGroup");
+        List<StatisticsFilter> groups = getSqlSession().selectList("access.selectStatisticGroup");
         
         List<String> names = new ArrayList<String>();
         
@@ -67,20 +67,21 @@ public class AccessDaoImpl extends SqlSessionDaoSupport implements AccessDao{
                 if(!platforms.contains(platform)){
                     platforms.add(platform);
                     platformMap.put(name, platforms);
-                    
-                    Map<String, List<Integer>> versionNumberSubMap = new HashMap<String, List<Integer>>();
-                    List<Integer> versioNumbers = new ArrayList<Integer>();
-                    versioNumbers.add(versionNumber);
-                    versionNumberSubMap.put(platform, versioNumbers);
+
+
+                    Map<String, List<Integer>> versionNumberSubMap = versionNumberMap.get(name);
+                    List<Integer> versionNumbers = new ArrayList<Integer>();
+                    versionNumbers.add(versionNumber);
+                    versionNumberSubMap.put(platform, versionNumbers);
                     versionNumberMap.put(name, versionNumberSubMap);
                 }else{
 
                     Map<String, List<Integer>> versionNumberSubMap = versionNumberMap.get(name);
-                    List<Integer> versioNumbers = versionNumberSubMap.get(platform);
+                    List<Integer> versionNumbers = versionNumberSubMap.get(platform);
                     
-                    if(!versioNumbers.contains(versionNumber)){
-                        versioNumbers.add(versionNumber);
-                        versionNumberSubMap.put(platform, versioNumbers);
+                    if(!versionNumbers.contains(versionNumber)){
+                        versionNumbers.add(versionNumber);
+                        versionNumberSubMap.put(platform, versionNumbers);
                         versionNumberMap.put(name, versionNumberSubMap);
                     }
                 }
@@ -92,6 +93,7 @@ public class AccessDaoImpl extends SqlSessionDaoSupport implements AccessDao{
         model.put("names", names);
         model.put("platformMap", platformMap);
         model.put("versionNumberMap", versionNumberMap);
+        model.put("statisticsFilter", groups.size() > 0 ? groups.get(0) : new StatisticsFilter());
         
         return model;
     }

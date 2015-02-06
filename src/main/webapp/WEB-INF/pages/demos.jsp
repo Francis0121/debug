@@ -36,6 +36,54 @@
         
     </section>
     
+    <section class="nornen_section">
+        
+        <article class="nornen_content_type02">
+            
+            <header>
+                <h2>
+                    Volume Chart
+                </h2>
+            </header>
+
+            <div>
+                <form:form commandName="statisticsFilter" method="get">
+                    <form:hidden path="name"/>
+                    <form:hidden path="platform"/>
+                    <form:hidden path="versionNumber"/>
+                    <ul>
+                    <c:forEach items="${names}" var="name">
+                        <li>
+                            <c:out value="${name}"/>
+                            <ul>
+                            <c:forEach items="${platformMap[name]}" var="platform">
+                                <li>
+                                    <c:out value="${platform}"/>
+                                    <ul>
+                                    <c:forEach items="${versionNumberMap[name][platform]}" var="versionNumber">
+                                        <li>
+                                            <c:out value="${versionNumber}"/>
+                                        </li>
+                                    </c:forEach>
+                                    </ul>
+                                </li>
+                            </c:forEach>
+                            </ul>
+                        </li>
+                    </c:forEach>
+                    </ul>
+                </form:form>
+            </div>
+            
+            <ul>
+                <li></li>
+                <li></li>
+            </ul>
+            
+        </article>
+        
+    </section>
+    
 </section>
 
 
