@@ -19,7 +19,8 @@ if($.browser.desktop){
                     max: CHART_SIZE
                 },
                 textPosition: 'none'
-            }
+            },
+            legend: { position: 'none'}
         },
         chart : null,
         data : null,
@@ -154,7 +155,7 @@ if($.browser.desktop){
             var p = $('<p>');
             p.html('<span class="fps">FPS</span> : ' + value);
             $('#fps_chart').append(p);
-            
+
             var el = document.getElementById('fps_chart');
             if (el.scrollHeight > 0) el.scrollTop = el.scrollHeight;
         }

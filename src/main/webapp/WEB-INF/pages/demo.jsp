@@ -119,7 +119,7 @@
                 
                 <li>
                     <div id="compress_chart"></div>
-                    <span>Jpeg compress time</span>
+                    <span>Compress time <img class="cuda_rect"/> Cuda <img class="jpeg_rect"/> Jpeg <img class="png_rect"/> Png </span>
                 </li>
                 
             </ul>

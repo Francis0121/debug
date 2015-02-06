@@ -562,3 +562,30 @@
 .mobile_chart p>span.fps{
     color: #3366cc;
 }
+
+.cuda_rect{
+    width: 10px;
+    height: 10px;
+    background: #3366cc;
+    border-radius: 4px;
+    border: 0px;
+    outline: 0px;
+}
+
+.jpeg_rect{
+    width: 10px;
+    height: 10px;
+    background: #dc3912;
+    border-radius: 4px;
+    border: 0px;
+    outline: 0px;
+}
+
+.png_rect{
+    width: 10px;
+    height: 10px;
+    background: #ff9900;
+    border-radius: 4px;
+    border: 0px;
+    outline: 0px;
+}
