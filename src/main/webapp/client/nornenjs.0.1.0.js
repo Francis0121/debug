@@ -106,7 +106,7 @@ Nornenjs.prototype.connect = function(debugCallback, fpsCallback){
     canvas.height = width;
     
     // TODO draw loading
-    
+
     // ~ set stream
     var streamUrl = 'ws://' + this.host + ':' + this.streamPort;
     this.client = new BinaryClient(streamUrl);
@@ -114,8 +114,6 @@ Nornenjs.prototype.connect = function(debugCallback, fpsCallback){
     // ~ run
     // TODO debug callback is null
     this.socketIo(debugCallback);
-    
-    this.streamOn();
     
     this.addEvent();
     
@@ -144,6 +142,9 @@ Nornenjs.prototype.socketIo = function(debugCallback){
         if(!data.success){
             return;
         }
+
+        $this.streamOn();
+        
         $this.sendOption.streamType = ENUMS.STREAM_TYPE.START;
         $this.isConnect = true;
         $this.send();
@@ -197,7 +198,7 @@ Nornenjs.prototype.streamOn = function(){
  */
 Nornenjs.prototype.send = function(){
     
-    this.buffer = new ArrayBuffer(56 + this.uuid.length*2);
+    this.buffer = new ArrayBuffer(52 + this.uuid.length);
     var floatArray = new Float32Array(this.buffer, 0, 13);
 
     floatArray[0] = this.sendOption.streamType;
@@ -214,7 +215,7 @@ Nornenjs.prototype.send = function(){
     floatArray[11] = this.sendOption.mriType;
     floatArray[12] = this.sendOption.isMobile;
     
-    var strArray = new Uint16Array(this.buffer, 56, this.uuid.length);
+    var strArray = new Uint8Array(this.buffer, 52, this.uuid.length);
     for (var i=0, strLen=this.uuid.length; i<strLen; i++) {
         strArray[i] = this.uuid.charCodeAt(i);
     }
