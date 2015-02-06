@@ -22,9 +22,9 @@
     <insert id="insertUuid" parameterType="Uuid">
         INSERT INTO
           access_uuid
-          ( uuid )
+          ( uuid, volumePn )
         VALUES
-          ( #{uuid} )
+          ( #{uuid}, #{volumePn} )
         <selectKey keyProperty="pn" resultType="Integer">
             SELECT LAST_INSERT_ID()
         </selectKey>

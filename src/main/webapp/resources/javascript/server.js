@@ -24,7 +24,7 @@ var debug = {
         var _this = this;
         var _option = _this.option;
 
-        var url = _option.host + '/access/emit';
+        var url = _option.host + '/access/emit/pn/'+volumePrimaryNumber;
 
         $.getJSON(url, function(uuid){
             _option.uuid = uuid;

@@ -9,11 +9,22 @@ public class Uuid {
 
     private String uuid;
 
+    private Integer volumePn;
+    
     public Uuid() {
     }
 
-    public Uuid(String uuid) {
+    public Uuid(String uuid, Integer volumePn) {
         this.uuid = uuid;
+        this.volumePn = volumePn;
+    }
+
+    public Integer getVolumePn() {
+        return volumePn;
+    }
+
+    public void setVolumePn(Integer volumePn) {
+        this.volumePn = volumePn;
     }
 
     public Integer getPn() {
@@ -37,6 +48,7 @@ public class Uuid {
         return "Uuid{" +
                 "pn=" + pn +
                 ", uuid='" + uuid + '\'' +
+                ", volumePn=" + volumePn +
                 '}';
     }
 }
