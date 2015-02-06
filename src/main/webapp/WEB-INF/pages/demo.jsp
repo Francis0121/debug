@@ -131,11 +131,16 @@
     
 </section>
 
+<script>
+    var volumePrimaryNumber = '<c:out value="${volume.pn}"/>'
+</script>
+
 <script src="http://cdn.binaryjs.com/0/binary.js"></script>
 <script src="http://112.108.40.166:3000/socket.io/socket.io.js"></script>
 <script src="${cp}/client/nornenjs.0.1.0.js"></script>
 <script src="${cp}/resources/javascript/chart.js"></script>
 <script src="${cp}/resources/javascript/server.js"></script>
+
 
 
 <%@ include file="../layout/foot.jspf" %>

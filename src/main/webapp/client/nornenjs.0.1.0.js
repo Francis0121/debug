@@ -29,7 +29,7 @@ var STATIC = {
 /**
  *  Need Socket.io client link, Binary.js link
  */
-var Nornenjs = function(host, socketIoPort, streamPort, selector){
+var Nornenjs = function(volumePrimaryNumber, host, socketIoPort, streamPort, selector){
     
     this.host = host; // host
     this.socketIoPort = socketIoPort; // socket.io port
@@ -48,7 +48,7 @@ var Nornenjs = function(host, socketIoPort, streamPort, selector){
     this.sendOption = {
         streamType : ENUMS.STREAM_TYPE.START,
         renderingType : ENUMS.RENDERING_TYPE.VOLUME,
-        volumePn : 1,
+        volumePn : volumePrimaryNumber,
         brightness : 1.0,
         positionZ : 3.0,
         transferOffset : 0.0,
@@ -82,12 +82,18 @@ var Nornenjs = function(host, socketIoPort, streamPort, selector){
            frame : 0
         }
     };
+    
+    // ~ uuid
+    this.uuid = null;
 };
 
 /**
  * Connect socket.io and Binaryjs
  */
 Nornenjs.prototype.connect = function(debugCallback, fpsCallback){
+    // ~ uuid
+    this.uuid = this.generateUUID();
+    
     // ~ set socket.io
     var socketUrl = 'http://' + this.host + ':' + this.socketIoPort;
     this.socket = io.connect(socketUrl, this.socketOption);
@@ -132,7 +138,7 @@ Nornenjs.prototype.fpsInterval = function($this, callback){
 Nornenjs.prototype.socketIo = function(debugCallback){
     var $this = this;
     
-    this.socket.emit('join');
+    this.socket.emit('join', { uuid : $this.uuid} );
 
     this.socket.on('message', function(data){
         if(!data.success){
@@ -146,7 +152,7 @@ Nornenjs.prototype.socketIo = function(debugCallback){
     });
 
     this.socket.on('disconnected', function(data){
-        $this.socket.emit('join');
+        $this.socket.emit('join', { uuid : $this.uuid} );
     });
     
     this.socket.on('debug', function(data){
@@ -191,8 +197,8 @@ Nornenjs.prototype.streamOn = function(){
  */
 Nornenjs.prototype.send = function(){
     
-    this.buffer = new ArrayBuffer(52);
-    var floatArray = new Float32Array(this.buffer);
+    this.buffer = new ArrayBuffer(56 + this.uuid.length*2);
+    var floatArray = new Float32Array(this.buffer, 0, 13);
 
     floatArray[0] = this.sendOption.streamType;
     floatArray[1] = this.sendOption.volumePn;
@@ -207,7 +213,12 @@ Nornenjs.prototype.send = function(){
     floatArray[10] = this.sendOption.transferScaleZ;
     floatArray[11] = this.sendOption.mriType;
     floatArray[12] = this.sendOption.isMobile;
-
+    
+    var strArray = new Uint16Array(this.buffer, 56, this.uuid.length);
+    for (var i=0, strLen=this.uuid.length; i<strLen; i++) {
+        strArray[i] = this.uuid.charCodeAt(i);
+    }
+    
     this.client.send(this.buffer);
 };
 
@@ -448,3 +459,19 @@ var isMobile = {
         return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
     }
 };
+
+Nornenjs.prototype.generateUUID = function (){
+    var d = new Date().getTime();
+    var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = (d + Math.random()*16)%16 | 0;
+        d = Math.floor(d/16);
+        return (c=='x' ? r : (r&0x3|0x8)).toString(16);
+    });
+    return uuid;
+};
+
+Nornenjs.prototype.stringToArrayBuffer = function (str){
+    
+    console.log(buf);
+    return buf;
+}

@@ -66,7 +66,7 @@
             LEFT OUTER JOIN `data` AS od
             ON v.`volumePn` = od.`pn`
         WHERE
-            v.`pn` IN ( 5, 6)
+            v.`pn` IN ( 1, 2)
     </select>
     
 </mapper>
