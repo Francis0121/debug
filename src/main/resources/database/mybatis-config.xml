@@ -5,6 +5,7 @@
 		<!-- Access DTO -->
 		<typeAlias type="com.vrcs.debug.access.Uuid" alias="Uuid"/>
 		<typeAlias type="com.vrcs.debug.access.Statistics" alias="Statistics"/>
+		<typeAlias type="com.vrcs.debug.access.StatisticsFilter" alias="StatisticsFilter"/>
 		<!-- Data DTO -->
 		<typeAlias type="com.vrcs.debug.data.Data" alias="Data"/>
 		<typeAlias type="com.vrcs.debug.data.DataFilter" alias="DataFilter"/>

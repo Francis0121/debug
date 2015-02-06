@@ -1,11 +1,17 @@
 package com.vrcs.debug.access;
 
+import java.util.Map;
+
 /**
  * Created by pi on 15. 1. 10.
  */
 public interface AccessDao {
 
-    public void insertUuid(Uuid uuid);
+    void insertUuid(Uuid uuid);
 
-    public void insertStatistics(Statistics statistics);
+    void insertStatistics(Statistics statistics);
+    
+    Map<String, Object> selectStatisticsGroup();
+    
+    
 }

@@ -1,5 +1,6 @@
 package com.vrcs.debug;
 
+import com.vrcs.debug.access.AccessDao;
 import com.vrcs.debug.volume.VolumeDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +20,9 @@ public class IndexController {
 	@Autowired
 	private VolumeDao volumeDao;
 	
+	@Autowired
+	private AccessDao accessDao;
+	
 	@RequestMapping(method = RequestMethod.GET)
 	public String indexPage(Model model){
 		return "index";
@@ -36,7 +40,10 @@ public class IndexController {
 
 	@RequestMapping(value = "demos", method = RequestMethod.GET)
 	public String demos(Model model){
+		
 		model.addAttribute("volumes", volumeDao.selectListInfo());
+		model.addAllAttributes(accessDao.selectStatisticsGroup());
+		
 		return "demos";
 	}
 	

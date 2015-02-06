@@ -46,5 +46,16 @@
             SELECT LAST_INSERT_ID()
         </selectKey>
     </insert>
+    
+    <select id="selectStatisticGroup" parameterType="Statistics" resultType="StatisticsSearchFilter">
+        SELECT
+          `name`, `platform`, `version_number` AS `versionNumber`
+        FROM
+          `access_statistics`
+        GROUP BY
+          `name`, `version_number`, `platform`
+        ORDER BY
+          `name`, `platform`, `version` DESC
+    </select>
 
 </mapper>
