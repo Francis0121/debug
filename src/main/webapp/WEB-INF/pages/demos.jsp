@@ -3,6 +3,7 @@
 --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="../layout/head.jspf" %>
+<script src="https://www.google.com/jsapi"></script>
 
 <section class="nornen_section_wrap section_top">
     
@@ -93,7 +94,11 @@
             </div>
             
             <ul>
-                <li></li>
+                <li>
+                    <div id="fps_chart">
+                        
+                    </div>
+                </li>
                 <li></li>
             </ul>
             
@@ -104,6 +109,51 @@
 </section>
 
 <script>
+    google.load('visualization', '1.1', {packages: ['corechart']});
+
+    var CHART_SIZE = 10;
+
+    var drawFps = {
+        option : {
+            animation: {
+                duration: 400,
+                easing: 'in'
+            },
+            hAxis: {
+                viewWindow: {
+                    min: 0,
+                    max: CHART_SIZE
+                },
+                textPosition: 'none'
+            },
+            legend: { position: 'none'}
+        },
+        chart : null,
+        data : null,
+        view : null,
+        count : 1,
+
+        drawChart : function(){
+            drawFps.chart.draw(drawFps.data, drawFps.option);
+        },
+
+        init : function(){
+            drawFps.chart = new google.visualization.LineChart(document.getElementById('fps_chart'));
+
+            drawFps.data = new google.visualization.DataTable();
+            drawFps.data.addColumn('string', 'count');
+            drawFps.data.addColumn('number', 'fp');
+
+            <c:forEach items="${statisticsList}" var="statistics">
+            drawFps.data.addRow(['${statistics.pn}', ${statistics.frameCount}]);
+            </c:forEach>
+
+            drawFps.drawChart();
+        }
+    };
+
+    google.setOnLoadCallback(drawFps.init);
+    
     $(function(){
         
         var chartAjax = function(){
@@ -116,8 +166,31 @@
                 volumePn : form.volumePn.value
             };
             
-            $.postJSON(url, json, function(data){
-                console.log(data);
+            $.postJSON(url, json, function(statisticsList){
+                var option = {
+                    animation: {
+                        duration: 400,
+                                easing: 'in'
+                    },
+                    hAxis: {
+                        viewWindow: {
+                            min: 0,
+                                    max: CHART_SIZE
+                        },
+                        textPosition: 'none'
+                    },
+                    legend: { position: 'none'}
+                };
+                var chart = new google.visualization.LineChart(document.getElementById('fps_chart'));
+                var data = new google.visualization.DataTable();
+                data.addColumn('string', 'count');
+                data.addColumn('number', 'fp');
+                
+                for(var i=0; i<statisticsList.length; i++) {
+                    var statistics = statisticsList[i];
+                    data.addRow([statistics.pn.toString(), statistics.frameCount]);
+                }
+                chart.draw(data, option);
             });
         };
         
@@ -159,7 +232,11 @@
             chartAjax();
         });
     });
+
+    
+    
 </script>
+
 
 
 <%@ include file="../layout/foot.jspf" %>

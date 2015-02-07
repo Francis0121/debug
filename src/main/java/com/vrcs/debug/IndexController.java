@@ -51,7 +51,7 @@ public class IndexController {
 		model.addAllAttributes(map);
 		
 		StatisticsFilter statisticsFilter = (StatisticsFilter) map.get("statisticsFilter");
-		model.addAttribute("data", accessDao.selectFpsChartData(statisticsFilter));
+		model.addAttribute("statisticsList", accessDao.selectFpsChartData(statisticsFilter));
 		
 		return "demos";
 	}

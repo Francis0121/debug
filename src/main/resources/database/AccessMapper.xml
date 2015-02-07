@@ -60,7 +60,7 @@
     
     <select id="selectFpsChartData" parameterType="StatisticsFilter" resultType="Statistics">
         SELECT
-            ast.`pn`, ast.`frame_count` AS `framCount`, `access_date` AS `accessDate`
+            ast.`pn`, ast.`frame_count` AS `frameCount`, `access_date` AS `accessDate`
         FROM
             `access_statistics` AS `ast`,
             `access_uuid` AS `au`
