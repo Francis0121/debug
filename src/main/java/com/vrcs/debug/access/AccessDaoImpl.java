@@ -1,6 +1,11 @@
 package com.vrcs.debug.access;
 
+import com.vrcs.debug.util.Pagination;
+import com.vrcs.debug.volume.Volume;
+import com.vrcs.debug.volume.VolumeDao;
+import com.vrcs.debug.volume.VolumeFilter;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -14,6 +19,9 @@ import java.util.Map;
 @Repository
 public class AccessDaoImpl extends SqlSessionDaoSupport implements AccessDao{
 
+    @Autowired
+    private VolumeDao volumeDao;
+    
     @Override
     public void insertUuid(Uuid uuid) {
         getSqlSession().insert("access.insertUuid", uuid);
@@ -90,12 +98,35 @@ public class AccessDaoImpl extends SqlSessionDaoSupport implements AccessDao{
             
         }
         
+        List<Volume> volumes = volumeDao.selectList(new VolumeFilter());
+
+        // TODO ~ volume is null
+        StatisticsFilter statisticsFilter = groups.size() > 0 ? groups.get(0) : new StatisticsFilter();
+        statisticsFilter.setVolumePn(volumes.get(0).getPn());
+        
+        model.put("volumes", volumes);
         model.put("names", names);
         model.put("platformMap", platformMap);
         model.put("versionNumberMap", versionNumberMap);
-        model.put("statisticsFilter", groups.size() > 0 ? groups.get(0) : new StatisticsFilter());
+        model.put("statisticsFilter", statisticsFilter);
         
         return model;
+    }
+
+    @Override
+    public List<Statistics> selectFpsChartData(StatisticsFilter statisticsFilter) {
+        Pagination pagination = statisticsFilter.getPagination();
+        int count = selectFpsChartDataCount(statisticsFilter);
+        pagination.setNumItems(count);
+        if(count == 0){
+            return new ArrayList<Statistics>();
+        }
+
+        return getSqlSession().selectList("access.selectFpsChartData", statisticsFilter);
+    }
+
+    private int selectFpsChartDataCount(StatisticsFilter statisticsFilter) {
+        return getSqlSession().selectOne("access.selectFpsChartDataCount", statisticsFilter);
     }
 
 

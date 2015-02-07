@@ -46,16 +46,19 @@ public class IndexController {
 	public String demos(Model model){
 		
 		model.addAttribute("volumes", volumeDao.selectListInfo());
-		model.addAllAttributes(accessDao.selectStatisticsGroup());
+		
+		Map<String, Object> map = accessDao.selectStatisticsGroup();
+		model.addAllAttributes(map);
+		
+		StatisticsFilter statisticsFilter = (StatisticsFilter) map.get("statisticsFilter");
+		model.addAttribute("data", accessDao.selectFpsChartData(statisticsFilter));
 		
 		return "demos";
 	}
 	
 	@RequestMapping(value = "demo/pn/{pn}", method = RequestMethod.GET)
 	public String demo(Model model, @PathVariable(value = "pn") Integer pn){
-		
 		model.addAttribute("volume", volumeDao.selectOne(pn));
-		
 		return "demo";
 	}
 }

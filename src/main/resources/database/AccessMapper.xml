@@ -57,5 +57,45 @@
         ORDER BY
           `name`, `platform`, `version` DESC
     </select>
+    
+    <select id="selectFpsChartData" parameterType="StatisticsFilter" resultType="Statistics">
+        SELECT
+            ast.`pn`, ast.`frame_count` AS `framCount`, `access_date` AS `accessDate`
+        FROM
+            `access_statistics` AS `ast`,
+            `access_uuid` AS `au`
+        WHERE
+            au.`pn` = ast.`uuid_pn`
+        AND
+            ast.`name` = #{name}
+        AND
+            ast.`platform` = #{platform}
+        AND
+            ast.`version_number` = #{versionNumber}
+        AND
+            au.`volumePn` = #{volumePn}
+        ORDER BY
+            ast.`pn` DESC
+    </select>
 
+    <select id="selectFpsChartDataCount" parameterType="StatisticsFilter" resultType="Integer">
+        SELECT
+            COUNT(*)
+        FROM
+            `access_statistics` AS `ast`,
+            `access_uuid` AS `au`
+        WHERE
+            au.`pn` = ast.`uuid_pn`
+        AND
+            ast.`name` = #{name}
+        AND
+            ast.`platform` = #{platform}
+        AND
+            ast.`version_number` = #{versionNumber}
+        AND
+            au.`volumePn` = #{volumePn}
+        ORDER BY
+            ast.`pn` DESC
+    </select>
+    
 </mapper>

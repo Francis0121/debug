@@ -1,5 +1,6 @@
 package com.vrcs.debug.access;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -12,6 +13,6 @@ public interface AccessDao {
     void insertStatistics(Statistics statistics);
     
     Map<String, Object> selectStatisticsGroup();
-    
-    
+
+    List<Statistics> selectFpsChartData(StatisticsFilter statisticsFilter);
 }

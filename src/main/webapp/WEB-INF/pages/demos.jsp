@@ -50,7 +50,15 @@
                 <form:form commandName="statisticsFilter" method="get">
                     <form:hidden path="versionNumber"/>
                     <form:hidden path="platform"/>
-
+                    
+                    <div class="chart_volumePn">
+                        <form:select path="volumePn">
+                            <c:forEach items="${volumes}" var="volume">
+                                <form:option value="${volume.pn}">${volume.name}</form:option>
+                            </c:forEach>
+                        </form:select>
+                    </div>
+                    
                     <div class="chart_name">
                     <form:select path="name">
                         <form:options items="${names}"/>
@@ -98,25 +106,57 @@
 <script>
     $(function(){
         
+        var chartAjax = function(){
+            var form = document.forms['statisticsFilter'];
+            var url = contextPath + '/access/fpsChart';
+            var json = {
+                name : form.name.value,
+                versionNumber : form.versionNumber.value,
+                platform : form.platform.value,
+                volumePn : form.volumePn.value
+            };
+            
+            $.postJSON(url, json, function(data){
+                console.log(data);
+            });
+        };
+        
         $('.chart_name>select').on('change', function(){
             var name = $(this).val();
             $('.chart_platform>select').hide();
             $('.chart_platform>select.' + name).show();
+            var platform = $('.chart_platform>select.' + name).val();
+            $('input[name=platform]').val(platform);
             
             $('.chart_versionNumber select').hide();
             $('.chart_versionNumber>div.'+name+'>select:first-child').show();
+            var versionNumber =$('.chart_versionNumber>div.'+name+'>select:first-child').val();
+            $('input[name=versionNumber]').val(versionNumber);
+            
+            chartAjax();
         });
         
         $('.chart_platform>select').on('change', function(){
             var platform = $(this).val();
             var name = $(this).attr('data-name');
-
+            $('input[name=platform]').val(platform);
+            
             $('.chart_versionNumber>div.'+name+'>select').hide();
             $('.chart_versionNumber>div.'+name+'>select.'+platform).show();
+            var versionNumber = $('.chart_versionNumber>div.'+name+'>select.'+platform).val();
+            $('input[name=versionNumber]').val(versionNumber);
+            
+            chartAjax();
         });
         
-        $('.chart_versionNumber>select').on('change', function(){
-
+        $('.chart_versionNumber select').on('change', function(){
+            var versionNumber = $(this).val();
+            $('input[name=versionNumber]').val(versionNumber);
+            chartAjax();
+        });
+        
+        $('.chart_volumePn>select').on('change', function(){
+            chartAjax();
         });
     });
 </script>

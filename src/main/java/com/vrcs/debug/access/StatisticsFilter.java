@@ -13,6 +13,8 @@ public class StatisticsFilter extends AbstractListFilter {
     
     private Integer versionNumber;
 
+    private Integer volumePn;
+    
     public StatisticsFilter() {
     }
 
@@ -22,6 +24,14 @@ public class StatisticsFilter extends AbstractListFilter {
         this.versionNumber = versionNumber;
     }
 
+    public Integer getVolumePn() {
+        return volumePn;
+    }
+
+    public void setVolumePn(Integer volumePn) {
+        this.volumePn = volumePn;
+    }
+    
     public String getName() {
         return name;
     }
@@ -48,10 +58,11 @@ public class StatisticsFilter extends AbstractListFilter {
 
     @Override
     public String toString() {
-        return "StatisticsSearchFilter{" +
+        return "StatisticsFilter{" +
                 "name='" + name + '\'' +
                 ", platform='" + platform + '\'' +
                 ", versionNumber=" + versionNumber +
+                ", volumePn=" + volumePn +
                 '}';
     }
 }
