@@ -47,6 +47,7 @@ public class IndexController {
 		
 		model.addAttribute("volumes", volumeDao.selectListInfo());
 		model.addAllAttributes(accessDao.selectStatisticsGroup());
+		
 		return "demos";
 	}
 	
