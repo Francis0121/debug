@@ -44,15 +44,7 @@ public class IndexController {
 
 	@RequestMapping(value = "demos", method = RequestMethod.GET)
 	public String demos(Model model){
-		
 		model.addAttribute("volumes", volumeDao.selectListInfo());
-		
-		Map<String, Object> map = accessDao.selectStatisticsGroup();
-		model.addAllAttributes(map);
-		
-		StatisticsFilter statisticsFilter = (StatisticsFilter) map.get("statisticsFilter");
-		model.addAttribute("statisticsList", accessDao.selectFpsChartData(statisticsFilter));
-		
 		return "demos";
 	}
 	
