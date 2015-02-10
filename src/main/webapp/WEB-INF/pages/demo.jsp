@@ -87,7 +87,7 @@
                 </div>
 
                 <div class="slider_wrap brightness_slider">
-                    <div class="slider nstSlider" data-range_min="0" data-range_max="200" data-cur_min="100" data-type="brightness">
+                    <div class="slider nstSlider" data-range_min="0" data-range_max="1000" data-cur_min="100" data-type="brightness">
                         <div class="bar"></div>
                         <div class="leftGrip"></div>
 
