@@ -364,7 +364,22 @@
 .nornen_content_type015 .selector{
     width: 100%;
     margin-top: 20px;
-    min-height: 90px;
+    min-height: 200px;
+}
+
+.nornen_content_type015 .selector>.quality_type{
+    float: left;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.nornen_content_type015 .selector>.quality_type>.list{
+    width: 100%;
+    height: 20px;
+}
+
+.nornen_content_type015 .selector>.quality_type>.list>li{
+    width: 10%;
 }
 
 .nornen_content_type015 .selector>li{

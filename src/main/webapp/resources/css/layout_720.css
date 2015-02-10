@@ -322,7 +322,7 @@
 .nornen_content_type015{
     width: 94%;
     padding: 40px 3%;
-    min-height: 850px;
+    min-height: 950px;
 }
 
 .nornen_content_type015>header{
@@ -352,7 +352,21 @@
 .nornen_content_type015 .selector{
     width: 100%;
     margin-top: 20px;
-    min-height: 70px;
+    min-height: 130px;
+}
+
+.nornen_content_type015 .selector>.quality_type{
+    float: left;
+    width: 100%;
+}
+
+.nornen_content_type015 .selector>.quality_type>.list{
+    width: 100%;
+    height: 20px;
+}
+
+.nornen_content_type015 .selector>.quality_type>.list>li{
+    width: 10%;
 }
 
 .nornen_content_type015 .selector>li{

@@ -81,16 +81,16 @@ nornenjs.connect(debugCallback, fpsCallback);
 
 $(function(){
 
-    $('.quality').click(function(){
-        var value = $(this).attr('data-quality');
+    $('.quality_type>ul>li').click(function(){
+        var value = $(this).attr('data-type');
+
+        $('.quality_type>ul>li>a').removeClass('active');
+        $(this).find('a').addClass('active');
+        
         if(value == NORNENJS_ENUMS.QUALITY_TYPE.HIGH){
-            nornenjs.quality(NORNENJS_ENUMS.QUALITY_TYPE.LOW);
-            $(this).attr('data-quality', NORNENJS_ENUMS.QUALITY_TYPE.LOW);
-            console.log('low',  NORNENJS_ENUMS.QUALITY_TYPE.LOW);
-        }else{
             nornenjs.quality(NORNENJS_ENUMS.QUALITY_TYPE.HIGH);
-            $(this).attr('data-quality', NORNENJS_ENUMS.QUALITY_TYPE.HIGH);
-            console.log('high',  NORNENJS_ENUMS.QUALITY_TYPE.HIGH);
+        }else{
+            nornenjs.quality(NORNENJS_ENUMS.QUALITY_TYPE.LOW);
         }
     });
     

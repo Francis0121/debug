@@ -18,15 +18,25 @@
 
             <div class="nornen_stream left">
                 
-                <div class="quality_wrap">
-                    <button type="button" class="quality" data-quality="2">On/off</button>
-                </div>
-                
                 <canvas id="view_canvas">
                     
                 </canvas>
 
                 <ul class="selector">
+                    <li class="quality_type">
+                        <h3>
+                            <img src="${cp}/resources/image/icon/type.png" title="type">
+                            <span>Quality</span>
+                        </h3>
+                        <ul class="list">
+                            <li data-type="2">
+                                <a class="active">off</a>
+                            </li>
+                            <li data-type="1">
+                                <a>on</a>
+                            </li>
+                        </ul>
+                    </li>
                     <li class="rendering_type">
                         <h3>
                             <img src="${cp}/resources/image/icon/type.png" title="type">
