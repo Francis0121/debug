@@ -71,7 +71,7 @@ var Nornenjs = function(volumePrimaryNumber, host, socketIoPort, streamPort, sel
         transferScaleZ : 0.0,
         mprType : NORNENJS_ENUMS.MPR_TYPE.X,
         isMobile : isMobile.any() ? 1 : 0,
-        quality : NORNENJS_ENUMS.QUALITY_TYPE.HIGH
+        quality : NORNENJS_ENUMS.QUALITY_TYPE.LOW
     };
     this.sendOptionSize = null;
     
@@ -295,7 +295,7 @@ Nornenjs.prototype.send = function(){
     floatArray[12] = this.sendOption.isMobile;
     floatArray[13] = this.sendOption.quality;
     
-    var strArray = new Uint8Array(this.buffer, 52, this.uuid.length);
+    var strArray = new Uint8Array(this.buffer, 56, this.uuid.length);
     for (var i=0, strLen=this.uuid.length; i<strLen; i++) {
         strArray[i] = this.uuid.charCodeAt(i);
     }
@@ -577,6 +577,7 @@ Nornenjs.prototype.otf = function(value, isFinish){
 Nornenjs.prototype.quality = function(value, isFinish){
     this.sendOption.streamType = NORNENJS_ENUMS.STREAM_TYPE.EVENT;
     this.sendOption.quality = value;
+    this.send();
 
     setTimeout(this.finish, 1000, this);
 };

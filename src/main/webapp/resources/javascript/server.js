@@ -86,11 +86,11 @@ $(function(){
         if(value == NORNENJS_ENUMS.QUALITY_TYPE.HIGH){
             nornenjs.quality(NORNENJS_ENUMS.QUALITY_TYPE.LOW);
             $(this).attr('data-quality', NORNENJS_ENUMS.QUALITY_TYPE.LOW);
-            console.log('low');
+            console.log('low',  NORNENJS_ENUMS.QUALITY_TYPE.LOW);
         }else{
             nornenjs.quality(NORNENJS_ENUMS.QUALITY_TYPE.HIGH);
             $(this).attr('data-quality', NORNENJS_ENUMS.QUALITY_TYPE.HIGH);
-            console.log('high');
+            console.log('high',  NORNENJS_ENUMS.QUALITY_TYPE.HIGH);
         }
     });
     
