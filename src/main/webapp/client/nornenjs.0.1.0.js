@@ -1,4 +1,4 @@
-var ENUMS = {
+var NORNENJS_ENUMS = {
     STREAM_TYPE: {
         START: 1,
         FINISH: 2,
@@ -18,7 +18,7 @@ var ENUMS = {
     }
 };
 
-var STATIC = {
+var NORNENJS_STATIC = {
     MRI_DEFAULT_OPTION : {
         rotationX : 0,
         rotationY : 0,
@@ -46,8 +46,8 @@ var Nornenjs = function(volumePrimaryNumber, host, socketIoPort, streamPort, sel
     this.client = null;
     this.buffer = null;
     this.sendOption = {
-        streamType : ENUMS.STREAM_TYPE.START,
-        renderingType : ENUMS.RENDERING_TYPE.VOLUME,
+        streamType : NORNENJS_ENUMS.STREAM_TYPE.START,
+        renderingType : NORNENJS_ENUMS.RENDERING_TYPE.VOLUME,
         volumePn : volumePrimaryNumber,
         brightness : 1.0,
         positionZ : 3.0,
@@ -57,7 +57,7 @@ var Nornenjs = function(volumePrimaryNumber, host, socketIoPort, streamPort, sel
         transferScaleX : 0.0,
         transferScaleY : 0.0,
         transferScaleZ : 0.0,
-        mriType : ENUMS.MRI_TYPE.X,
+        mriType : NORNENJS_ENUMS.MRI_TYPE.X,
         isMobile : isMobile.any() ? 1 : 0
     };
     this.sendOptionSize = null;
@@ -199,7 +199,7 @@ Nornenjs.prototype.socketIo = function(debugCallback){
 
         $this.streamOn();
         
-        $this.sendOption.streamType = ENUMS.STREAM_TYPE.START;
+        $this.sendOption.streamType = NORNENJS_ENUMS.STREAM_TYPE.START;
         $this.isConnect = true;
         $this.send();
 
@@ -280,7 +280,7 @@ Nornenjs.prototype.send = function(){
 };
 
 Nornenjs.prototype.finish = function($this){
-    $this.sendOption.streamType = ENUMS.STREAM_TYPE.FINISH;
+    $this.sendOption.streamType = NORNENJS_ENUMS.STREAM_TYPE.FINISH;
     $this.send();
 };
 
@@ -316,7 +316,7 @@ Nornenjs.prototype.touchEvent = function(){
         var touches = evt.changedTouches;
 
         if($this.touch.isOn){
-            $this.sendOption.streamType = ENUMS.STREAM_TYPE.EVENT;
+            $this.sendOption.streamType = NORNENJS_ENUMS.STREAM_TYPE.EVENT;
 
             $this.sendOption.rotationX += (touches[0].pageX - $this.touch.beforeX)/10.0;
             $this.sendOption.rotationY += (touches[0].pageY - $this.touch.beforeY)/10.0;
@@ -367,7 +367,7 @@ Nornenjs.prototype.mouseEvent = function(){
         evt.preventDefault();
 
         if($this.mouse.isOn){
-            $this.sendOption.streamType = ENUMS.STREAM_TYPE.EVENT;
+            $this.sendOption.streamType = NORNENJS_ENUMS.STREAM_TYPE.EVENT;
 
             $this.sendOption.rotationX += (evt.pageX - $this.mouse.beforeX)/5.0;
             $this.sendOption.rotationY += (evt.pageY - $this.mouse.beforeY)/5.0;
@@ -401,21 +401,21 @@ Nornenjs.prototype.resize = function(){
         el.height = width;
         $this.finish($this);
 
-        $this.sendOption.streamType = ENUMS.STREAM_TYPE.EVENT;
+        $this.sendOption.streamType = NORNENJS_ENUMS.STREAM_TYPE.EVENT;
         $this.send();
         setTimeout($this.finish, 1000, $this);
     });
 };
 
 Nornenjs.prototype.type = function(renderingType){
-    if(renderingType == ENUMS.RENDERING_TYPE.VOLUME){
+    if(renderingType == NORNENJS_ENUMS.RENDERING_TYPE.VOLUME){
         // ~ Volume
-    }else if(renderingType == ENUMS.RENDERING_TYPE.MRI){
+    }else if(renderingType == NORNENJS_ENUMS.RENDERING_TYPE.MRI){
         // ~ MRI
-        this.sendOption.rotationX = STATIC.MRI_DEFAULT_OPTION.rotationX;
-        this.sendOption.rotationY = STATIC.MRI_DEFAULT_OPTION.rotationY;
-        this.sendOption.positionZ = STATIC.MRI_DEFAULT_OPTION.positionZ;
-    }else if(renderingType == ENUMS.RENDERING_TYPE.MIP){
+        this.sendOption.rotationX = NORNENJS_STATIC.MRI_DEFAULT_OPTION.rotationX;
+        this.sendOption.rotationY = NORNENJS_STATIC.MRI_DEFAULT_OPTION.rotationY;
+        this.sendOption.positionZ = NORNENJS_STATIC.MRI_DEFAULT_OPTION.positionZ;
+    }else if(renderingType == NORNENJS_ENUMS.RENDERING_TYPE.MIP){
         // ~ MIP
     }else{
         return;
@@ -425,7 +425,7 @@ Nornenjs.prototype.type = function(renderingType){
     this.sendOption.transferScaleY = 0;
     this.sendOption.transferScaleZ = 0;
 
-    this.sendOption.streamType = ENUMS.STREAM_TYPE.EVENT;
+    this.sendOption.streamType = NORNENJS_ENUMS.STREAM_TYPE.EVENT;
     this.sendOption.renderingType = renderingType;
 
     this.send();
@@ -434,20 +434,20 @@ Nornenjs.prototype.type = function(renderingType){
 
 Nornenjs.prototype.axisType = function(type){
 
-    this.sendOption.streamType = ENUMS.STREAM_TYPE.EVENT;
+    this.sendOption.streamType = NORNENJS_ENUMS.STREAM_TYPE.EVENT;
     this.sendOption.mriType = type;
     
-    if(type == ENUMS.MRI_TYPE.X){
+    if(type == NORNENJS_ENUMS.MRI_TYPE.X){
         var value = this.sendOption.transferScaleY != 0 ? this.sendOption.transferScaleY : this.sendOption.transferScaleZ;
         this.sendOption.transferScaleX = value;
         this.sendOption.transferScaleY = 0;
         this.sendOption.transferScaleZ = 0;
-    }else if(type == ENUMS.MRI_TYPE.Y){
+    }else if(type == NORNENJS_ENUMS.MRI_TYPE.Y){
         var value = this.sendOption.transferScaleX != 0 ? this.sendOption.transferScaleX : this.sendOption.transferScaleZ;
         this.sendOption.transferScaleX = 0;
         this.sendOption.transferScaleY = value;
         this.sendOption.transferScaleZ = 0;
-    }else if(type == ENUMS.MRI_TYPE.Z){
+    }else if(type == NORNENJS_ENUMS.MRI_TYPE.Z){
         var value = this.sendOption.transferScaleX != 0 ? this.sendOption.transferScaleX : this.sendOption.transferScaleY;
         this.sendOption.transferScaleX = 0;
         this.sendOption.transferScaleY = 0;
@@ -461,13 +461,13 @@ Nornenjs.prototype.axisType = function(type){
 
 Nornenjs.prototype.axis = function(value, isFinish){
 
-    this.sendOption.streamType = ENUMS.STREAM_TYPE.EVENT;
+    this.sendOption.streamType = NORNENJS_ENUMS.STREAM_TYPE.EVENT;
 
-    if(this.sendOption.mriType == ENUMS.MRI_TYPE.X){
+    if(this.sendOption.mriType == NORNENJS_ENUMS.MRI_TYPE.X){
         this.sendOption.transferScaleX = value;
-    }else if(this.sendOption.mriType == ENUMS.MRI_TYPE.Y){
+    }else if(this.sendOption.mriType == NORNENJS_ENUMS.MRI_TYPE.Y){
         this.sendOption.transferScaleY = value;
-    }else if(this.sendOption.mriType == ENUMS.MRI_TYPE.Z){
+    }else if(this.sendOption.mriType == NORNENJS_ENUMS.MRI_TYPE.Z){
         this.sendOption.transferScaleZ = value;
     }
 
@@ -478,7 +478,7 @@ Nornenjs.prototype.axis = function(value, isFinish){
 };
 
 Nornenjs.prototype.scale = function(value, isFinish){
-    this.sendOption.streamType = ENUMS.STREAM_TYPE.EVENT;
+    this.sendOption.streamType = NORNENJS_ENUMS.STREAM_TYPE.EVENT;
     this.sendOption.positionZ = value;
     this.send();
     if(isFinish){
@@ -487,7 +487,7 @@ Nornenjs.prototype.scale = function(value, isFinish){
 }
 
 Nornenjs.prototype.brightness = function(value, isFinish){
-    this.sendOption.streamType = ENUMS.STREAM_TYPE.EVENT;
+    this.sendOption.streamType = NORNENJS_ENUMS.STREAM_TYPE.EVENT;
     this.sendOption.brightness = value;
     this.send();
     if(isFinish){
@@ -496,7 +496,7 @@ Nornenjs.prototype.brightness = function(value, isFinish){
 };
 
 Nornenjs.prototype.otf = function(value, isFinish){
-    this.sendOption.streamType = ENUMS.STREAM_TYPE.EVENT;
+    this.sendOption.streamType = NORNENJS_ENUMS.STREAM_TYPE.EVENT;
     this.sendOption.transferOffset = value;
     this.send();
     if(isFinish){
