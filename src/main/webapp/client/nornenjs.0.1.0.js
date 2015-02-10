@@ -573,14 +573,12 @@ Nornenjs.prototype.otf = function(value, isFinish){
  * Set quality information
  *
  * @param value - NORNENJS_ENUMS.QUALITY.HIGH : high quality, NORNENJS_ENUMS.QUALITY.LOW : low quality
- * @param isFinish - true : Adjust finished set timer
  */
 Nornenjs.prototype.quality = function(value, isFinish){
     this.sendOption.streamType = NORNENJS_ENUMS.STREAM_TYPE.EVENT;
     this.sendOption.quality = value;
-    if(isFinish){
-        setTimeout(this.finish, 1000, this);
-    }
+
+    setTimeout(this.finish, 1000, this);
 };
 
 /**

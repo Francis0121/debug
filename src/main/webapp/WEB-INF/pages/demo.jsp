@@ -18,6 +18,10 @@
 
             <div class="nornen_stream left">
                 
+                <div class="quality_wrap">
+                    <button type="button" class="quality" data-quality="1">On/off</button>
+                </div>
+                
                 <canvas id="view_canvas">
                     
                 </canvas>
