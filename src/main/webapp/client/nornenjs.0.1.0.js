@@ -11,7 +11,7 @@ var NORNENJS_ENUMS = {
         MRI : 3
     },
 
-    MRI_TYPE : {
+    MPR_TYPE : {
         X : 1,
         Y : 2,
         Z : 3
@@ -69,7 +69,7 @@ var Nornenjs = function(volumePrimaryNumber, host, socketIoPort, streamPort, sel
         transferScaleX : 0.0,
         transferScaleY : 0.0,
         transferScaleZ : 0.0,
-        mriType : NORNENJS_ENUMS.MRI_TYPE.X,
+        mriType : NORNENJS_ENUMS.MPR_TYPE.X,
         isMobile : isMobile.any() ? 1 : 0,
         quality : NORNENJS_ENUMS.QUALITY_TYPE.HIGH
     };
@@ -485,17 +485,17 @@ Nornenjs.prototype.axisType = function(type){
     this.sendOption.streamType = NORNENJS_ENUMS.STREAM_TYPE.EVENT;
     this.sendOption.mriType = type;
     
-    if(type == NORNENJS_ENUMS.MRI_TYPE.X){
+    if(type == NORNENJS_ENUMS.MPR_TYPE.X){
         var value = this.sendOption.transferScaleY != 0 ? this.sendOption.transferScaleY : this.sendOption.transferScaleZ;
         this.sendOption.transferScaleX = value;
         this.sendOption.transferScaleY = 0;
         this.sendOption.transferScaleZ = 0;
-    }else if(type == NORNENJS_ENUMS.MRI_TYPE.Y){
+    }else if(type == NORNENJS_ENUMS.MPR_TYPE.Y){
         var value = this.sendOption.transferScaleX != 0 ? this.sendOption.transferScaleX : this.sendOption.transferScaleZ;
         this.sendOption.transferScaleX = 0;
         this.sendOption.transferScaleY = value;
         this.sendOption.transferScaleZ = 0;
-    }else if(type == NORNENJS_ENUMS.MRI_TYPE.Z){
+    }else if(type == NORNENJS_ENUMS.MPR_TYPE.Z){
         var value = this.sendOption.transferScaleX != 0 ? this.sendOption.transferScaleX : this.sendOption.transferScaleY;
         this.sendOption.transferScaleX = 0;
         this.sendOption.transferScaleY = 0;
@@ -516,11 +516,11 @@ Nornenjs.prototype.axis = function(value, isFinish){
 
     this.sendOption.streamType = NORNENJS_ENUMS.STREAM_TYPE.EVENT;
 
-    if(this.sendOption.mriType == NORNENJS_ENUMS.MRI_TYPE.X){
+    if(this.sendOption.mriType == NORNENJS_ENUMS.MPR_TYPE.X){
         this.sendOption.transferScaleX = value;
-    }else if(this.sendOption.mriType == NORNENJS_ENUMS.MRI_TYPE.Y){
+    }else if(this.sendOption.mriType == NORNENJS_ENUMS.MPR_TYPE.Y){
         this.sendOption.transferScaleY = value;
-    }else if(this.sendOption.mriType == NORNENJS_ENUMS.MRI_TYPE.Z){
+    }else if(this.sendOption.mriType == NORNENJS_ENUMS.MPR_TYPE.Z){
         this.sendOption.transferScaleZ = value;
     }
 

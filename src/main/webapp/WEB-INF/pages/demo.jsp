@@ -36,7 +36,7 @@
                                 <a>MIP</a>
                             </li>
                             <li data-type="3">
-                                <a>MRI</a>
+                                <a>MPR</a>
                             </li>
                         </ul>
                     </li>
