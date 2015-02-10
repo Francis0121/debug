@@ -85,27 +85,32 @@ var Nornenjs = function(volumePrimaryNumber, host, socketIoPort, streamPort, sel
     
     // ~ uuid
     this.uuid = null;
+    
+    // ~ loader
+    this.loader = {
+        active : false,
+        step : 0,
+        interval : null
+    };
 };
 
 /**
  * Connect socket.io and Binaryjs
  */
 Nornenjs.prototype.connect = function(debugCallback, fpsCallback){
+    // ~ set canvas
+    var canvas = document.getElementById(this.selector),
+        width = canvas.clientWidth;
+
+    canvas.width = width;
+    canvas.height = width;
+    
     // ~ uuid
     this.uuid = this.generateUUID();
     
     // ~ set socket.io
     var socketUrl = 'http://' + this.host + ':' + this.socketIoPort;
     this.socket = io.connect(socketUrl, this.socketOption);
-
-    // ~ set canvas
-    var canvas = document.getElementById(this.selector),
-        width = canvas.clientWidth;
-    
-    canvas.width = width;
-    canvas.height = width;
-    
-    // TODO draw loading
 
     // ~ set stream
     var streamUrl = 'ws://' + this.host + ':' + this.streamPort;
@@ -114,7 +119,7 @@ Nornenjs.prototype.connect = function(debugCallback, fpsCallback){
     // ~ run
     // TODO debug callback is null
     this.socketIo(debugCallback);
-    
+
     this.addEvent();
     
     // ~ fps 
@@ -130,6 +135,53 @@ Nornenjs.prototype.fpsInterval = function($this, callback){
     $this.fps.option.frame = 0;
 };
 
+Nornenjs.prototype.loading= function($this){
+    if(!$this.loader.active){
+        return;
+    }
+    
+    var canvas = document.getElementById($this.selector);
+    var context = canvas.getContext('2d');
+
+    context.save();
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    context.translate(canvas.width / 2, canvas.height / 2);
+    context.scale(0.4, 0.4);
+    context.rotate(-Math.PI / 2);
+    context.strokeStyle = 'black';
+    context.fillStyle = 'white';
+    context.lineWidth = 8;
+    context.lineCap = 'round';
+
+    var step = $this.loader.step;
+    context.fillStyle = 'black';
+    context.save();
+    context.rotate(step * Math.PI / 30);
+    context.strokeStyle = '#e87722';
+    context.fillStyle = '#e87722';
+    context.lineWidth = 10;
+
+    context.beginPath();
+    context.moveTo(0, 0);
+    context.lineTo(68, 0);
+    context.stroke();
+    context.fill();
+    context.restore();
+    context.beginPath();
+    context.lineWidth = 10;
+    context.strokeStyle = '#3a5a79';
+    context.arc(0, 0, 80, 0, Math.PI * 2, true);
+    context.stroke();
+    context.restore();
+
+    context.font = 'bold 75% Helvetica Arial';
+    context.textAlign = 'center';
+    context.fillText('Please wait for the exit to other users', canvas.width/2, canvas.height/2 + 65);
+
+    $this.loader.step += 1;
+    
+};
+
 /**;
  * Connected confirm user : User access deny
  */
@@ -140,6 +192,8 @@ Nornenjs.prototype.socketIo = function(debugCallback){
 
     this.socket.on('message', function(data){
         if(!data.success){
+            $this.loader.active = true;
+            $this.loader.interval = setInterval($this.loading, 100, $this);
             return;
         }
 
@@ -153,6 +207,8 @@ Nornenjs.prototype.socketIo = function(debugCallback){
     });
 
     this.socket.on('disconnected', function(data){
+        $this.loader.active = false;
+        clearInterval($this.loader.interval);
         $this.socket.emit('join', { uuid : $this.uuid} );
     });
     
@@ -334,12 +390,20 @@ Nornenjs.prototype.mouseEvent = function(){
 
 Nornenjs.prototype.resize = function(){
     var $this = this;
-    window.addEventListener('resize', function(event){
+
+    var supportsOrientationChange = 'onorientationchange' in window,
+        orientationEvent = supportsOrientationChange ? 'orientationchange' : 'resize';
+    
+    window.addEventListener(orientationEvent, function(event){
         var el = document.getElementById($this.selector),
             width = el.clientWidth;
         el.width = width;
         el.height = width;
         $this.finish($this);
+
+        $this.sendOption.streamType = ENUMS.STREAM_TYPE.EVENT;
+        $this.send();
+        setTimeout($this.finish, 1000, $this);
     });
 };
 
