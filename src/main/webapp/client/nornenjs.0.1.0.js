@@ -15,6 +15,11 @@ var NORNENJS_ENUMS = {
         X : 1,
         Y : 2,
         Z : 3
+    },
+    
+    QUALITY_TYPE : {
+        HIGH : 1,
+        LOW : 2
     }
 };
 
@@ -28,6 +33,13 @@ var NORNENJS_STATIC = {
 
 /**
  *  Need Socket.io client link, Binary.js link
+ *  
+ * @param volumePrimaryNumber
+ * @param host
+ * @param socketIoPort
+ * @param streamPort
+ * @param selector
+ * @constructor
  */
 var Nornenjs = function(volumePrimaryNumber, host, socketIoPort, streamPort, selector){
     
@@ -58,7 +70,8 @@ var Nornenjs = function(volumePrimaryNumber, host, socketIoPort, streamPort, sel
         transferScaleY : 0.0,
         transferScaleZ : 0.0,
         mriType : NORNENJS_ENUMS.MRI_TYPE.X,
-        isMobile : isMobile.any() ? 1 : 0
+        isMobile : isMobile.any() ? 1 : 0,
+        quality : NORNENJS_ENUMS.QUALITY_TYPE.HIGH
     };
     this.sendOptionSize = null;
     
@@ -117,7 +130,6 @@ Nornenjs.prototype.connect = function(debugCallback, fpsCallback){
     this.client = new BinaryClient(streamUrl);
 
     // ~ run
-    // TODO debug callback is null
     this.socketIo(debugCallback);
 
     this.addEvent();
@@ -130,11 +142,20 @@ Nornenjs.prototype.connect = function(debugCallback, fpsCallback){
     }
 };
 
+/**
+ * *
+ * @param $this
+ * @param callback
+ */
 Nornenjs.prototype.fpsInterval = function($this, callback){
     callback($this.fps.option.frame);
     $this.fps.option.frame = 0;
 };
 
+/**
+ * * 
+ * @param $this
+ */
 Nornenjs.prototype.loading= function($this){
     if(!$this.loader.active){
         return;
@@ -212,9 +233,11 @@ Nornenjs.prototype.socketIo = function(debugCallback){
         $this.socket.emit('join', { uuid : $this.uuid} );
     });
     
-    this.socket.on('debug', function(data){
-        debugCallback(data);
-    });
+    if(debugCallback != undefined){
+        this.socket.on('debug', function(data){
+            debugCallback(data);
+        });
+    }
 };
 
 /**
@@ -254,8 +277,8 @@ Nornenjs.prototype.streamOn = function(){
  */
 Nornenjs.prototype.send = function(){
     
-    this.buffer = new ArrayBuffer(52 + this.uuid.length);
-    var floatArray = new Float32Array(this.buffer, 0, 13);
+    this.buffer = new ArrayBuffer(56 + this.uuid.length);
+    var floatArray = new Float32Array(this.buffer, 0, 14);
 
     floatArray[0] = this.sendOption.streamType;
     floatArray[1] = this.sendOption.volumePn;
@@ -270,6 +293,7 @@ Nornenjs.prototype.send = function(){
     floatArray[10] = this.sendOption.transferScaleZ;
     floatArray[11] = this.sendOption.mriType;
     floatArray[12] = this.sendOption.isMobile;
+    floatArray[13] = this.sendOption.quality;
     
     var strArray = new Uint8Array(this.buffer, 52, this.uuid.length);
     for (var i=0, strLen=this.uuid.length; i<strLen; i++) {
@@ -279,11 +303,18 @@ Nornenjs.prototype.send = function(){
     this.client.send(this.buffer);
 };
 
+/**
+ * * 
+ * @param $this
+ */
 Nornenjs.prototype.finish = function($this){
     $this.sendOption.streamType = NORNENJS_ENUMS.STREAM_TYPE.FINISH;
     $this.send();
 };
 
+/**
+ * * 
+ */
 Nornenjs.prototype.addEvent = function(){
 
     if(isMobile.any()){
@@ -295,6 +326,9 @@ Nornenjs.prototype.addEvent = function(){
     this.resize();
 };
 
+/**
+ * * 
+ */
 Nornenjs.prototype.touchEvent = function(){
     var $this = this;
     var el = document.getElementById($this.selector);
@@ -349,6 +383,9 @@ Nornenjs.prototype.touchEvent = function(){
     
 };
 
+/**
+ * * 
+ */
 Nornenjs.prototype.mouseEvent = function(){
 
     var $this = this;
@@ -388,6 +425,9 @@ Nornenjs.prototype.mouseEvent = function(){
     
 };
 
+/**
+ * * 
+ */
 Nornenjs.prototype.resize = function(){
     var $this = this;
 
@@ -407,6 +447,10 @@ Nornenjs.prototype.resize = function(){
     });
 };
 
+/**
+ * * 
+ * @param renderingType
+ */
 Nornenjs.prototype.type = function(renderingType){
     if(renderingType == NORNENJS_ENUMS.RENDERING_TYPE.VOLUME){
         // ~ Volume
@@ -432,6 +476,10 @@ Nornenjs.prototype.type = function(renderingType){
     setTimeout(this.finish, 1000, this);
 };
 
+/**
+ * * 
+ * @param type
+ */
 Nornenjs.prototype.axisType = function(type){
 
     this.sendOption.streamType = NORNENJS_ENUMS.STREAM_TYPE.EVENT;
@@ -459,6 +507,11 @@ Nornenjs.prototype.axisType = function(type){
     
 };
 
+/**
+ * * 
+ * @param value
+ * @param isFinish
+ */
 Nornenjs.prototype.axis = function(value, isFinish){
 
     this.sendOption.streamType = NORNENJS_ENUMS.STREAM_TYPE.EVENT;
@@ -477,6 +530,11 @@ Nornenjs.prototype.axis = function(value, isFinish){
     }
 };
 
+/**
+ * * 
+ * @param value
+ * @param isFinish
+ */
 Nornenjs.prototype.scale = function(value, isFinish){
     this.sendOption.streamType = NORNENJS_ENUMS.STREAM_TYPE.EVENT;
     this.sendOption.positionZ = value;
@@ -486,6 +544,11 @@ Nornenjs.prototype.scale = function(value, isFinish){
     }
 }
 
+/**
+ * * 
+ * @param value
+ * @param isFinish
+ */
 Nornenjs.prototype.brightness = function(value, isFinish){
     this.sendOption.streamType = NORNENJS_ENUMS.STREAM_TYPE.EVENT;
     this.sendOption.brightness = value;
@@ -495,6 +558,12 @@ Nornenjs.prototype.brightness = function(value, isFinish){
     }
 };
 
+/**
+ * Set otf information
+ * 
+ * @param value
+ * @param isFinish
+ */
 Nornenjs.prototype.otf = function(value, isFinish){
     this.sendOption.streamType = NORNENJS_ENUMS.STREAM_TYPE.EVENT;
     this.sendOption.transferOffset = value;
@@ -502,6 +571,34 @@ Nornenjs.prototype.otf = function(value, isFinish){
     if(isFinish){
         setTimeout(this.finish, 1000, this);
     }
+};
+
+/**
+ * Set quality information
+ *
+ * @param value - NORNENJS_ENUMS.QUALITY.HIGH : high quality, NORNENJS_ENUMS.QUALITY.LOW : low quality
+ * @param isFinish - true : Adjust finished set timer
+ */
+Nornenjs.prototype.quality = function(value, isFinish){
+    this.sendOption.streamType = NORNENJS_ENUMS.STREAM_TYPE.EVENT;
+    this.sendOption.quality = value;
+    if(isFinish){
+        setTimeout(this.finish, 1000, this);
+    }
+};
+
+/**
+ * 
+ * @returns {string}
+ */
+Nornenjs.prototype.generateUUID = function (){
+    var d = new Date().getTime();
+    var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = (d + Math.random()*16)%16 | 0;
+        d = Math.floor(d/16);
+        return (c=='x' ? r : (r&0x3|0x8)).toString(16);
+    });
+    return uuid;
 };
 
 var isMobile = {
@@ -524,19 +621,3 @@ var isMobile = {
         return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
     }
 };
-
-Nornenjs.prototype.generateUUID = function (){
-    var d = new Date().getTime();
-    var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-        var r = (d + Math.random()*16)%16 | 0;
-        d = Math.floor(d/16);
-        return (c=='x' ? r : (r&0x3|0x8)).toString(16);
-    });
-    return uuid;
-};
-
-Nornenjs.prototype.stringToArrayBuffer = function (str){
-    
-    console.log(buf);
-    return buf;
-}
