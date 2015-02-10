@@ -8,7 +8,7 @@ var NORNENJS_ENUMS = {
     RENDERING_TYPE : {
         VOLUME : 1,
         MIP : 2,
-        MRI : 3
+        MPR : 3
     },
 
     MPR_TYPE : {
@@ -24,7 +24,7 @@ var NORNENJS_ENUMS = {
 };
 
 var NORNENJS_STATIC = {
-    MRI_DEFAULT_OPTION : {
+    MPR_DEFAULT_OPTION : {
         rotationX : 0,
         rotationY : 0,
         positionZ : 3.0
@@ -69,7 +69,7 @@ var Nornenjs = function(volumePrimaryNumber, host, socketIoPort, streamPort, sel
         transferScaleX : 0.0,
         transferScaleY : 0.0,
         transferScaleZ : 0.0,
-        mriType : NORNENJS_ENUMS.MPR_TYPE.X,
+        mprType : NORNENJS_ENUMS.MPR_TYPE.X,
         isMobile : isMobile.any() ? 1 : 0,
         quality : NORNENJS_ENUMS.QUALITY_TYPE.HIGH
     };
@@ -291,7 +291,7 @@ Nornenjs.prototype.send = function(){
     floatArray[8] = this.sendOption.transferScaleX;
     floatArray[9] = this.sendOption.transferScaleY;
     floatArray[10] = this.sendOption.transferScaleZ;
-    floatArray[11] = this.sendOption.mriType;
+    floatArray[11] = this.sendOption.mprType;
     floatArray[12] = this.sendOption.isMobile;
     floatArray[13] = this.sendOption.quality;
     
@@ -454,11 +454,11 @@ Nornenjs.prototype.resize = function(){
 Nornenjs.prototype.type = function(renderingType){
     if(renderingType == NORNENJS_ENUMS.RENDERING_TYPE.VOLUME){
         // ~ Volume
-    }else if(renderingType == NORNENJS_ENUMS.RENDERING_TYPE.MRI){
-        // ~ MRI
-        this.sendOption.rotationX = NORNENJS_STATIC.MRI_DEFAULT_OPTION.rotationX;
-        this.sendOption.rotationY = NORNENJS_STATIC.MRI_DEFAULT_OPTION.rotationY;
-        this.sendOption.positionZ = NORNENJS_STATIC.MRI_DEFAULT_OPTION.positionZ;
+    }else if(renderingType == NORNENJS_ENUMS.RENDERING_TYPE.MPR){
+        // ~ MPR
+        this.sendOption.rotationX = NORNENJS_STATIC.MPR_DEFAULT_OPTION.rotationX;
+        this.sendOption.rotationY = NORNENJS_STATIC.MPR_DEFAULT_OPTION.rotationY;
+        this.sendOption.positionZ = NORNENJS_STATIC.MPR_DEFAULT_OPTION.positionZ;
     }else if(renderingType == NORNENJS_ENUMS.RENDERING_TYPE.MIP){
         // ~ MIP
     }else{
@@ -479,7 +479,7 @@ Nornenjs.prototype.type = function(renderingType){
 Nornenjs.prototype.axisType = function(type){
 
     this.sendOption.streamType = NORNENJS_ENUMS.STREAM_TYPE.EVENT;
-    this.sendOption.mriType = type;
+    this.sendOption.mprType = type;
     
     if(type == NORNENJS_ENUMS.MPR_TYPE.X){
         var value = this.sendOption.transferScaleY != 0 ? this.sendOption.transferScaleY : this.sendOption.transferScaleZ;
@@ -512,11 +512,11 @@ Nornenjs.prototype.axis = function(value, isFinish){
 
     this.sendOption.streamType = NORNENJS_ENUMS.STREAM_TYPE.EVENT;
 
-    if(this.sendOption.mriType == NORNENJS_ENUMS.MPR_TYPE.X){
+    if(this.sendOption.mprType == NORNENJS_ENUMS.MPR_TYPE.X){
         this.sendOption.transferScaleX = value;
-    }else if(this.sendOption.mriType == NORNENJS_ENUMS.MPR_TYPE.Y){
+    }else if(this.sendOption.mprType == NORNENJS_ENUMS.MPR_TYPE.Y){
         this.sendOption.transferScaleY = value;
-    }else if(this.sendOption.mriType == NORNENJS_ENUMS.MPR_TYPE.Z){
+    }else if(this.sendOption.mprType == NORNENJS_ENUMS.MPR_TYPE.Z){
         this.sendOption.transferScaleZ = value;
     }
 

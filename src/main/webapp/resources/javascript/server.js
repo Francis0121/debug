@@ -87,7 +87,7 @@ $(function(){
         $('.rendering_type>ul>li>a').removeClass('active');
         $(this).find('a').addClass('active');
 
-        if(type == NORNENJS_ENUMS.RENDERING_TYPE.MRI){
+        if(type == NORNENJS_ENUMS.RENDERING_TYPE.MPR){
             $('.scale_slider').hide();
             $('.brightness_slider').hide();
             $('.otf_slider').hide();
