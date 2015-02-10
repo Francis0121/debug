@@ -93,9 +93,6 @@ $(function(){
             $('.otf_slider').hide();
             $('.axis_slider').show();
             $('.axis_type').show();
-            nornenjs.sendOption.rotationX = NORNENJS_STATIC.MRI_DEFAULT_OPTION.rotationX;
-            nornenjs.sendOption.rotationY = NORNENJS_STATIC.MRI_DEFAULT_OPTION.rotationY;
-            nornenjs.sendOption.positionZ = NORNENJS_STATIC.MRI_DEFAULT_OPTION.positionZ;
         }else if(type == NORNENJS_ENUMS.RENDERING_TYPE.VOLUME){
             $('.scale_slider').show();
             $('.brightness_slider').show();

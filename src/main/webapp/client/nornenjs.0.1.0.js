@@ -464,10 +464,6 @@ Nornenjs.prototype.type = function(renderingType){
     }else{
         return;
     }
-    
-    this.sendOption.transferScaleX = 0;
-    this.sendOption.transferScaleY = 0;
-    this.sendOption.transferScaleZ = 0;
 
     this.sendOption.streamType = NORNENJS_ENUMS.STREAM_TYPE.EVENT;
     this.sendOption.renderingType = renderingType;
