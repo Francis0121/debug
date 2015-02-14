@@ -25,7 +25,7 @@
                     <h3>- Desktop</h3>
                     
                     <video controls preload="auto">
-                        <source src="${cp}/resources/video/<c:out value="${volume.name}"/>_mobile.webm" type='video/webm;codecs="vp8, vorbis"'>
+                        <source src="${cp}/resources/video/<c:out value="${volume.name}"/>_mobile.mp4" type="video/mp4">
                     </video>
                     
                 </li>
@@ -34,7 +34,7 @@
                     <h3>- Mobile</h3>
 
                     <video controls preload="auto">
-                        <source src="${cp}/resources/video/<c:out value="${volume.name}"/>_mobile.webm" type='video/webm;codecs="vp8, vorbis"'>
+                        <source src="${cp}/resources/video/<c:out value="${volume.name}"/>_mobile.mp4" type="video/mp4">
                     </video>
                     
                 </li>
