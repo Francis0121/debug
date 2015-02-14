@@ -1,5 +1,6 @@
-package com.vrcs.debug;
+package com.vrcs.debug.controller;
 
+import com.vrcs.debug.util.SocketConnect;
 import com.vrcs.debug.volume.VolumeDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,5 +52,10 @@ public class IndexController {
 		}else{
 			return "demo_not_supported";
 		}
+	}
+
+	@RequestMapping(value = "signIn", method = RequestMethod.GET)
+	public String signInPage(Model model){
+		return "signIn";
 	}
 }

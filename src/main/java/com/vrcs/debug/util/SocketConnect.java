@@ -1,4 +1,4 @@
-package com.vrcs.debug;
+package com.vrcs.debug.util;
 
 import com.vrcs.debug.util.ProperDao;
 import org.springframework.beans.factory.annotation.Autowired;
