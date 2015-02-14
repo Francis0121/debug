@@ -40,3 +40,6 @@ input:FOCUS, textarea:FOCUS, select:FOCUS, button:FOCUS{ outline: 0;  }
 
 body{ }
 html{ overflow-x: hidden; }
+
+.hide, .hide:hover, .hide:visited{ color: #34495e; font-size: 67.5%; }
+.show, .show:hover, .show:visited{ color: #fff; font-size: 67.5%; }
