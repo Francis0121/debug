@@ -56,6 +56,6 @@ public class IndexController {
 
 	@RequestMapping(value = "signIn", method = RequestMethod.GET)
 	public String signInPage(Model model){
-		return "signIn";
+		return "user/signIn";
 	}
 }
