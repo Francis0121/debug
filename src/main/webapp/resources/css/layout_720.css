@@ -92,24 +92,25 @@
 
 /* Footer */
 .nornen_footer{
+    position: fixed;
+    bottom: 0;
     width: 100%;
-    height: 73px;
-    background: url("../image/footer/bar.png");
+    height: 30px;
+    background: #34495e;
+    border-top: 2px solid #bbbbbb;
     text-align: center;
 }
 
 .copyright{
-    height: 73px;
-    line-height: 73px;
+    height: 30px;
+    line-height: 30px;
 }
 
 .copyright>span{
     width: 100%;
     color: #fff;
-    font-size: 75%;
+    font-size: 67.5%;
 }
-
-
 /* Section */
 .nornen_section_wrap{
     width: 100%;
