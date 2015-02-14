@@ -143,13 +143,6 @@
             <version>${org.aspectj.cglib-version}</version>
         </dependency>
         
-        <!-- socket.io -->
-        <dependency>
-            <groupId>com.github.nkzawa</groupId>
-            <artifactId>socket.io-client</artifactId>
-            <version>0.4.1</version>
-        </dependency>
-
         <!-- Logging -->
         <dependency>
             <groupId>org.slf4j</groupId>

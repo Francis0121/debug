@@ -13,7 +13,7 @@
         <article class="nornen_content_type015">
             
             <header>
-                <h2>Volume Rendering</h2>
+                <h2>Volume Rendering - <c:out value="${volume.name}"/></h2>
             </header>
 
             <div class="nornen_stream left">
@@ -154,7 +154,5 @@
 <script src="${cp}/client/nornenjs.0.1.0.js"></script>
 <script src="${cp}/resources/javascript/chart.js"></script>
 <script src="${cp}/resources/javascript/server.js"></script>
-
-
 
 <%@ include file="../layout/foot.jspf" %>

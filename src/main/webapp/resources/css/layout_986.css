@@ -158,6 +158,7 @@
     line-height: 1.5;
 }
 
+/* nornen_content_type03 */
 .nornen_content_type03{
     width: 94%;
     padding: 40px 3%;
@@ -312,6 +313,22 @@
 
 .nornen_content_type02>.content .link>a:hover{
     color: #0d0e0e;
+}
+
+
+.nornen_content_type02>.content>li.video{
+
+}
+
+.nornen_content_type02>.content>li.video>h3{
+    font-size: 93.75%;
+    margin: 15px 0;
+    font-weight: bold;
+}
+
+.nornen_content_type02>.content>li.video>video{
+    max-width: 400px;
+    width: 100%;
 }
 
 .nornen_content_type015{
@@ -605,4 +622,28 @@
     border-radius: 4px;
     border: 0px;
     outline: 0px;
+}
+
+.error_info{
+    width: 60%;
+    padding: 8px 2%;
+    margin: 30px 2% 10px 2%;
+    background: #4e0000;
+    height: 50px;
+}
+
+.error_info>img{
+    float: left;
+    width: 50px;
+    height: 50px;
+}
+
+.error_info>.text{
+    width: 100%;
+    color: #fff;
+}
+
+.error_info>.text>p{
+    margin: 8px 0 0 60px;
+    font-size: 75%;
 }
