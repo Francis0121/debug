@@ -64,7 +64,7 @@ debug.run();
 /**
  * Setting nornenjs
  */
-var nornenjs = new Nornenjs(volumePrimaryNumber, '112.108.40.166', 3000, 9000);
+var nornenjs = new Nornenjs(volumePrimaryNumber, '112.108.40.166', 5000, 5005);
 
 var debugCallback = function(data){
     drawCompress.addRow(data);
