@@ -25,7 +25,7 @@
                     <h3>- Desktop</h3>
                     
                     <video controls preload="auto">
-                        <source src="${cp}/resources/video/<c:out value="${volume.name}"/>_mobile.mp4" type="video/mp4">
+                        <source src="${cp}/resources/video/<c:out value="${volume.name}"/>_desktop.mp4" type="video/mp4">
                     </video>
                     
                 </li>
