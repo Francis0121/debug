@@ -213,6 +213,10 @@
     font-weight: bold;
 }
 
+.nornen_content_type01>.content img{
+    max-width: 490px; width: 100%;
+}
+
 
 /* nornen_content_type03 */
 .nornen_content_type03{

@@ -177,6 +177,61 @@
     line-height: 1.5;
 }
 
+/**Get started **/
+.nornen_content_type01>.content>p.command{
+    padding: 10px 1%;
+    width: 98%;
+    margin: 3px 0 5px;
+    background: #f5f7fa;
+}
+.nornen_content_type01>.content>p.command>label{
+    color: #4e4e4e;
+    font-size: 67.5%;
+}
+
+.nornen_content_type01>.content>p.command>span.text{
+    margin-left: 7px;
+    font-weight: bold;
+}
+
+.nornen_content_type01>.content>p.command span.sudo{
+    color: #dc3912;
+}
+
+.nornen_content_type01>.content>p.command span.emphasize{
+    color: #115293;
+}
+
+.nornen_content_type01>.content a.link{
+    font-weight: bold;
+    color: #767676;
+}
+
+.nornen_content_type01>.content a.link:hover{
+    color: #4e4e4e;
+}
+
+.nornen_content_type01>.content a.download{
+    color: #ff9900;
+}
+
+.nornen_content_type01>.content a.download:hover{
+    color: #e87722;
+}
+
+.nornen_content_type01>.content span.head{
+    color: #4e4e4e;
+    font-weight: bold;
+}
+
+.nornen_content_type01>.content span.content{
+    color: #0d0e0e;
+    font-weight: bold;
+}
+
+.nornen_content_type01>.content img{
+    max-width: 490px; width: 100%;
+}
 
 /* nornen_content_type03 */
 
