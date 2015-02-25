@@ -165,7 +165,7 @@
                 platform : form.platform.value,
                 volumePn : form.volumePn.value
             };
-            
+
             $.postJSON(url, json, function(statisticsList){
                 var option = {
                     animation: {
@@ -184,11 +184,11 @@
                 var chart = new google.visualization.LineChart(document.getElementById('fps_chart'));
                 var data = new google.visualization.DataTable();
                 data.addColumn('string', 'count');
-                data.addColumn('number', 'fp');
+                data.addColumn('number', 'fps');
                 
                 for(var i=0; i<statisticsList.length; i++) {
                     var statistics = statisticsList[i];
-                    data.addRow([statistics.pn.toString(), statistics.frameCount]);
+                    data.addRow([(i+1).toString(), statistics.frameCount]);
                 }
                 chart.draw(data, option);
             });
