@@ -1,9 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <footer class="nornen_footer">
-
+    
     <div class="copyright">
         <span>Copyright &copy; Teriusbin.Lee. Francis.Kim. All rights reserved.</span>
+        <sec:authorize access="isAnonymous()">
+            <a href="${cp}/signIn" class="hide">_</a>
+        </sec:authorize>
+        <sec:authorize access="isAuthenticated()">
+            <a href="${cp}/signOut" class="show">SignOut</a>
+            <a href="${cp}/admin/volume" class="show">Page</a>
+        </sec:authorize>
     </div>
 
 </footer>

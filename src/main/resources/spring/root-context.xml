@@ -13,8 +13,10 @@
 	</context:component-scan>
 	
 	<context:property-placeholder location="classpath:/properties/datasource.properties, 
-											classpath:/properties/file.properties"/>
+											classpath:/properties/common.properties"/>
 
 	<import resource="classpath:/spring/datasource-context.xml"/>
-		
+
+	<import resource="classpath:/spring/security-context.xml"/>
+	
 </beans>

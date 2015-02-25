@@ -90,21 +90,24 @@
 
 /* Footer */
 .nornen_footer{
+    position: fixed;
+    bottom: 0;
     width: 100%;
-    height: 73px;
-    background: url("../image/footer/bar.png");
+    height: 30px;
+    background: #34495e;
+    border-top: 2px solid #bbbbbb;
     text-align: center;
 }
 
 .copyright{
-    height: 73px;
-    line-height: 73px;
+    height: 30px;
+    line-height: 30px;
 }
 
 .copyright>span{
     width: 100%;
     color: #fff;
-    font-size: 75%;
+    font-size: 67.5%;
 }
 
 /* Section */
@@ -158,6 +161,7 @@
     line-height: 1.5;
 }
 
+/* nornen_content_type03 */
 .nornen_content_type03{
     width: 94%;
     padding: 40px 3%;
@@ -314,10 +318,25 @@
     color: #0d0e0e;
 }
 
+
+.nornen_content_type02>.content>li.video{
+
+}
+
+.nornen_content_type02>.content>li.video>h3{
+    font-size: 93.75%;
+    margin: 15px 0;
+    font-weight: bold;
+}
+
+.nornen_content_type02>.content>li.video>video{
+    width: 100%;
+}
+
 .nornen_content_type015{
     width: 94%;
     padding: 40px 3%;
-    min-height: 850px;
+    min-height: 950px;
 }
 
 .nornen_content_type015>header{
@@ -347,7 +366,21 @@
 .nornen_content_type015 .selector{
     width: 100%;
     margin-top: 20px;
-    min-height: 70px;
+    min-height: 130px;
+}
+
+.nornen_content_type015 .selector>.quality_type{
+    float: left;
+    width: 100%;
+}
+
+.nornen_content_type015 .selector>.quality_type>.list{
+    width: 100%;
+    height: 20px;
+}
+
+.nornen_content_type015 .selector>.quality_type>.list>li{
+    width: 10%;
 }
 
 .nornen_content_type015 .selector>li{
@@ -593,4 +626,26 @@
     outline: 0px;
 }
 
-/* demo chart */
+.error_info{
+    width: 60%;
+    padding: 8px 2%;
+    margin: 30px 2% 10px 2%;
+    background: #4e0000;
+    height: 50px;
+}
+
+.error_info>img{
+    float: left;
+    width: 50px;
+    height: 50px;
+}
+
+.error_info>.text{
+    width: 100%;
+    color: #fff;
+}
+
+.error_info>.text>p{
+    margin: 8px 0 0 60px;
+    font-size: 75%;
+}

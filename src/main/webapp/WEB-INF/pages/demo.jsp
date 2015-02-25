@@ -13,7 +13,7 @@
         <article class="nornen_content_type015">
             
             <header>
-                <h2>Volume Rendering</h2>
+                <h2>Volume Rendering - <c:out value="${volume.name}"/></h2>
             </header>
 
             <div class="nornen_stream left">
@@ -23,6 +23,20 @@
                 </canvas>
 
                 <ul class="selector">
+                    <li class="quality_type">
+                        <h3>
+                            <img src="${cp}/resources/image/icon/type.png" title="type">
+                            <span>Quality</span>
+                        </h3>
+                        <ul class="list">
+                            <li data-type="2">
+                                <a class="active">off</a>
+                            </li>
+                            <li data-type="1">
+                                <a>on</a>
+                            </li>
+                        </ul>
+                    </li>
                     <li class="rendering_type">
                         <h3>
                             <img src="${cp}/resources/image/icon/type.png" title="type">
@@ -36,7 +50,7 @@
                                 <a>MIP</a>
                             </li>
                             <li data-type="3">
-                                <a>MRI</a>
+                                <a>MPR</a>
                             </li>
                         </ul>
                     </li>
@@ -73,7 +87,7 @@
                 </div>
 
                 <div class="slider_wrap brightness_slider">
-                    <div class="slider nstSlider" data-range_min="0" data-range_max="200" data-cur_min="100" data-type="brightness">
+                    <div class="slider nstSlider" data-range_min="0" data-range_max="1000" data-cur_min="100" data-type="brightness">
                         <div class="bar"></div>
                         <div class="leftGrip"></div>
 
@@ -136,11 +150,9 @@
 </script>
 
 <script src="http://cdn.binaryjs.com/0/binary.js"></script>
-<script src="http://112.108.40.166:3000/socket.io/socket.io.js"></script>
+<script src="http://112.108.40.166:5000/socket.io/socket.io.js"></script>
 <script src="${cp}/client/nornenjs.0.1.0.js"></script>
 <script src="${cp}/resources/javascript/chart.js"></script>
 <script src="${cp}/resources/javascript/server.js"></script>
-
-
 
 <%@ include file="../layout/foot.jspf" %>

@@ -1,4 +1,4 @@
-var ENUMS = {
+var NORNENJS_ENUMS = {
     STREAM_TYPE: {
         START: 1,
         FINISH: 2,
@@ -8,18 +8,23 @@ var ENUMS = {
     RENDERING_TYPE : {
         VOLUME : 1,
         MIP : 2,
-        MRI : 3
+        MPR : 3
     },
 
-    MRI_TYPE : {
+    MPR_TYPE : {
         X : 1,
         Y : 2,
         Z : 3
+    },
+    
+    QUALITY_TYPE : {
+        HIGH : 1,
+        LOW : 2
     }
 };
 
-var STATIC = {
-    MRI_DEFAULT_OPTION : {
+var NORNENJS_STATIC = {
+    MPR_DEFAULT_OPTION : {
         rotationX : 0,
         rotationY : 0,
         positionZ : 3.0
@@ -28,6 +33,13 @@ var STATIC = {
 
 /**
  *  Need Socket.io client link, Binary.js link
+ *  
+ * @param volumePrimaryNumber
+ * @param host
+ * @param socketIoPort
+ * @param streamPort
+ * @param selector
+ * @constructor
  */
 var Nornenjs = function(volumePrimaryNumber, host, socketIoPort, streamPort, selector){
     
@@ -46,8 +58,8 @@ var Nornenjs = function(volumePrimaryNumber, host, socketIoPort, streamPort, sel
     this.client = null;
     this.buffer = null;
     this.sendOption = {
-        streamType : ENUMS.STREAM_TYPE.START,
-        renderingType : ENUMS.RENDERING_TYPE.VOLUME,
+        streamType : NORNENJS_ENUMS.STREAM_TYPE.START,
+        renderingType : NORNENJS_ENUMS.RENDERING_TYPE.VOLUME,
         volumePn : volumePrimaryNumber,
         brightness : 1.0,
         positionZ : 3.0,
@@ -57,8 +69,9 @@ var Nornenjs = function(volumePrimaryNumber, host, socketIoPort, streamPort, sel
         transferScaleX : 0.0,
         transferScaleY : 0.0,
         transferScaleZ : 0.0,
-        mriType : ENUMS.MRI_TYPE.X,
-        isMobile : isMobile.any() ? 1 : 0
+        mprType : NORNENJS_ENUMS.MPR_TYPE.X,
+        isMobile : isMobile.any() ? 1 : 0,
+        quality : NORNENJS_ENUMS.QUALITY_TYPE.LOW
     };
     this.sendOptionSize = null;
     
@@ -85,12 +98,26 @@ var Nornenjs = function(volumePrimaryNumber, host, socketIoPort, streamPort, sel
     
     // ~ uuid
     this.uuid = null;
+    
+    // ~ loader
+    this.loader = {
+        active : false,
+        step : 0,
+        interval : null
+    };
 };
 
 /**
  * Connect socket.io and Binaryjs
  */
 Nornenjs.prototype.connect = function(debugCallback, fpsCallback){
+    // ~ set canvas
+    var canvas = document.getElementById(this.selector),
+        width = canvas.clientWidth;
+
+    canvas.width = width;
+    canvas.height = width;
+    
     // ~ uuid
     this.uuid = this.generateUUID();
     
@@ -98,23 +125,13 @@ Nornenjs.prototype.connect = function(debugCallback, fpsCallback){
     var socketUrl = 'http://' + this.host + ':' + this.socketIoPort;
     this.socket = io.connect(socketUrl, this.socketOption);
 
-    // ~ set canvas
-    var canvas = document.getElementById(this.selector),
-        width = canvas.clientWidth;
-    
-    canvas.width = width;
-    canvas.height = width;
-    
-    // TODO draw loading
-
     // ~ set stream
     var streamUrl = 'ws://' + this.host + ':' + this.streamPort;
     this.client = new BinaryClient(streamUrl);
 
     // ~ run
-    // TODO debug callback is null
     this.socketIo(debugCallback);
-    
+
     this.addEvent();
     
     // ~ fps 
@@ -125,9 +142,65 @@ Nornenjs.prototype.connect = function(debugCallback, fpsCallback){
     }
 };
 
+/**
+ * *
+ * @param $this
+ * @param callback
+ */
 Nornenjs.prototype.fpsInterval = function($this, callback){
     callback($this.fps.option.frame);
     $this.fps.option.frame = 0;
+};
+
+/**
+ * * 
+ * @param $this
+ */
+Nornenjs.prototype.loading= function($this){
+    if(!$this.loader.active){
+        return;
+    }
+    
+    var canvas = document.getElementById($this.selector);
+    var context = canvas.getContext('2d');
+
+    context.save();
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    context.translate(canvas.width / 2, canvas.height / 2);
+    context.scale(0.4, 0.4);
+    context.rotate(-Math.PI / 2);
+    context.strokeStyle = 'black';
+    context.fillStyle = 'white';
+    context.lineWidth = 8;
+    context.lineCap = 'round';
+
+    var step = $this.loader.step;
+    context.fillStyle = 'black';
+    context.save();
+    context.rotate(step * Math.PI / 30);
+    context.strokeStyle = '#e87722';
+    context.fillStyle = '#e87722';
+    context.lineWidth = 10;
+
+    context.beginPath();
+    context.moveTo(0, 0);
+    context.lineTo(68, 0);
+    context.stroke();
+    context.fill();
+    context.restore();
+    context.beginPath();
+    context.lineWidth = 10;
+    context.strokeStyle = '#3a5a79';
+    context.arc(0, 0, 80, 0, Math.PI * 2, true);
+    context.stroke();
+    context.restore();
+
+    context.font = 'bold 75% Helvetica Arial';
+    context.textAlign = 'center';
+    context.fillText('Please wait for the exit to other users', canvas.width/2, canvas.height/2 + 65);
+
+    $this.loader.step += 1;
+    
 };
 
 /**;
@@ -140,12 +213,14 @@ Nornenjs.prototype.socketIo = function(debugCallback){
 
     this.socket.on('message', function(data){
         if(!data.success){
+            $this.loader.active = true;
+            $this.loader.interval = setInterval($this.loading, 100, $this);
             return;
         }
 
         $this.streamOn();
         
-        $this.sendOption.streamType = ENUMS.STREAM_TYPE.START;
+        $this.sendOption.streamType = NORNENJS_ENUMS.STREAM_TYPE.START;
         $this.isConnect = true;
         $this.send();
 
@@ -153,12 +228,16 @@ Nornenjs.prototype.socketIo = function(debugCallback){
     });
 
     this.socket.on('disconnected', function(data){
+        $this.loader.active = false;
+        clearInterval($this.loader.interval);
         $this.socket.emit('join', { uuid : $this.uuid} );
     });
     
-    this.socket.on('debug', function(data){
-        debugCallback(data);
-    });
+    if(debugCallback != undefined){
+        this.socket.on('debug', function(data){
+            debugCallback(data);
+        });
+    }
 };
 
 /**
@@ -198,8 +277,8 @@ Nornenjs.prototype.streamOn = function(){
  */
 Nornenjs.prototype.send = function(){
     
-    this.buffer = new ArrayBuffer(52 + this.uuid.length);
-    var floatArray = new Float32Array(this.buffer, 0, 13);
+    this.buffer = new ArrayBuffer(56 + this.uuid.length);
+    var floatArray = new Float32Array(this.buffer, 0, 14);
 
     floatArray[0] = this.sendOption.streamType;
     floatArray[1] = this.sendOption.volumePn;
@@ -212,10 +291,11 @@ Nornenjs.prototype.send = function(){
     floatArray[8] = this.sendOption.transferScaleX;
     floatArray[9] = this.sendOption.transferScaleY;
     floatArray[10] = this.sendOption.transferScaleZ;
-    floatArray[11] = this.sendOption.mriType;
+    floatArray[11] = this.sendOption.mprType;
     floatArray[12] = this.sendOption.isMobile;
+    floatArray[13] = this.sendOption.quality;
     
-    var strArray = new Uint8Array(this.buffer, 52, this.uuid.length);
+    var strArray = new Uint8Array(this.buffer, 56, this.uuid.length);
     for (var i=0, strLen=this.uuid.length; i<strLen; i++) {
         strArray[i] = this.uuid.charCodeAt(i);
     }
@@ -223,11 +303,18 @@ Nornenjs.prototype.send = function(){
     this.client.send(this.buffer);
 };
 
+/**
+ * * 
+ * @param $this
+ */
 Nornenjs.prototype.finish = function($this){
-    $this.sendOption.streamType = ENUMS.STREAM_TYPE.FINISH;
+    $this.sendOption.streamType = NORNENJS_ENUMS.STREAM_TYPE.FINISH;
     $this.send();
 };
 
+/**
+ * * 
+ */
 Nornenjs.prototype.addEvent = function(){
 
     if(isMobile.any()){
@@ -239,6 +326,9 @@ Nornenjs.prototype.addEvent = function(){
     this.resize();
 };
 
+/**
+ * * 
+ */
 Nornenjs.prototype.touchEvent = function(){
     var $this = this;
     var el = document.getElementById($this.selector);
@@ -260,7 +350,7 @@ Nornenjs.prototype.touchEvent = function(){
         var touches = evt.changedTouches;
 
         if($this.touch.isOn){
-            $this.sendOption.streamType = ENUMS.STREAM_TYPE.EVENT;
+            $this.sendOption.streamType = NORNENJS_ENUMS.STREAM_TYPE.EVENT;
 
             $this.sendOption.rotationX += (touches[0].pageX - $this.touch.beforeX)/10.0;
             $this.sendOption.rotationY += (touches[0].pageY - $this.touch.beforeY)/10.0;
@@ -293,6 +383,9 @@ Nornenjs.prototype.touchEvent = function(){
     
 };
 
+/**
+ * * 
+ */
 Nornenjs.prototype.mouseEvent = function(){
 
     var $this = this;
@@ -311,7 +404,7 @@ Nornenjs.prototype.mouseEvent = function(){
         evt.preventDefault();
 
         if($this.mouse.isOn){
-            $this.sendOption.streamType = ENUMS.STREAM_TYPE.EVENT;
+            $this.sendOption.streamType = NORNENJS_ENUMS.STREAM_TYPE.EVENT;
 
             $this.sendOption.rotationX += (evt.pageX - $this.mouse.beforeX)/5.0;
             $this.sendOption.rotationY += (evt.pageY - $this.mouse.beforeY)/5.0;
@@ -332,58 +425,73 @@ Nornenjs.prototype.mouseEvent = function(){
     
 };
 
+/**
+ * * 
+ */
 Nornenjs.prototype.resize = function(){
     var $this = this;
-    window.addEventListener('resize', function(event){
+
+    var supportsOrientationChange = 'onorientationchange' in window,
+        orientationEvent = supportsOrientationChange ? 'orientationchange' : 'resize';
+    
+    window.addEventListener(orientationEvent, function(event){
         var el = document.getElementById($this.selector),
             width = el.clientWidth;
         el.width = width;
         el.height = width;
         $this.finish($this);
+
+        $this.sendOption.streamType = NORNENJS_ENUMS.STREAM_TYPE.EVENT;
+        $this.send();
+        setTimeout($this.finish, 1000, $this);
     });
 };
 
+/**
+ * * 
+ * @param renderingType
+ */
 Nornenjs.prototype.type = function(renderingType){
-    if(renderingType == ENUMS.RENDERING_TYPE.VOLUME){
+    if(renderingType == NORNENJS_ENUMS.RENDERING_TYPE.VOLUME){
         // ~ Volume
-    }else if(renderingType == ENUMS.RENDERING_TYPE.MRI){
-        // ~ MRI
-        this.sendOption.rotationX = STATIC.MRI_DEFAULT_OPTION.rotationX;
-        this.sendOption.rotationY = STATIC.MRI_DEFAULT_OPTION.rotationY;
-        this.sendOption.positionZ = STATIC.MRI_DEFAULT_OPTION.positionZ;
-    }else if(renderingType == ENUMS.RENDERING_TYPE.MIP){
+    }else if(renderingType == NORNENJS_ENUMS.RENDERING_TYPE.MPR){
+        // ~ MPR
+        this.sendOption.rotationX = NORNENJS_STATIC.MPR_DEFAULT_OPTION.rotationX;
+        this.sendOption.rotationY = NORNENJS_STATIC.MPR_DEFAULT_OPTION.rotationY;
+        this.sendOption.positionZ = NORNENJS_STATIC.MPR_DEFAULT_OPTION.positionZ;
+    }else if(renderingType == NORNENJS_ENUMS.RENDERING_TYPE.MIP){
         // ~ MIP
     }else{
         return;
     }
-    
-    this.sendOption.transferScaleX = 0;
-    this.sendOption.transferScaleY = 0;
-    this.sendOption.transferScaleZ = 0;
 
-    this.sendOption.streamType = ENUMS.STREAM_TYPE.EVENT;
+    this.sendOption.streamType = NORNENJS_ENUMS.STREAM_TYPE.EVENT;
     this.sendOption.renderingType = renderingType;
 
     this.send();
     setTimeout(this.finish, 1000, this);
 };
 
+/**
+ * * 
+ * @param type
+ */
 Nornenjs.prototype.axisType = function(type){
 
-    this.sendOption.streamType = ENUMS.STREAM_TYPE.EVENT;
-    this.sendOption.mriType = type;
+    this.sendOption.streamType = NORNENJS_ENUMS.STREAM_TYPE.EVENT;
+    this.sendOption.mprType = type;
     
-    if(type == ENUMS.MRI_TYPE.X){
+    if(type == NORNENJS_ENUMS.MPR_TYPE.X){
         var value = this.sendOption.transferScaleY != 0 ? this.sendOption.transferScaleY : this.sendOption.transferScaleZ;
         this.sendOption.transferScaleX = value;
         this.sendOption.transferScaleY = 0;
         this.sendOption.transferScaleZ = 0;
-    }else if(type == ENUMS.MRI_TYPE.Y){
+    }else if(type == NORNENJS_ENUMS.MPR_TYPE.Y){
         var value = this.sendOption.transferScaleX != 0 ? this.sendOption.transferScaleX : this.sendOption.transferScaleZ;
         this.sendOption.transferScaleX = 0;
         this.sendOption.transferScaleY = value;
         this.sendOption.transferScaleZ = 0;
-    }else if(type == ENUMS.MRI_TYPE.Z){
+    }else if(type == NORNENJS_ENUMS.MPR_TYPE.Z){
         var value = this.sendOption.transferScaleX != 0 ? this.sendOption.transferScaleX : this.sendOption.transferScaleY;
         this.sendOption.transferScaleX = 0;
         this.sendOption.transferScaleY = 0;
@@ -395,15 +503,20 @@ Nornenjs.prototype.axisType = function(type){
     
 };
 
+/**
+ * * 
+ * @param value
+ * @param isFinish
+ */
 Nornenjs.prototype.axis = function(value, isFinish){
 
-    this.sendOption.streamType = ENUMS.STREAM_TYPE.EVENT;
+    this.sendOption.streamType = NORNENJS_ENUMS.STREAM_TYPE.EVENT;
 
-    if(this.sendOption.mriType == ENUMS.MRI_TYPE.X){
+    if(this.sendOption.mprType == NORNENJS_ENUMS.MPR_TYPE.X){
         this.sendOption.transferScaleX = value;
-    }else if(this.sendOption.mriType == ENUMS.MRI_TYPE.Y){
+    }else if(this.sendOption.mprType == NORNENJS_ENUMS.MPR_TYPE.Y){
         this.sendOption.transferScaleY = value;
-    }else if(this.sendOption.mriType == ENUMS.MRI_TYPE.Z){
+    }else if(this.sendOption.mprType == NORNENJS_ENUMS.MPR_TYPE.Z){
         this.sendOption.transferScaleZ = value;
     }
 
@@ -413,8 +526,13 @@ Nornenjs.prototype.axis = function(value, isFinish){
     }
 };
 
+/**
+ * * 
+ * @param value
+ * @param isFinish
+ */
 Nornenjs.prototype.scale = function(value, isFinish){
-    this.sendOption.streamType = ENUMS.STREAM_TYPE.EVENT;
+    this.sendOption.streamType = NORNENJS_ENUMS.STREAM_TYPE.EVENT;
     this.sendOption.positionZ = value;
     this.send();
     if(isFinish){
@@ -422,8 +540,13 @@ Nornenjs.prototype.scale = function(value, isFinish){
     }
 }
 
+/**
+ * * 
+ * @param value
+ * @param isFinish
+ */
 Nornenjs.prototype.brightness = function(value, isFinish){
-    this.sendOption.streamType = ENUMS.STREAM_TYPE.EVENT;
+    this.sendOption.streamType = NORNENJS_ENUMS.STREAM_TYPE.EVENT;
     this.sendOption.brightness = value;
     this.send();
     if(isFinish){
@@ -431,13 +554,46 @@ Nornenjs.prototype.brightness = function(value, isFinish){
     }
 };
 
+/**
+ * Set otf information
+ * 
+ * @param value
+ * @param isFinish
+ */
 Nornenjs.prototype.otf = function(value, isFinish){
-    this.sendOption.streamType = ENUMS.STREAM_TYPE.EVENT;
+    this.sendOption.streamType = NORNENJS_ENUMS.STREAM_TYPE.EVENT;
     this.sendOption.transferOffset = value;
     this.send();
     if(isFinish){
         setTimeout(this.finish, 1000, this);
     }
+};
+
+/**
+ * Set quality information
+ *
+ * @param value - NORNENJS_ENUMS.QUALITY.HIGH : high quality, NORNENJS_ENUMS.QUALITY.LOW : low quality
+ */
+Nornenjs.prototype.quality = function(value, isFinish){
+    this.sendOption.streamType = NORNENJS_ENUMS.STREAM_TYPE.EVENT;
+    this.sendOption.quality = value;
+    this.send();
+
+    setTimeout(this.finish, 1000, this);
+};
+
+/**
+ * 
+ * @returns {string}
+ */
+Nornenjs.prototype.generateUUID = function (){
+    var d = new Date().getTime();
+    var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = (d + Math.random()*16)%16 | 0;
+        d = Math.floor(d/16);
+        return (c=='x' ? r : (r&0x3|0x8)).toString(16);
+    });
+    return uuid;
 };
 
 var isMobile = {
@@ -460,19 +616,3 @@ var isMobile = {
         return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
     }
 };
-
-Nornenjs.prototype.generateUUID = function (){
-    var d = new Date().getTime();
-    var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-        var r = (d + Math.random()*16)%16 | 0;
-        d = Math.floor(d/16);
-        return (c=='x' ? r : (r&0x3|0x8)).toString(16);
-    });
-    return uuid;
-};
-
-Nornenjs.prototype.stringToArrayBuffer = function (str){
-    
-    console.log(buf);
-    return buf;
-}
