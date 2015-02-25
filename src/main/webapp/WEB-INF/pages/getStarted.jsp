@@ -68,6 +68,7 @@
                 <p>1. <a class="link" href="http://www.ubuntu.com/">Ubuntu 홈페이지</a>에서 os를 다운로드 받아서, 설치합니다.</p>
                 <p>- <a class="download" href="http://www.ubuntu.com/download/desktop/">최신버전</a></p>
                 <p>- <a class="download" href="http://ftp.funet.fi/pub/Linux/INSTALL/Ubuntu/dvd-releases/releases/12.04.5/release/">12.04.5</a></p>
+                <img src="${cp}/resources/image/started/page/01.png"/>
                 
                 <p>2. Ubuntu를 처음 설치한 경우에는 ubuntu `apt-get update`와 `apt-get upgrade`를 수행합니다.</p>
                 <p class="command">
@@ -117,6 +118,11 @@
                 <p>2. <a class="link" href="http://www.nodejs.org/">node.js</a> 홈페이지를 방문하여 node.js 압축파일를 다운받습니다.</p>
                 <p>- <a class="download" href="http://www.nodejs.org/download/">최신버전</a></p>
                 <p>- <a class="download" href="http://nodejs.org/dist/v0.10.35/">v0.10.35</a></p>
+                <img src="${cp}/resources/image/started/page/10.png"/>
+                <img src="${cp}/resources/image/started/page/11.png"/>
+                <img src="${cp}/resources/image/started/page/12.png"/>
+                <img src="${cp}/resources/image/started/page/13.png"/>
+                <img src="${cp}/resources/image/started/page/14.png"/>
                 
                 <p>3. Download 받은 폴더에서 해당 파일에 대한 압축을 풀어 놓습니다.</p>
                 <p class="command">
@@ -234,6 +240,11 @@
                 <p>1. <a class="link" href="https://developer.nvidia.com/cuda-zone">CUDA 홈페이지</a>를 접속하여 CUDA를 설치합니다.</p>
                 <p>- <a class="download" href="https://developer.nvidia.com/cuda-downloads">최신버전</a></p>
                 <p>- <a class="download" href="https://developer.nvidia.com/cuda-toolkit-60">CUDA 6.0</a></p>
+                <img src="${cp}/resources/image/started/page/04.png"/>
+                <img src="${cp}/resources/image/started/page/05.png"/>
+                <img src="${cp}/resources/image/started/page/06.png"/>
+                <img src="${cp}/resources/image/started/page/07.png"/>
+                <img src="${cp}/resources/image/started/page/08.png"/>
                 
                 <p>2. CUDA 다운로드시 해당 OS와 Bit수에 맞는 버전을 다운로드 받아야 합니다.</p>
                 
@@ -339,6 +350,8 @@
                         ` <span class="emphasize">npm</span> install nornenjs `
                     </span>
                 </p>
+                <img src="${cp}/resources/image/started/page/02.png"/>
+                <img src="${cp}/resources/image/started/page/09.png"/>
                 <img src="${cp}/resources/image/started/6_1.png"/>
                 
                 <p>2. CUDA 소스를 Compile 하기 위해서 nornenjs/src-cuda 로 이동합니다.</p>
