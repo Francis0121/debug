@@ -24,7 +24,7 @@ public class SocketConnect {
         
         try {
             final Socket socket = new Socket();
-            final int timeOut = (int) TimeUnit.SECONDS.toMillis(5);
+            final int timeOut = (int) TimeUnit.SECONDS.toMillis(2);
             socket.connect(new InetSocketAddress(properDao.getSocketAddress(), properDao.getSocketPort()), timeOut);
             portAvailable = socket.isConnected();
             socket.close();
