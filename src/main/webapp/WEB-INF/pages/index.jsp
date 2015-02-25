@@ -11,31 +11,32 @@
         <article class="nornen_content_type01">
 
             <header>
-                <h2>-What is Volume Rendering?</h2>
+                <h2>- 볼륨 가시화란?</h2>
             </header>
 
             <div class="content">
-                <p>In scientific visualization and computer graphics, volume rendering is a set of techniques used to display a 2D projection of a 3D discretely sampled data set, typically a 3D scalar field.</p>
+                <p>볼륨 가시화는 3차원으로 구성된 볼륨 데이터를 가시화 하는 방법으로, 물체를 미세한 정육면체나 미립자의 합으로 표현하는 기술이다.</p>
 
-                <p>A typical 3D data set is a group of 2D slice images acquired by a CT, MRI, or MicroCT scanner. Usually these are acquired in a regular pattern (e.g., one slice every millimeter) and usually have a regular number of image pixels in a regular pattern. This is an example of a regular volumetric grid, with each volume element, or voxel represented by a single value that is obtained by sampling the immediate area surrounding the voxel.</p>
+                <p>볼륨 가시화는 주로 의학적, 공학적 가시화에 사용되며 의학용으로는 임상 진단이나 수술 모의실험 등에 사용할 수 있다.</p>
 
-                <p>To render a 2D projection of the 3D data set, one first needs to define a camera in space relative to the volume. Also, one needs to define the opacity and color of every voxel. This is usually defined using an RGBA (for red, green, blue, alpha) transfer function that defines the RGBA value for every possible voxel value.</p>
+                <p>볼륨 데이터는 일반적으로 복셀(voxel)이라고 부르는 스칼라(scalar)값의 3차원 배열 형태로 구성되어 있으며,</p>
+                
+                <p>볼륨 데이터의 크기는 매우 크기 때문에 연산 시간이 오래 걸리는 문제가 있다. 이러한 문제를 해결하기 위해 다중 프로세서를 이용한 가속화 방법들이 연구되고 있다.</p>
 
-                <p>For example, a volume may be viewed by extracting isosurfaces (surfaces of equal values) from the volume and rendering them as polygonal meshes or by rendering the volume directly as a block of data. The marching cubes algorithm is a common technique for extracting an isosurface from volume data. Direct volume rendering is a computationally intensive task that may be performed in several ways.</p>
             </div>
 
             <header>
-                <h2>-Implementation</h2>
+                <h2>- 구현</h2>
             </header>
 
             <div class="content">
-                <p>In scientific visualization and computer graphics, volume rendering is a set of techniques used to display a 2D projection of a 3D discretely sampled data set, typically a 3D scalar field.</p>
+                <p> 본 프로젝트는 클라이언트 서버 모델을 이용한 시스템이다.</p>
 
-                <p>A typical 3D data set is a group of 2D slice images acquired by a CT, MRI, or MicroCT scanner. Usually these are acquired in a regular pattern (e.g., one slice every millimeter) and usually have a regular number of image pixels in a regular pattern. This is an example of a regular volumetric grid, with each volume element, or voxel represented by a single value that is obtained by sampling the immediate area surrounding the voxel.</p>
+                <p>클라이언트 서버 모델이란 서버에서 다수의 클라이언트 요청에 대해 연산이나 서비스를 제공하는 방법이다. </p>
 
-                <p>To render a 2D projection of the 3D data set, one first needs to define a camera in space relative to the volume. Also, one needs to define the opacity and color of every voxel. This is usually defined using an RGBA (for red, green, blue, alpha) transfer function that defines the RGBA value for every possible voxel value.</p>
+                <p>본 프로젝트의 서버는 서버 사이드 개발에 사용되는 소프트웨어 플랫폼인 Node.js로 구성되어 있다.</p>
 
-                <p>For example, a volume may be viewed by extracting isosurfaces (surfaces of equal values) from the volume and rendering them as polygonal meshes or by rendering the volume directly as a block of data. The marching cubes algorithm is a common technique for extracting an isosurface from volume data. Direct volume rendering is a computationally intensive task that may be performed in several ways.</p>
+                <p> 그리고 GPU 엔진의 경우 NVIDIA에서 병렬 컴퓨팅을 구현하는 기술인 CUDA를 이용하여 구성하였다.</p>
             </div>
 
         </article>
@@ -64,20 +65,20 @@
                 
                 <li>
                     <img src="${cp}/resources/image/icon/cost.png">
-                    <h3>Cost Down</h3>
-                    <p>Portable Network Graphics[2] (PNG[3]), is a raster graphics file format that supports lossless data compression. PNG was created as an improved, non-patented replacement for Graphics Interchange Format (GIF), and is the most used lossless image compression format on the Internet.</p>
+                    <h3>가격의 감소</h3>
+                    <p>본 프로젝트는 가상화된 서버환경에서 볼륨 렌더링 연산을 수행한다. 이를 통해 다수의 사용자들의 그래픽 하드웨어 구입 및 업그레이드 비용을 절약시킬 수 있다.</p>
                 </li>
                 
                 <li>
                     <img src="${cp}/resources/image/icon/clock.png">
-                    <h3>Time Reduce</h3>
-                    <p>Portable Network Graphics[2] (PNG[3]), is a raster graphics file format that supports lossless data compression. PNG was created as an improved, non-patented replacement for Graphics Interchange Format (GIF), and is the most used lossless image compression format on the Internet.</p>
+                    <h3>속도의 증가</h3>
+                    <p>본 프로젝트는 가상회된 GPU 서버를 이용하여 병렬 연산을 수행하기 때문에 고속의 볼륨 가시화가 가능하다.</p>
                 </li>
                 
                 <li>
                     <img src="${cp}/resources/image/icon/image.png">
-                    <h3>Quality Up</h3>
-                    <p>Portable Network Graphics[2] (PNG[3]), is a raster graphics file format that supports lossless data compression. PNG was created as an improved, non-patented replacement for Graphics Interchange Format (GIF), and is the most used lossless image compression format on the Internet.</p>
+                    <h3>이미지 퀄리티</h3>
+                    <p>본 프로젝트는 모바일 및 테블릿 PC환경에서도 데스크탑과 동일한 화질의 영상을 제공 받는 것이 가능하다.</p>
                 </li>
                 
             </ul>
