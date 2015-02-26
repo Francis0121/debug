@@ -39,6 +39,33 @@
                 <p> 그리고 GPU 엔진의 경우 NVIDIA에서 병렬 컴퓨팅을 구현하는 기술인 CUDA를 이용하여 구성하였다.</p>
             </div>
 
+            <header>
+                <h2>- 추후 방향</h2>
+            </header>
+            
+            <div class="content">
+                <p>
+                    1. Binaryjs 를 이용한 스티리밍 방식을 Custom 스트리밍으로 변경<br/>
+                    &nbsp;&nbsp;&nbsp;- Custom Protocol 방식 정의
+                </p>
+                <p>
+                    2. IOS, Android natvie Application 에서 동작 가능하도록 구현<br/>
+                    &nbsp;&nbsp;&nbsp;- Multi touch 기능을 이용한 다양한 이벤트 구현
+                </p>
+                <p>
+                    3. Nodejs 이외에 python, java 와 같은 다른 언어에서도 동작하도록 구현
+                </p>
+                <p>
+                    4. CUDA를 이용하여 Wavelet transfrom을 통한 이미지 Encoding 시간 감소
+                </p>
+                <p>
+                    5. CUDA Kernel 영역에서의 가속화
+                </p>
+                <p>
+                    6. Window 서버 환경 구축
+                </p>
+            </div>
+            
         </article>
 
     </section>
@@ -72,7 +99,7 @@
                 <li>
                     <img src="${cp}/resources/image/icon/clock.png">
                     <h3>속도의 증가</h3>
-                    <p>본 프로젝트는 가상회된 GPU 서버를 이용하여 병렬 연산을 수행하기 때문에 고속의 볼륨 가시화가 가능하다.</p>
+                    <p>본 프로젝트는 가상회된 GPU 서버를 이용하여 병렬 연산을 수행하기 때문에 실시간 볼륨 가시화가 가능하다.</p>
                 </li>
                 
                 <li>
