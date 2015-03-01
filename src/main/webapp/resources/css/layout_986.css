@@ -195,11 +195,11 @@
     color: #4e4e4e;
 }
 
-.nornen_content_type01>.content a.download{
+a.download{
     color: #ff9900;
 }
 
-.nornen_content_type01>.content a.download:hover{
+a.download:hover{
     color: #e87722;
 }
 

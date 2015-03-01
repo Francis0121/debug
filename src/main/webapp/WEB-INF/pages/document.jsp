@@ -10,11 +10,53 @@
         <article class="nornen_content_type01">
 
             <header>
-                <h2>Server Javascript API</h2>
+                <h2>Server Javascript API <a class="download" href="https://github.com/Francis0121/nornenjs/blob/master/lib/server.js">[Link]</a></h2>
             </header>
 
             <div class="api">
+                <div class="head">
+                    <p>- Constructor : 생성자</p>
+                </div>
+                
+                <div class="func">
+                    <p><span class="return">new</span> <span class="struct">NornenjsServer</span>(server, port, chunkSize)</p>
+                </div>
+                
+                <div class="explain">
+                    <p>- server : http 페이지 서버</p>
+                    <p>- port : Byte streaming 을 하는 서버 Port [ default : 9000 ]</p>
+                    <p>- chunkSize : Byte streaming 시 단위 사이즈</p>
+                </div>
+                
+                <div class="head">
+                    <p>- Function : 함수</p>
+                </div>
+                
+                <div class="func">
+                    <p><span class="struct">connect</span>( )</p>
+                </div>
+                
+                <div class="explain">
+                    <p>- socket.io 와 Byte Streaming 에 대해서 서버측 시작하는 함수</p>
+                </div>
 
+                <div class="func">
+                    <p><span class="struct">socketIoEvent</span>( )</p>
+                </div>
+                
+                <div class="explain">
+                    <p>- socket.io 이벤트 연결 함수</p>
+                    <p>- ` join ` 클라이언트 연결에 대한 응답</p>
+                    <p>- ` disconnect ` 클라이언트 종료에 대한 응답</p>
+                </div>
+                
+                <div class="func">
+                    <p><span class="struct">streamEvent</span>( )</p>
+                </div>
+                <div class="explain">
+                    <p>- Byte Streaming 이벤트 연결 함수</p>
+                </div>
+                
             </div>
 
         </article>
@@ -22,10 +64,190 @@
         <article class="nornen_content_type01">
 
             <header>
-                <h2>Client Javascript API</h2>
+                <h2>Client Javascript API <a class="download" href="https://github.com/Francis0121/nornenjs.debug/blob/master/src/main/webapp/client/nornenjs.0.1.0.js">[Link]</a></h2>
             </header>
             
             <div class="api">
+                
+                <div class="head">
+                    <p>- Constructor : 생성자</p>
+                </div>
+                
+                <div class="func">
+                    <p><span class="return">new</span> <span class="struct">Nornenjs</span>(volumePrimaryNumber, host, socketIoPort, streamPort, selector)</p>
+                </div>
+                
+                <div class="explain">
+                    <p>- volumePrimaryNumber : 서버측 볼륨 고유번호</p>
+                    <p>- host : 서버 호스트 URL</p>
+                    <p>- socketIoPort : 서버 SocketIo 포트 정보</p>
+                    <p>- streamPort : 스트리밍 서버 포트 정보</p>
+                    <p>- selector : canvas에 대한 id 값</p>
+                </div>
+
+                <div class="head">
+                    <p>- Function : 함수</p>
+                </div>
+                
+                <div class="func">
+                    <p><span class="struct">connect</span>(debugCallback, fpsCallback)</p>
+                </div>
+                
+                <div class="explain">
+                    <p>- debugCallback : 서버측에서 쿠다 시간 호출 콜백</p>
+                    <p>- fpsCallback : FPS 출력에 대한 콜백</p>
+                </div>
+                
+                <div class="func">
+                    <p><span class="struct">fpsInterval</span>($this, callback)</p>
+                </div>
+                
+                <div class="explain">
+                    <p>- $this : interval 실행시 상위 부모 객체</p>
+                    <p>- callback : FPS 인터벌 수행시 호출하는 함수</p>
+                </div>
+                
+                <div class="func">
+                    <p><span class="struct">loading</span>()</p>
+                </div>
+                
+                <div class="explain">
+                    <p>- 로딩을 실행하는 함수</p>
+                </div>
+                
+                <div class="func">
+                    <p><span class="struct">socketIo</span>(debugCallback)</p>
+                </div>
+                
+                <div class="explain">
+                    <p>- Socket.Io 이벤트 등록 함수</p>
+                    <p>- debugCallback :  debug 이벤트에 대한 콜백</p>
+                </div>
+                
+                <div class="func">
+                    <p><span class="struct">streamOn</span>()</p>
+                </div>
+                
+                <div class="explain">
+                    <p>- 스트리밍에 대한 데이터가 오는 함수</p>
+                </div>
+                
+                <div class="func">
+                    <p><span class="struct">send</span>()</p>
+                </div>
+                
+                <div class="explain">
+                    <p>- 데이터를 보내기 위해 Byte Array를 만드는 함수</p>
+                </div>
+                
+                <div class="func">
+                    <p><span class="struct">finish</span>($this)</p>
+                </div>
+                
+                <div class="explain">
+                    <p>- 스트리밍 종료를 알리는 함수</p>
+                    <p>- $this : 상위 부모 객체</p>
+                </div>
+                
+                <div class="func">
+                    <p><span class="struct">addEvent</span>()</p>
+                </div>
+                
+                <div class="explain">
+                    <p>- 이벤트 등록 함수</p>
+                </div>
+                
+                <div class="func">
+                    <p><span class="struct">touchEvent</span>()</p>
+                </div>
+                
+                <div class="explain">
+                    <p>- 터치 이벤트 등록 함수</p>
+                </div>
+                
+                <div class="func">
+                    <p><span class="struct">mouseEvent</span>()</p>
+                </div>
+
+                <div class="explain">
+                    <p>- 마우스 이벤트 등록 함수</p>
+                </div>
+
+                <div class="func">
+                    <p><span class="struct">resize</span>()</p>
+                </div>
+
+                <div class="explain">
+                    <p>- 브라우저 리사이즈에 대한 이벤트 등록 함수</p>
+                </div>
+
+                <div class="func">
+                    <p><span class="struct">type</span>(renderingType)</p>
+                </div>
+
+                <div class="explain">
+                    <p>- 렌더링 타입 변환에 대한 함수</p>
+                    <p>- renderingType : [ VOLUME : 1, MIP : 2, MPR : 3 ]</p>
+                </div>
+
+                <div class="func">
+                    <p><span class="struct">axisType</span>(type)</p>
+                </div>
+
+                <div class="explain">
+                    <p>- MPR 영상에 대해서 X, Y, Z 선택 함수</p>
+                    <p>- type : [ X : 1, Y : 2, Z : 3 ]</p>
+                </div>
+
+                <div class="func">
+                    <p><span class="struct">axis</span>(value, isFinish)</p>
+                </div>
+
+                <div class="explain">
+                    <p>- Axis 이벤트 전송합수</p>
+                    <p>- value :  Axis 위치에 대한 값</p>
+                    <p>- isFinish : 이벤트 끝나는 여부에 따른 함수</p>
+                </div>
+
+                <div class="func">
+                    <p><span class="struct">scale</span>(value, isFinish)</p>
+                </div>
+
+                <div class="explain">
+                    <p>- 확대 축소 이벤트 전송함수</p>
+                    <p>- value : 확대 축소 비율 값</p>
+                    <p>- isFinish : 이벤트 끝나는 여부에 따른 함수</p>
+                </div>
+
+                <div class="func">
+                    <p><span class="struct">brightness</span>(value, isFinish)</p>
+                </div>
+
+                <div class="explain">
+                    <p>- 밝기 이벤트 전송함수</p>
+                    <p>- value : 밝기 비율 값</p>
+                    <p>- isFinish : 이벤트 끝나는 여부에 따른 함수</p>
+                </div>
+
+                <div class="func">
+                    <p><span class="struct">otf</span>(value, isFinish)</p>
+                </div>
+
+                <div class="explain">
+                    <p>- 밀도값 이벤트 전송함수</p>
+                    <p>- value : 밀도 값</p>
+                    <p>- isFinish : 이벤트 끝나는 여부에 따른 함수</p>
+                </div>
+
+                <div class="func">
+                    <p><span class="struct">quality</span>(value, isFinish)</p>
+                </div>
+
+                <div class="explain">
+                    <p>- 화질 선택 함수</p>
+                    <p>- value : [ High : 1 , Low : 2 ] </p>
+                    <p>- isFinish : 이벤트 끝나는 여부에 따른 함수</p>
+                </div>
                 
             </div>
             
