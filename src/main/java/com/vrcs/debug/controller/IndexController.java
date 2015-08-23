@@ -47,11 +47,11 @@ public class IndexController {
 	@RequestMapping(value = "demo/pn/{pn}", method = RequestMethod.GET)
 	public String demo(Model model, @PathVariable(value = "pn") Integer pn){
 		model.addAttribute("volume", volumeDao.selectOne(pn));
-		if(socketConnect.connection()){
-			return "demo";
-		}else{
+//		if(socketConnect.connection()){
+//			return "demo";
+//		}else{
 			return "demo_not_supported";
-		}
+//		}
 	}
 
 	@RequestMapping(value = "signIn", method = RequestMethod.GET)
